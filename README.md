@@ -4,12 +4,14 @@ Exécuter de l'assembleur en **WLangage** / Execute assembly code in **WLangage*
 # Exemple
 ```javascript
 sCodeAsm est chaîne  = [
+```
 ```Assembly
 	mov	 EAX,1234
 	push ebp
 	mov  ebp,esp
 	pop  ebp 
 	ret  8
+```
 ```javascript
 ]
 maProcAssembleur est une Procédure = compileAsmX86( sCodeAsm )
