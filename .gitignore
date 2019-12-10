@@ -1,0 +1,13 @@
+
+/cache.gestion de sources
+/Données des tests automatiques
+/Exe
+/Historique
+/Sauvegarde
+/*.cpl
+
+*.DLL
+*.exe
+*.cpl
+*.wxres
+HstDuree.log
