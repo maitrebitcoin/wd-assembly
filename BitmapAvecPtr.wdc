@@ -1,0 +1,168 @@
+#To edit and compare internal_properties, use WINDEV integrated tools.
+#Internal properties refer to the properties of controls in windows, reports, etc.
+info :
+ name : BitmapAvecPtr
+ major_version : 25
+ minor_version : 0
+ type : 4
+ description : ""
+ subtype : 0
+class :
+ identifier : 0x1b76c21402434522
+ internal_properties : BBYAAAAoAAAAAAABBA4UKABBAIAAMQwkQDCABIcRHQYE
+ code_elements :
+  type_code : 10
+  p_codes :
+   -
+     code : |1+
+      BitmapAvecPtr est une Classe
+      	// taille de la bitmap
+      	largeur est un entier
+      	hauteur est un entier
+      	// pointeur sur les pixesl
+      	pointeurSurPixel est un entier système
+      	largeur1Ligne est un entier // taille d'une ligne en octets
+      	// objet GDI nécéssaire
+      	hdcSource est un entier système
+      	hDCMem est un entier système
+      	hBitmap est entier système
+      	holdbmp est entier systeme
+      FIN
+       
+      BITMAP  est une structure
+      	bmType est un entier;  
+      	bmWidth est un entier;    
+      	bmHeight est un entier;   
+      	bmWidthBytes est un entier;  
+      	bmPlanes est un entier sur 2 octet
+      	bmBitsPixel est un entier sur 2 octet
+      	bmBits est un entier système
+      fin
+      
+      
+      BITMAPINFOHEADER  est une structure
+      	biSize is int
+      	biWidth is int
+      	biHeight is int
+      	biPlanes is 2-byte int
+      	biBitCount is 2-byte int
+      	biCompression is int
+      	biSizeImage is int
+      	biXPelsPerMeter is int
+      	biYPelsPerMeter is int
+      	biClrUsed is int
+      	biClrImportant is int
+      END
+      COLORBYTES is structure
+      	B is 1-byte unsigned int 
+      	G is 1-byte unsigned int
+      	R is 1-byte unsigned int
+      	Alpha is 1-byte unsigned int
+      END
+      
+      BITMAPINFO is structure
+      	bmiHeader is BITMAPINFOHEADER // BITMAPINFOHEADER est une autre structure
+      	bmiColors is COLORBYTES	// Alias RGBQUAD
+      END
+      
+      
+      CONSTANT
+      	DIB_RGB_COLORS = 0x00
+      	SRCCOPY 		= 0x00CC0020
+      FIN
+     type : 131072
+  procedures :
+   -
+     name : Constructeur
+     procedure_id : 1978982477469074722
+     type_code : 27
+     code : |1+
+      PROCEDURE Constructeur(hdc est un entier système, _l entier, _h entier)
+      
+      :hdcSource = hdc
+      
+      // copie des dimentioons
+      :largeur = _l
+      :hauteur = _h
+      
+      // création d'un HDC pour mettre la bitmap memoire
+      hDCMem = API("Gdi32", "CreateCompatibleDC", hdc )
+      
+      //init strucute de creation de la bitmap mémoire
+      bi est BITMAPINFO
+      bi.bmiHeader.biSize     = Dimension(bi);
+      bi.bmiHeader.biWidth    = :Largeur
+      bi.bmiHeader.biHeight   = -:Hauteur  //negatif pour que  (0,0) doit en haut a gauche
+      bi.bmiHeader.biPlanes   = 1;
+      bi.bmiHeader.biBitCount = 24;
+      bi.bmiHeader.biSizeImage = (3 * :Largeur * :Hauteur)
+      
+      // création bitmap 
+      :hBitmap  = API( "Gdi32", "CreateDIBSection", hDCMem, &bi, DIB_RGB_COLORS,  &pointeurSurPixel, NULL, 0);
+      dbgAssertion(hBitmap<>0)
+      dbgAssertion(pointeurSurPixel<>0)
+      
+      stBitmap est BITMAP
+      API("Gdi32", "GetObjectW",:hBitmap, Dimension(stBitmap),&stBitmap )
+      :largeur1Ligne = stBitmap.bmWidthBytes
+      dbgAssertion(:largeur1Ligne<>0)
+      
+      // sélection dans le dc
+      :holdbmp = API( "Gdi32", "SelectObject", :hDCMem, :hBitmap )
+     type : 589824
+   -
+     name : CopieDepuisSource
+     procedure_id : 1978982477469140258
+     type_code : 12
+     code : |1+
+      
+      
+     type : 458752
+   -
+     name : Destructeur
+     procedure_id : 1978982477469205794
+     type_code : 28
+     code : |1+
+      PROCEDURE Destructeur()
+      
+      // resarue la sélection dans le dc
+       API( "Gdi32", "SelectObject", :hDCMem, :holdbmp )
+       // libération des objets GDI crés
+       API( "Gdi32", "DeleteObject", :hBitmap  )
+       API( "Gdi32", "DeleteDC", 	   :hDCMem )
+     type : 655360
+   -
+     name : CopieVersEcran
+     procedure_id : 1978982477469271330
+     type_code : 12
+     code : |1+
+      procédure CopieVersEcran()
+      API( "Gdi32","BitBlt",  ...
+      	 :hdcSource,0,0, :Largeur, :Hauteur, ... 
+      	 :hDCMem,0,0,...
+      	 SRCCOPY )
+      	 
+     type : 458752
+   -
+     name : CopieVersMémoire
+     procedure_id : 1978982477469336866
+     type_code : 12
+     code : |1+
+      procédure CopieVersMémoire()
+      API( "Gdi32","BitBlt",  ...
+      	 :hDCMem,0,0, :Largeur, :Hauteur, ... 
+      	 :hdcSource,0,0,...
+      	 SRCCOPY )
+      
+     type : 458752
+  procedure_templates : []
+  property_templates : []
+ code_parameters :
+  internal_properties : BBYAAAAhAAAAAAABBA4UKMBAAIAAIwwUMLABwYEJEwYE
+  original_name : Classe1
+resources :
+ string_res :
+  identifier : 0x1b73e2d501215c5f
+  internal_properties : BBUAAAAjAAAAAAABBA4UKMBAAIAAJxAc+IBhAoYCAwI=
+custom_note :
+ internal_properties : BBYAAAApAAAAAAABBA4UKGDAwAwDGwwUQNChwAQPAwQE

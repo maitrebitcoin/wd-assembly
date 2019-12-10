@@ -1,0 +1,277 @@
+#To edit and compare internal_properties, use WINDEV integrated tools.
+#Internal properties refer to the properties of controls in windows, reports, etc.
+info :
+ name : exemple_image
+ major_version : 25
+ minor_version : 0
+ type : 2
+ description : ""
+ subtype : 0
+window :
+ name : exemple_image
+ identifier : 0x2b72eaae00b2037a
+ internal_properties : BHYCAAC2BgAAAAABBA4USEDAwBcDDwx0NIDgwW0EBC5sQXDgQYsBMGa8yDHUKYGxDMRz1MJhABQD5Ax0M9CMwoFiBlIYCPBZInkdBmJR86YMHDx0QhQxQ4dNHThxAvxzl0ncQoFyMHCkWnVgGIA9AoSooYcJQYkZw3AMWxPgWagBLIFzd06ZLw8GrM6dW4BgoAAA025MuxemwJMazZ4laBPnA4RLm4orDJDuY8iRJU+efPZsDIyk1s3hYlhehIFRhBRR7FTuwAQcjw0cNnfjrI4ZEw20O3HgmoEaBp6MYBlgPDorIIiYR4uCOTomVDg8WzsADycC39X4tAS6dOpLAnuWMBBMDDCkmTrl7h28+MUEA1OdMNhx1Q9zywv8Hr404xIDGww8LTij71rc882D2DICTaCNmokFnC6oCgyBABbKh4OMwFgvIw9OqgOjDAXaUKAQngBRRP8oo+0qCgUa46SN6nGRIHkGomej/TLayAsWB+LiwvessscyuiLZiCPPdBPICSpCoCINM9poY6g20LiPrkCqNBEy3yq4cqADH6uxxI3C3PK/vDiKB4iMzqRqgQKpWlGg/moaKEaBZtSPIxpPBKzAIccss0eC1LRI0IzYRPCxQPDpBqOyPNvApTzMcCOONswIQQ03xEDjpfEYs0jMQ0OFLAPJ+hT1ocg24uCkKkwtMa+b5PFhoB6mMCIKJIQYQogplKjihy6wKKILGXSIIQQkzHiDjjrMaLKLZJdttkkwpihKjT3MeAENNc6YkiMH8HRtrnTCqsfUjTwLAaEuzIh00krBwFRTbfEoA49v09LJT377jSytqsq406rUrPIMMYHQ7JSqcwUClC5XAwI=
+ controls :
+  -
+    name : Image1
+    identifier : 0x2b72eaeb0108f2cc
+    internal_properties : BHYCAABtBgAAAAABBA4UOEDAQFIEAxyUZUCgAwHs1s3hclBhAAIDRwwMMRDGwIwWBgIkCVDBQEvg3J1T5suDgT6bFCgiCOZAGS8XBUIZWbLZvEkBJM5h9JFgypUtX8acaROnxQAiCQpQ0TFAgasXAUJtoBOrwK8BEgyECmeAQGcWfZ0NEIaDQIDPEskrMVCGjhghkJh5Q6eOGTNtXihxggQMFTVu4rQxE+Cfu0zixrCFWjJAtGnXAkSZcmXhwK4XoXphS5ALW8s6FdpLrVpgJKggDY6IO7fCwCtm5pQR80aMY8jiXAx3PdyFa+TJe5K8rRx5BOcXwbBNxXGqQAOxtZJEUBKB9ugEwzqvLU/DwBdd8Kh5U8bMnRdx3qABHnlB+OUAPyNPlzFAf4EA/M8//JArCZACCXqArORKcpAkucxDTz323INPPvoeiyy0AA4IoCOoQkzQNf30uygeIE5MUaf7BALPOSj8e7Gui5pT6MUW99NxxAEvcmugyVzUaiB5BqKHK51GK22g0xQyETnWSFIONgMjPE8gJ6gIgYo0AmsjhCLayDA45QIxk0fySrKRR+ii8/CiIHVsLYAiBToStCSTizOD5S7LbLPOdLSCoLXAGigsRBkUUjRFdRRxUUcbHa/RPfvETDPOPINq0IEKzcpQUD+NlFFIHx31VKgmhbRSuKS8FFBNB+JUIE8TDTUsU68rtVFTez00T4XqOWSkCFcMoIcpjIgCCSGGEGIKJar4oQssiujirrz26uuvwLrQ1i/A2jiMjDngaEPcK15AQ40z6hOnPGORVZZZZ6GVllprsdWLL3C7/ZZbcakg11xxk1CXXXdfvEiNIC7SouERAwI=
+    type : 8
+    code_elements :
+     type_code : 8
+     p_codes : []
+  -
+    name : BTN_TEST
+    identifier : 0x2b73e58d0154f9c7
+    internal_properties : BCMCAAB/BQAAAAABBA4UOEDAwEMEAxwMV0CgAwGOzNHhclBhgAEXAxgYSGDhQIAhASoYaAmcu3PKfHkwIGGTAkUEb5ihtEtjgB0gRSLThy2ARDqMNig0iVIlS5cwZ9YkaDFAA40OBUoNQBVOxgAapEaw6BTrR4FOoYYd6JQj2Ztp0wIMwPZiPCBv42pcUFbtU7towe6927ftX7mB6eZN65TgGKxf1y0OEG3atQBRplzZO1ahUy5fBbrV69SeyL6RDAskYHAEwGeJ5FUYeMXMnDJi3ogJ8M9dJnEudPMdqNtFWsQFBy5e1/hx5MmVNWLWDLjzwM8hQ48OUFrA6dSrW7+OPbv27dy7qQfwDTzxcMaOIUumLHb5wMwKOe/1DPqu6IvWsatmLdA1bNlosw238sYr76bgMEKvOPWQa28gy5qCr7n5nKpPuvuo0w81/rYD0LsBw/vNwN36+qoRwr6ycCAVWUzxRb1aFE6vvjiUp4SBZNAhhhCQMOMNOuoww4w2XhiiiifAoEINN+Jow4zvcGtOoPLyuAsMrCgYSEuBvhhohbtEQkDM8fwaiCozCXMKw7SmVCgdjwKAU6A55YwzzTBDAgRPhRzQyM0EqeNMnoHoce+iNbP7YKATnICjDDXOUOO1ENpAQQk3xEADyhBt/GGgHqYwIgokhBhCiCmUqOKHLrAoogsdefQRSCGJ7GLWIIdsA4wh6nhDyTrKeCGON9CIUpyzaGT0rgP4vCkg
+    type : 4
+    code_elements :
+     type_code : 4
+     p_codes :
+      -
+        code : |1+
+         
+         hdc est un entier système
+         hdc = dDébutDessin(Image1) // API( "user32", "GetDC", handle(Image1) )
+         
+         
+         bmpSource est BitmapAvecPtr(hdc, Image1..Largeur, Image1..Hauteur)
+         bmpDest   est BitmapAvecPtr(hdc, Image1..Largeur, Image1..Hauteur)
+         
+         // init avec l'image courante
+         bmpSource.CopieVersMémoire()
+         bmpDest.CopieVersMémoire()
+         
+         ChronoDébut()
+         pour i = 1 a 200
+         	// flouter l'image dans <bmpSource> vers <bmpDest>
+         	_FlouteImage(bmpSource.pointeurSurPixel, bmpDest.pointeurSurPixel,  Image1..Largeur, Image1..Hauteur, bmpSource.largeur1Ligne)
+         	
+         	// copie vers le champ image
+         	bmpDest.CopieVersEcran()
+         	API("User32", "InvalidateRect", Handle(Image1),0,0)
+         	Multitâche(-1)
+         	
+         	// relancer le flous sur l'image floutée pour flouter plus fort
+         	bmpSource.CopieVersMémoire()
+         	
+         fin
+         trace(chronofin())
+         
+        type : 18
+      -
+        type : 161
+        enabled : false
+ menu :
+  name : _Menu
+  identifier : 0x292573e513b5f221
+  internal_properties : BGwAAAAJAQAAAAABBA4UKKBggHwDhw0QWIwhwYEGIU6cKKKDQC4PJQKkCNEeQJAdCUaSGJEgwGeJ5FEYWEVMGjhuxAT45y6TuIH4OgbiKTLjwQAcRQr8GHJoAJIQSwZNubLly5gza97MubNnx6UNKII0KjABxYA=
+  options : []
+ languages :
+  - fr-FR
+ popup_menus : []
+ message_bar :
+  internal_properties : BEIAAACRAAAAAAABBA4UKEDAwEADHQQoNgnfEQGRBhCkSIAiQIwAD1Lk2NEjwR0DMwKsdaXTgYb4Dm342JLjxgANOhYY6IYMQZoCAwI=
+ code_elements :
+  internal_properties : BEcAAACtAAAAAAABBA4UKMBAAIAAOxEcmGmggIEqBjCkWDHWJCusJAo0VNFjnEsZNwY45NEiIZETAyAySTFeoZQCEzH8ByHhzZsQBTZ42NJkQA==
+  type_code : 1
+  p_codes :
+   -
+     code : |1-
+      // Résumé : <indiquez ici ce que fait la procédure>
+      // Syntaxe :
+      // exemple_image ()
+      //
+      // Paramètres :
+      //	Aucun
+      // Valeur de retour :
+      // 	Aucune
+      //
+      // Exemple :
+      // Indiquez ici un exemple d'utilisation.
+      //
+      PROCEDURE MaFenêtre()
+      
+      procAssembeur est une procédure
+   -
+     code : |1+
+      
+      
+     type : 34
+   -
+     code : |1+
+      
+      
+     type : 2
+   -
+     code : |1+
+      
+      
+     type : 40
+   -
+     code : |1+
+      
+      
+     type : 234
+   -
+     code : |1+
+      
+      
+     type : 165
+   -
+     code : |1+
+      
+      
+     type : 177
+   -
+     code : |1+
+      
+      
+     type : 180
+   -
+     type : 230
+     enabled : false
+  procedures :
+   -
+     name : _FlouteImage
+     procedure_id : 1978177969954699618
+     type_code : 14
+     code : |1+
+      //
+      PROCEDURE _FlouteImage( pPixelSource est un entier système, pPixelDest est un entier système, largeur entier, hauteur entier, larg1LigneEnOctet entier)
+      
+      // si on a déjà compilé
+      si procAssembeur<>null
+      	procAssembeur( pPixelSource, pPixelDest, largeur, hauteur, larg1LigneEnOctet ) 
+      	retour
+      FIN
+      
+      // code ASM a compiler
+      sCodeAssembleur est chaine = [
+      	;proto C:
+      	; mult32*32_64( pbyte pPixelSource, pbyte pPixelDest, int32 l, int32 h, int32 larg1LigneEnOctet )
+      	
+      	; prologue
+      	push        ebp
+      	mov         ebp,esp
+      	push 		edi
+      	push 		ecx
+      	push 		edx
+      	push		ebx
+      	push		esi
+      	
+      	// récup paramètres
+      	mov			edi,[ebp+8]  ; pPixelSource
+      	mov			esi,[ebp+12] ; pPixelDest
+      	mov			edx,[ebp+20] ; edx = hauteur
+      	; // commencer à la ligne 1 a cause de la lecture de pixel a la ligne Y-1
+      	;//mov			ecx,[ebp+24] ; ecx = larg1LigneEnOctet
+      	Dec			edx
+      	Dec			edx	; //  arreter au pixel-1
+      
+      	push esi
+      	Push edi
+      boucle_Y:
+      	;// calcul edi/di
+      	mov edi,[ESP]	; Var locale 0
+      	mov esi,[ESP+4] ; Var LOCALE 1
+      	Add edi,[ebp+24]
+      	Add esi,[ebp+24]
+      	mov [ESP],   edi ; Var LOCALE 0
+      	mov [ESP+4], esi ; Var LOCALE 1
+      		
+      	Add esi,3
+      	Add edi,3
+      
+      	mov			ecx,[ebp+16] ; ecx = largeur
+      	; // commencer à la colonne 1 a cause de la lecture de pixel a la colonne X-1
+      	dec	ecx		; commmcer au pixel X+1
+      	dec	ecx		; arreter au pixe   X-1
+      
+      boucle_X:
+      	; R
+      	call FlouPixel
+      	; V
+      	call FlouPixel
+      	; B
+      	call FlouPixel
+      	; x--		
+      	dec ecx;
+      	jnz boucle_X ; tant que x > 0 goto boucle_X
+      	;y--
+      	dec edx
+      	jnz boucle_Y;   tant que y > 0 goto boucle_X
+      	
+      	;--------------------------	
+      	; epilogue
+      	Pop esi
+      	Pop edi
+      	
+      	pop			esi
+      	pop 		ebx
+      	pop			edx
+      	pop			ecx
+      	pop 		edi
+      	pop         ebp 
+      	ret			20 ;//  5 paramètres de 4 octets
+      	
+      FlouPixel:
+      	// procédure FlouPixel()
+      	// flouter un composante R/V ou B d'un pixel 24 bits.
+      	//   source dans [edi], 
+      	//   destination dans [esi]
+      	push ecx
+      	mov			ecx,[ebp+24] ; ecx = larg1LigneEnOctet
+      	
+      	xor	eax,eax	; eax= 0
+      	xor	ebx,ebx	; ebx= 0
+      	mov	al,[edi]
+      	//add eax,eax
+      	//shl eax,2	; // eax = eax*4, pondération a 4
+      	mov	bl,[edi+3]	; X+1
+      	add eax,ebx
+      	mov	bl,[edi+-3] ; X-1
+      	add eax,ebx
+      	mov	bl,[edi+ecx] ; Y+1
+      	add eax,ebx ;
+      	neg ecx
+      	mov	bl,[edi+ecx] ; Y-11
+      	Add eax,ebx ;	
+      	
+      	//shr eax, 3;// eax = eax/8 => moyenne
+      	mov	ecx,5
+      	div al,cl
+      	; // affecter la composant R,V ou B du pixel résultat
+      	mov	[esi],al
+      	; pixel suivant
+      	inc edi
+      	inc esi
+      	
+      	pop ecx
+      	ret	// fin de la procédure
+      ]
+      
+      // compiler le coder assembleur vers une procédure WL
+      procAssembeur = compileAsmX86(sCodeAssembleur) 
+      SI ErreurDétectée ALORS
+      	Erreur()
+      	RETOUR
+      FIN
+      
+      // appel procédure WL qui exécute le code assembleur
+      procAssembeur( pPixelSource, pPixelDest, largeur, hauteur, larg1LigneEnOctet )
+      
+     type : 458752
+  procedure_templates : []
+  property_templates : []
+ code_parameters :
+  internal_properties : BEgAAABjAAAAAAABBA4UKMBAAIAApwwUMPDJwAEDAT5LJA/EQCdwyphpYwaMEzNl1IiJ0kaMHjNzAvxzl0ncBIYSKcqjgFEjRzMrW76MKTBhwoA=
+  original_name : Modele1
+resources :
+ string_res :
+  identifier : 0x1b72eaa30108d779
+  internal_properties : BB0AAAAzAAAAAAABBA4UKMBAAIAARxAc+IFhhoEDBiZMSJAiQIIBAQ==
+custom_note :
+ internal_properties : BBgAAAA1AAAAAAABBA4UKGDAwBIDGwwUQNChwAQPHUZ8GBA=
+rad :
+ internal_properties : BBQAAAA0AAAAAAABBA4UKIDAQBIIBx4k2NDhw4cBAQ==

@@ -1,0 +1,63 @@
+#To edit and compare internal_properties, use WINDEV integrated tools.
+#Internal properties refer to the properties of controls in windows, reports, etc.
+info :
+ name : WDAssembleur
+ major_version : 25
+ minor_version : 0
+ type : 7
+ description : ""
+ subtype : 0
+procedure_set :
+ identifier : 0x1b65b0da0072368d
+ internal_properties : BBYAAAAkAAAAAAABBA4UKABBAIAAKQwUEEACQYgRAwQE
+ code_elements :
+  type_code : 31
+  p_codes :
+   -
+     code : |1-
+      
+      clAsm est AssembleurX86
+      
+      // Erreur lévée si pb de compilation
+      CONSTANT ERR_COMPILATION_ASM = 733
+     type : 720896
+   -
+     code : |1-
+      
+     type : 720898
+  procedures :
+   -
+     name : compileAsmX86
+     procedure_id : 1974178960244996302
+     type_code : 15
+     code : |1+
+      // compile un code au format assemleur x86
+      // renvoie la procédure exécutable a appeler.
+      
+      Procédure compileAsmX86( sCodeAsm est chaine) : procédure
+      
+      renvoyer  clAsm.compileX86( sCodeAsm )
+      
+     type : 458752
+   -
+     name : compileAsmX86_API
+     procedure_id : 2119897803268269690
+     type_code : 15
+     code : |1+
+      // compile un code au format assemleur x86
+      // renvoie l'adresse a utiliser pour appeler API(  )
+      procédure compileAsmX86_API( sCodeAsm est chaine) : entier systeme
+      
+      RENVOYER  clAsm._pcompileX86( sCodeAsm )
+     type : 458752
+  procedure_templates : []
+  property_templates : []
+ code_parameters :
+  internal_properties : BBYAAAAhAAAAAAABBA4UKMBAAIAAIwwUMLABwYEJEwYE
+  original_name : ProcéduresGlobales1
+resources :
+ string_res :
+  identifier : 0x1b65b0d300701b06
+  internal_properties : BBUAAAAjAAAAAAABBA4UKMBAAIAAJxAc+IBhAoYCAwI=
+custom_note :
+ internal_properties : BBYAAAApAAAAAAABBA4UKGDAwAwDGwwUQNChwAQPAwQE

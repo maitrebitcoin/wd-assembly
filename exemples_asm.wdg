@@ -1,0 +1,270 @@
+#To edit and compare internal_properties, use WINDEV integrated tools.
+#Internal properties refer to the properties of controls in windows, reports, etc.
+info :
+ name : exemples_asm
+ major_version : 25
+ minor_version : 0
+ type : 7
+ description : ""
+ subtype : 0
+procedure_set :
+ identifier : 0x1b72c8bf01297640
+ internal_properties : BBYAAAAkAAAAAAABBA4UKABBAIAAKQwUEEACQYgRAwQE
+ code_elements :
+  type_code : 31
+  p_codes :
+   -
+     code : |1-
+      
+     type : 720898
+  procedures :
+   -
+     name : pCompileMult64x64_128
+     procedure_id : 1977864076556635675
+     type_code : 15
+     code : |1+
+      // renvoie une porcédure qui multipli 2 entier 64 bits et revoie un entier sur 128 bit. 
+      // proto :
+      //  Mult64x64_128( n1_L32, n1_H32, n2_L32, n2_H32, OUT *pnResult128 )
+      procédure pCompileMult64x64_128()
+      
+      // code ASM
+      sCodeAssembleur est chaine = [
+      	; proto  Mult64x64_128( n1_L32, n1_H32, n2_L32, n2_H32, OUT *pnResult128 )()
+      	
+      	; A*B = poidsfaible(B0*A0) 											// bits  0 a 31
+      	;      +2 ^ N* (B0*A0 + A1*B1 + (A1 - A0)*(B0 - B1)) + poidsfort(B0*A0)		// bits 32 a 64 
+      	;      +2 ^ 2N*  A1*B1														// bits 64 a 128
+      	
+      	; prologue
+      	push        ebp
+      	mov         ebp, esp
+      	push 		ebx
+      	push		esi
+      	push		edx
+      	push		ecx
+      	
+      	; edi = adresse du résultat
+      	mov		edi, [ebp + 24]; *pnResultat
+      	
+      	; R0 = A0 * B0
+      	mov	eax, [ebp + 8]; A0
+      	mul eax, [ebp + 16]; *B0 dans EDX : EAX
+      	;  affectation du résultat R0
+      	mov [edi],      eax; R0l
+      	mov [edi + 4],  edx; R0h
+      	mov ecx, 0
+      	mov [edi + 8],  ecx; 0
+      	mov [edi + 12], ecx; 0
+      	
+      	; R1 = (A0 * B1) + (A1 * B0)
+      	; (A0 * B1)
+      	mov	eax, [ebp + 8] ; A0
+      	mul eax, [ebp + 20]; A0*B1 dans EDX : EAX
+      	;  pré - affectation du résultat R1
+      	adc [edi + 4], eax
+      	adc [edi + 8], edx
+      	adc [edi + 12], 0
+      	;  (A1 * B0)
+      	mov	eax, [ebp + 12]; A1
+      	mul eax, [ebp + 16]; A1*B0 dans EDX : EAX
+      	; +A1*B0
+      	adc [edi + 4], eax
+      	adc [edi + 8], edx
+      	adc [edi + 12], 0
+      	
+      	; R2 = A1*B1
+      	mov	 eax,[ebp + 12]; A1
+      	mul eax, [ebp + 20]; A1*B1 dans EDX : EAX
+      	;  +R2
+      	adc [edi + 8],  eax
+      	adc [edi + 12], edx
+      	
+      	
+      	; --------------------------
+      	; epilogue
+      	pop			ecx
+      	pop			edx
+      	pop			esi
+      	pop			ebx
+      	pop         ebp
+      	ret			20; // 5 paramtères de 4 octets
+      ]
+      
+      
+      renvoyer  compileAsmX86(sCodeAssembleur) 
+     type : 458752
+   -
+     name : pCompileAdd256
+     procedure_id : 1979714490225729916
+     type_code : 15
+     code : |1-
+      // Résumé : <indiquez ici ce que fait la procédure>
+      // Syntaxe :
+      // [ <Résultat> = ] pCompileAdd256 ()
+      //
+      // Paramètres :
+      //	Aucun
+      // Valeur de retour :
+      // 	procédure : <indiquez ici les valeurs possibles ainsi que leur interprétation>
+      //
+      // Exemple :
+      // Indiquez ici un exemple d'utilisation.
+      //
+      Procédure pCompileAdd256() : procédure
+      
+       sCodeASMx8632_Addition256 est chaine = [
+      
+      	// proto add256( INTOU int256 *A, int256 *B)  OUT BOOL retenue
+      	// prologue
+      	Push edx
+      	Push ecx
+      	
+      	
+      	// récup adresses
+      	mov edx,[ESP+12] // P1 = A dans EBX
+      	mov ecx,[ESP+16] // P2 = B dans ECX
+      	
+      	//  bit 0 a 31
+      	mov eax,[ecx]
+      	Add [edx],eax ; // A += B
+      	// bits 32 a 63
+      	mov eax,[ecx+4]
+      	adc [edx+4],eax ; // A += B + retenue
+      	// bits 64 a 95
+      	mov eax,[ecx+8]
+      	adc [edx+8],eax ; // A += B + retenue	
+      	// bits 96 a 127
+      	mov eax,[ecx+12]
+      	adc [edx+12],eax ; // A += B + retenue	
+      	// retenur
+      	mov eax,0
+      	adc eax,0
+      	
+      	; epilogue
+      	Pop ecx
+      	Pop edx
+      	ret 8	; // 2 paramètres de 4 octets
+      ]
+      renvoyer compileAsmX86( sCodeASMx8632_Addition256 )
+     type : 458752
+   -
+     name : pCompileMult128x128_256
+     procedure_id : 1987043821808487544
+     type_code : 15
+     code : |1+
+      // renvoie une porcédure qui multipli 2 entier 64 bits et revoie un entier sur 128 bit. 
+      // proto :
+      //  Mult64x64_128( n1_L32, n1_H32, n2_L32, n2_H32, OUT *pnResult128 )
+      procédure pCompileMult128x128_256()
+      
+      // code ASM
+      sCodeAssembleur est chaine = [
+      	// proto  Mult128x128_256( int128 *nombreA, int128 *nombreB, OUT *result256 )()
+      	
+      	; A*B = poidsfaible(B0*A0) 													// bits  0  a  63
+      	;      +2 ^ N* (B0*A0 + A1*B1 + (A1 - A0)*(B0 - B1)) + poidsfort(B0*A0)		// bits 63  a 127
+      	;      +2 ^ 2N*  A1*B1														// bits 127 a 256
+      	
+      	// prologue
+      	push        ebp
+      	mov         ebp, esp
+      	push 		ebx
+      	push		esi
+      	push		edx
+      	push		ecx
+      	// --------------------------
+      	// EBP +  8 : *A
+      	// EBP + 12 : *B
+      	// EBP + 16 : *resultat
+      	// EBP + 20 : A0B0
+      	// EBP + 28 : A1B1
+      	// EBP + 32 : A0B1
+      	// EBP + 40 : A1B0
+      	add			ESP,32  // EBP+0
+      	
+      	//A0*B0
+      	mov	edi, [ebp + 8] // A = [ A1 A0 ]
+      	push	 [edi + 12] // A0L
+      	push	 [edi + 8 ] // A0J
+      	mov	edi, [ebp + 12] // B = [ B1 B0 ]
+      	Push	 [edi + 12] // A0L
+      	Push	 [edi + 8 ] // A0J	
+      	lea		 edi, [ebp + 20] // *A0B0
+      	Push	 [ep]
+      	call	 _mult6464_128 //  A0B0 = _mult6464_128( A0, A1 )
+      	
+      	// Affecter résultat
+      	mov	edi, [ebp + 16] // EDI = resultat
+      	mov	esi, [ebp + 20] // A0,B0
+      	mov		 eax,[esi+16]
+      	mov 	 [edi+16],eax
+      	//mov 	 [edi+20],[esi+20]
+      	//mov 	 [edi+24],[esi+22]
+      	//mov 	 [edi+26],[esi+28]
+      	
+      	// --------------------------
+      	; epilogue
+      	Pop			ecx
+      	Pop			edx
+      	Pop			esi
+      	Pop			ebx
+      	Pop         ebp
+      	ret			20; // 5 paramtères de 4 octets
+      	
+      _mult6464_128:
+      	// ; proto  Mult64x64_128( n1_L32, n1_H32, n2_L32, n2_H32, OUT *pnResult128 )()
+      	; edi = adresse du résultat
+      	mov		edi, [ebp + 24]; *pnResultat
+      	
+      	; R0 = A0 * B0
+      	mov	eax, [ebp + 8]; A0
+      	mul eax, [ebp + 16]; *B0 dans EDX : EAX
+      	;  affectation du résultat R0
+      	mov [edi],      eax; R0l
+      	mov [edi + 4],  edx; R0h
+      	mov ecx, 0
+      	mov [edi + 8],  ecx; 0
+      	mov [edi + 12], ecx; 0
+      	
+      	; R1 = (A0 * B1) + (A1 * B0)
+      	; (A0 * B1)
+      	mov	eax, [ebp + 8] ; A0
+      	mul eax, [ebp + 20]; A0*B1 dans EDX : EAX
+      	;  pré - affectation du résultat R1
+      	adc [edi + 4], eax
+      	adc [edi + 8], edx
+      	adc [edi + 12], 0
+      	;  (A1 * B0)
+      	mov	eax, [ebp + 12]; A1
+      	mul eax, [ebp + 16]; A1*B0 dans EDX : EAX
+      	; +A1*B0
+      	adc [edi + 4], eax
+      	adc [edi + 8], edx
+      	adc [edi + 12], 0
+      	
+      	; R2 = A1*B1
+      	mov	 eax,[ebp + 12]; A1
+      	mul eax, [ebp + 20]; A1*B1 dans EDX : EAX
+      	;  +R2
+      	adc [edi + 8],  eax
+      	adc [edi + 12], edx
+      	ret;
+      	
+      
+      ]
+      
+      
+      renvoyer  compileAsmX86(sCodeAssembleur) 
+     type : 458752
+  procedure_templates : []
+  property_templates : []
+ code_parameters :
+  internal_properties : BBYAAAAhAAAAAAABBA4UKMBAAIAAIwwUMLABwYEJEwYE
+  original_name : ProcéduresGlobales1
+resources :
+ string_res :
+  identifier : 0x1b72c8ac01272c56
+  internal_properties : BBUAAAAjAAAAAAABBA4UKMBAAIAAJxAc+IBhAoYCAwI=
+custom_note :
+ internal_properties : BBYAAAApAAAAAAABBA4UKGDAwAwDGwwUQNChwAQPAwQE

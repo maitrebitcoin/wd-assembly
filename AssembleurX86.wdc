@@ -1,0 +1,374 @@
+#To edit and compare internal_properties, use WINDEV integrated tools.
+#Internal properties refer to the properties of controls in windows, reports, etc.
+info :
+ name : AssembleurX86
+ major_version : 25
+ minor_version : 0
+ type : 4
+ description : ""
+ subtype : 0
+class :
+ identifier : 0x1b654a3600334512
+ internal_properties : BBYAAAAoAAAAAAABBA4UKABBAIAAMQwkQDCABIcRHQYE
+ code_elements :
+  internal_properties : BDEAAAC/AAAAAAABBA4UKMBAAIAAXxEcuGrgAoYRJU6kWNHiRYwZM/6DkNCjRwEDGwwMmbFkgAkkMQYE
+  type_code : 10
+  p_codes :
+   -
+     code : |1+
+      AssembleurX86 est une Classe
+      	cAlloMemExecutable est AllocateurDeMemExecutable 
+      
+      FIN
+      
+     type : 131072
+  procedures :
+   -
+     name : Constructeur
+     procedure_id : 1974065607463945490
+     type_code : 27
+     code : |1+
+      PROCEDURE Constructeur()
+     type : 589824
+   -
+     name : Destructeur
+     procedure_id : 1974065607464011026
+     type_code : 28
+     code : |1+
+      PROCEDURE Destructeur()
+      
+      
+     type : 655360
+   -
+     name : _pcompileX86
+     procedure_id : 1977580351004294187
+     type_code : 12
+     code : |1-
+      // compile le code assembleur dans <codex86>
+      // renvoiee pointeur sur le code machine a exécuter
+      PROCÉDURE _pcompileX86( codeAssembleur est chaine ) : entier système
+      
+      // compilation du code source ASM vers binaire exécutable
+      bufCodeAsm est un buffer =  _sCompile( codeAssembleur )
+      SI ErreurDétectée ALORS
+      	RENVOYER null
+      FIN
+      
+      // alloc d'une zone de code exécutable
+      pAddrCode  est entier système = :cAlloMemExecutable.pNouvelleZoneExecutable( taille(bufCodeAsm) )
+      Transfert(pAddrCode,&bufCodeAsm,Taille(bufCodeAsm))
+      //TODO : relocation de symboles non relatifs
+      
+      renvoyer pAddrCode
+     type : 458752
+   -
+     name : compileX86
+     procedure_id : 1974065766377903061
+     type_code : 12
+     code : |1+
+      // compile le code assembleur dans <codex86>
+      // renvoie la procédure qui permet de l'exécuter
+      procédure compileX86( codeAssembleur est chaine ) : procédure
+      
+      // compilation du code source ASM vers binaire exécutable
+      pAddrCode  est entier système =  _pcompileX86( codeAssembleur )
+      sErreurCompilation est une chaîne
+      si ErreurDétectée ALORS
+      	sErreurCompilation = ErreurInfo()
+      	RENVOYER _enErreur
+      FIN
+      
+      
+      // procédure renvoyée si compilation OK
+      	Procédure interne _executeCodeAsm(*) 
+      	   // pAddrCode viens de la closure
+      		renvoyer api(pAddrCode, MesParamètres)
+      	fin
+      // procédure pour le cas d'une erreur de compilation
+      	PROCÉDURE INTERNE _enErreur(*)
+      		dbgAssertion(faux,"Erreur de compilation"+rc+sErreurCompilation)
+      	FIN
+      
+      // success
+      résultat est une procédure
+      résultat= _executeCodeAsm
+      renvoyer résultat
+     type : 458752
+   -
+     name : _sCompile
+     procedure_id : 1974066921724178358
+     type_code : 12
+     code : |1+
+      // compilation du code assembler vers un buffer exécutable
+      procédure _sCompile( codeAssembleur est chaine ) : buffer
+      
+      contexte est ContexteCompilation
+      
+      // 1 Passe : compilation ligne a ligne
+      bufCodeAsm est un buffer
+      sCodeAsm1Ligne est chaine
+      POUR TOUTE CHAÎNE sCodeAsm1Ligne DE codeAssembleur séparée par RC
+      	// MAJ contexte
+      	contexte.nLigneSource++
+      	contexte.nOffsetDest   = taille(bufCodeAsm) // pour calculer l'adresse des labels
+      	// compilation de la ligne n°<nLigne>
+      	codeAsmLigne est un buffer
+      	codeAsmLigne = _CompileUneLigne( sCodeAsm1Ligne, contexte )
+      	SI ErreurDétectée ALORS 
+      		ErreurDéclenche(ERR_COMPILATION_ASM, ChaîneConstruit(<§$0003§>, contexte.nLigneSource, sCodeAsm1Ligne, ErreurInfo()))
+      		RENVOYER ""
+      	FIN
+      	// ajout au code complet
+      	bufCodeAsm += codeAsmLigne
+      
+      FIN
+      
+      // passe 2 : patcher les symboles
+      sLabel est chaine
+      pour tout utilisationLabel  de contexte.tabUtlisationSymbole
+      	sLabel  = utilisationLabel.label
+      	nOffsetInstr est un entier 	 = utilisationLabel.offsetDestAddr  // commence a 0
+      	nOffsetPatch  est un entier  = utilisationLabel.offsetPatch // commence a 0
+      	ntaille est un entier 	 = utilisationLabel.taille
+      	typeOp  est TypeOpérande = utilisationLabel.typeOperande
+      	// récup valeur effective
+      	si pas contexte.tabSymboleRencontré[sLabel]..Existe ALORS
+      		nLigne est un entier = utilisationLabel.ligne
+      		ErreurDéclenche(ERR_COMPILATION_ASM, chaineconstruit(<§$0004§>, nLigne, sLabel))
+      		RENVOYER ""
+      	FIN
+      	soit valeurLabel = contexte.tabSymboleRencontré[sLabel].offset
+      	// patch
+      	contexte.nOffsetDest		   = nOffsetInstr
+      	contexte.offsetDansInstruction = 0
+      	valeurAPatcher est ValeurOpérande
+      	valeurAPatcher.valeurImmediate = valeurLabel
+      	valeurAPatcher.modeAdres			   = ValeurOpérande::MA_Label
+      	bufSource est un buffer = typeOp.Encode(valeurAPatcher,0, contexte)
+      	dbgAssertion(taille(bufSource) = ntaille )
+      	bufCodeAsm[ nOffsetPatch+1 a nOffsetPatch + ntaille ] = bufSource // +1 car les chaines WL  commencent à 1
+      FIN
+      
+      
+      renvoyer bufCodeAsm
+     type : 458752
+   -
+     name : _CompileUneLigne
+     procedure_id : 1974067480069991068
+     type_code : 12
+     code : |1+
+      // compilation d'une ligne d'assembleur vers son code x86 exécutable
+      // ex: "RET 4" => "0xC2 0X04 0x00"
+      procédure privée _CompileUneLigne( sCodeAsm1Ligne est chaine, contexte est ContexteCompilation dynamique ) : buffer
+      
+      // ignorer les lignes vides et commentaires
+      si parseur.bEstLigneVide(sCodeAsm1Ligne)  alors renvoyer ""
+      
+      // découper la ligne en ses élément lexicaux : 
+      // label: OPCODE P1,P2,P3 ;Commentaire
+      sLabel  est une chaîne
+      sopcode est une chaîne
+      TabParamStr est un tableau de chaîne // de 0 a 4 paramètres
+      (sLabel, sopcode, TabParamStr) = Parseur.AnalyseSyntaxiqueLigne( sCodeAsm1Ligne )
+      si ErreurDétectée alors RENVOYER ""
+      
+      // analyse des paramètres => conversion en mode d'adressage
+      TabParametre est un tableau de ValeurOpérande
+      _AnalyseParametre( TabParamStr, TabParametre )
+      SI ErreurDétectée ALORS RENVOYER ""
+      // calcul taille des opérandes (pour ajout éventuel du forçage en mode 16 bits)
+      contexte.tailleOpérande  =  _nCalculeTailleParametre( TabParametre )
+      SI ErreurDétectée ALORS RENVOYER "" // ex : mov eax,el
+      
+      
+      // si label
+      si sLabel<>"" ALORS
+      	contexte.onDéclarationLabel(sLabel)
+      FIN
+      // si pas de code
+      si sopcode="" ALORS
+      	renvoyer "" // rien a compiler
+      FIN
+      
+      // retrouver l’instruction et sa syntaxe selon le nom et les paramètres
+       syntaxe est SyntaxeInstructionX86 dynamique = _rechercheSyntaxeInstruction( sopcode, TabParametre, contexte)
+      // si aucune syntaxe ne correspond
+      si syntaxe = null ALORS
+      	ErreurDéclenche(ERR_COMPILATION_ASM, ChaîneConstruit(<§$0000§>, sCodeAsm1Ligne) )
+      	renvoyer ""
+      FIN
+      
+      // encoder l'instruction et ses paramètres
+      renvoyer syntaxe.Encode( TabParametre, contexte  )
+     type : 458752
+   -
+     name : _AnalyseParametre
+     procedure_id : 1976292414931966194
+     type_code : 12
+     code : |1+
+      procédure _AnalyseParametre( tabExpression est un tableau de chaine, tabParamOUT est tableau de ValeurOpérande)
+      
+      // pour chaque expression
+      pour TOUT sExpression DE tabExpression
+      	// conversion en objet de type <ModeAdressage>
+      	valeurOp est ValeurOpérande
+      	si pas Parseur.bAnalyseChaineVersModeAdressage( sExpression, valeurOp ) ALORS
+      		ErreurDéclenche( ERR_COMPILATION_ASM, ChaîneConstruit("Erreur de syntaxe : <%1> n'est pas un paramètre valide.", sExpression ))
+      		retour
+      	FIN
+      	// succès, ajout au tableau résultat	
+      	tabParamOUT.Ajoute(valeurOp)
+      FIN
+     type : 458752
+   -
+     name : _bTailleOperandeValide
+     procedure_id : 2019348628790926199
+     type_code : 12
+     code : |1+
+      procédure _bTailleOperandeValide( n entier )
+      
+      // registre 32 bits non supportés en  64 bits
+      //si n=32 _et_ EnMode64bits() ALORS
+      //	renvoyer faux
+      //FIN
+      // registre 64 bits interdits en 32 bits
+      si n=64 _et_ pas EnMode64bits() alors
+      	renvoyer faux
+      FIN
+      
+      // OK
+      renvoyer vrai
+     type : 458752
+   -
+     name : _nCalculeTailleParametre
+     procedure_id : 1976683733685425932
+     type_code : 12
+     code : |1+
+      procédure _nCalculeTailleParametre( tabParamT est tableau de ValeurOpérande) : entier
+      
+      si tabParamT.Occurrence() = 0 ALORS
+      	renvoyer faux
+      FIN
+      // °0 : indéterminé
+      nTailleOK est un entier = 0
+      
+      pour i = 1 _a_ tabParamT.Occurrence()
+      	nTaille est un entier = tabParamT[i].nGetTailleEnBit()
+      	// si taille invalide
+      	si pas _bTailleOperandeValide(nTaille) ALORS
+      		ErreurDéclenche(ERR_COMPILATION_ASM, ChaîneConstruit("Taille de l'opérande %1 invalide. ", i))
+      		RENVOYER -1
+      	FIN
+      	// si pas encore initialisé
+      	si nTailleOK=0 ALORS
+      		nTailleOK = nTaille
+      	FIN
+      	// si taille différente
+      	si nTaille<>0 _et_ nTailleOK<>0 _et_ nTailleOK<>nTaille ALORS
+      		// erreur
+      		ErreurDéclenche(ERR_COMPILATION_ASM,<§$0005§>)
+      		renvoyer -1
+      	FIN
+      fin
+      renvoyer  nTailleOK
+      
+     type : 458752
+   -
+     name : _rechercheSyntaxeInstruction
+     procedure_id : 1974112237926149665
+     type_code : 12
+     code : |1-
+      // recherche la syntaxe qui correspondd a un instruction et ses paramètres
+      Procédure _rechercheSyntaxeInstruction( sopcode chaine, tabValeurParam tableau de ValeurOpérande, contexte est ContexteCompilation dynamique ) : SyntaxeInstructionX86
+      
+      
+      resultat est SyntaxeInstructionX86 dynamique
+      
+      // recherche la syntaxe selon l'opération et ses paramètres
+      tabSyntaxe est un tableau de SyntaxeInstructionX86 <- rechecheTypeInstruction(sopcode)
+      POUR TOUT syntaxeI DE tabSyntaxe
+      	// si la syntaxe est compatible avec les paramètres
+      	SI syntaxeI.bEstcompatibleAvecTabValeur( tabValeurParam, contexte ) ALORS
+      		// si on en  a déjà trouvé une
+      		si resultat<>null ALORS
+      			// on ne la prend que si elle est meilleurs
+      			si syntaxeI.bEstMeilleureQue( resultat ) alors
+      				// on a trouvé une meilleure syntaxe
+      				resultat = syntaxeI
+      			FIN
+      			
+      		sinon
+      			// on a trouvé la 1ere syntaxe compatible			
+      			resultat = syntaxeI
+      		fin
+      	FIN
+      	
+      FIN
+      
+      // aucune syntaxe OK
+      si resultat = null
+       	renvoyer null
+       fin
+       // OK 
+       renvoyer resultat
+       
+       
+     type : 458752
+   -
+     name : uint32VersbufferLowEndian
+     procedure_id : 1977867714397273161
+     type_code : 12
+     code : |1+
+      // conversion d'un entier sur 4 octets sans signe en un buffer en petit endian 
+      PROCEDURE globale uint32VersbufferLowEndian( local imm32 est entier sur 4 sans signe ) : buffer
+      bufLowEdian est un buffer = Répète(caract(0),4)
+      Transfert(&bufLowEdian,&imm32,4)
+      renvoyer bufLowEdian
+     type : 458752
+   -
+     name : uint64VersbufferLowEndian
+     procedure_id : 2020871396566059043
+     type_code : 12
+     code : |1-
+      // conversion d'un entier sur 8 octets sans signe en un buffer en petit endian 
+      procédure GLOBALE uint64VersbufferLowEndian( LOCAL imm64 est entier sur 8 sans signe ) : buffer
+      bufLowEdian est un buffer = Répète(caract(0),8)
+      Transfert(&bufLowEdian,&imm64,8)
+      RENVOYER bufLowEdian
+     type : 458752
+  procedure_templates : []
+  property_templates : []
+ code_parameters :
+  internal_properties : BBYAAAAhAAAAAAABBA4UKMBAAIAAIwwUMLABwYEJEwYE
+  original_name : Classe1
+resources :
+ string_res :
+  identifier : 0x1b654a130030bb60
+  internal_properties : BBUAAAAjAAAAAAABBA4UKMBAAIAAJxAc+IBhAoYCAwI=
+  strings :
+   -
+     text :
+      fr-FR : Aucune syntaxe trouvée pour '%1'.
+     index : 0
+   -
+     text :
+      fr-FR : ocpde <%1> invalide.
+     index : 1
+   -
+     text :
+      fr-FR : Erreur de syntaxe
+     index : 2
+   -
+     text :
+      fr-FR : "Erreur a la ligne %1 : %2\r\n%3"
+     index : 3
+   -
+     text :
+      fr-FR : "Erreur a la ligne %1 : Le label <%2> n'a pas été défini."
+     index : 4
+   -
+     text :
+      fr-FR : Taille des paramètres incompatible.
+     index : 5
+custom_note :
+ internal_properties : BBYAAAApAAAAAAABBA4UKGDAwAwDGwwUQNChwAQPAwQE

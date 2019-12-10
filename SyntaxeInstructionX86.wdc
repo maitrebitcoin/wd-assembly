@@ -1,0 +1,402 @@
+#To edit and compare internal_properties, use WINDEV integrated tools.
+#Internal properties refer to the properties of controls in windows, reports, etc.
+info :
+ name : SyntaxeInstructionX86
+ major_version : 25
+ minor_version : 0
+ type : 4
+ description : ""
+ subtype : 0
+class :
+ identifier : 0x1b6d31370407bf91
+ internal_properties : BBYAAAAoAAAAAAABBA4UKABBAIAAMQwkQDCABIcRHQYE
+ code_elements :
+  internal_properties : BE8AAAC/AAAAAAABBA4UKMBAAIAAXxEcuGrggoEqBjCkWDHWJCusJAo0VNFjnEsZNwY45NEiIZETAyAySTFeoZQCEzH8ByHhzZsCBjYYqLMlQZ8BJvT8KTAg
+  type_code : 10
+  p_codes :
+   -
+     code : |1+
+      // instruction X86 pour un syntaxe spécifique
+      SyntaxeInstructionX86 est une Classe
+      	mnemonique est chaine // nom de l'instruction en minuscules. ex "add" ou "ret"
+      	opcode	   est buffer // code binaire principal a générer pour cette instruction. 1 a 4 octets
+      	encodage   est chaine // options d'encodage des paramètres. ex ENCODAGE_ADDREGTOOPCODE
+      	tabTypeParam   est un tableau de TypeOpérande // type des paramètres des l'instruction
+      	syntaxeEnClair est chaine
+      	
+      FIN
+     type : 131072
+  procedures :
+   -
+     name : Constructeur
+     procedure_id : 1976289923846160273
+     type_code : 27
+     code : |1-
+      PROCEDURE Constructeur()
+     type : 589824
+   -
+     name : Destructeur
+     procedure_id : 1976289923846225809
+     type_code : 28
+     code : |1+
+      PROCEDURE Destructeur()
+     type : 655360
+   -
+     name : bEstcompatibleAvecTabValeur
+     procedure_id : 1976289923846291345
+     type_code : 12
+     code : |1+
+      PROCÉDURE bEstcompatibleAvecTabValeur( tabValeurParam est un tableau de ValeurOpérande,  contexte est ContexteCompilation dynamique ) : booléen
+      
+      // même nombreramètre
+      si tabTypeParam.Occurrence() <> tabValeurParam.Occurrence() ALORS
+      	renvoyer  faux
+      FIN
+      
+      // cas particulier REX en 64 bits : de 0x40 a 0x48 
+      // instructiont DEC 32 bits non utilisables en mode 64, il faut utiliser la version rp/mod en 0xFE
+      si EnMode64bits() 
+      	si :opcode=Caract(0x40)  ALORS renvoyer faux
+      	si :opcode=Caract(0x48)  ALORS renvoyer faux
+      	
+      FIN
+      
+      // vérif pour chaque paramètre
+      pour i = 1 _a_  tabTypeParam.Occurrence()
+      	opTypeI est TypeOpérande <- tabTypeParam[i]
+      	si pas opTypeI.bEstcompatibleAvecValeur(tabValeurParam[i], contexte) ALORS
+      		// pas OK 
+      		renvoyer faux
+      	FIN
+      	
+      FIN
+      
+      RENVOYER Vrai
+     type : 458752
+   -
+     name : InitFromDescription
+     procedure_id : 1976289923846356881
+     type_code : 12
+     code : |1+
+      // Init d'une instruction a partir d'une de description au format CVS
+      // cad séparé par des ";"
+      // ex : ADD;r/m8;r8;;;;0;;r
+      Procédure InitFromDescription( local sDesc est chaine)
+      
+      // supprimer espace et TAB
+      sDesc = Remplace(sDesc,tab  ,"")
+      sDesc = Remplace(sDesc," "  ,"")
+      si sDesc="" ALORS
+      	retour
+      FIN
+      
+      :syntaxeEnClair = remplace(sDesc,";", " ")
+      // extraction des paramètres
+      
+      // nom de l'instruction en minuscules......
+      // ex: "add" ou "call"
+      mnemonique		   			= minuscule( ExtraitChaîne(sDesc,1,";") )
+      
+      // code binaire encodant cette instruction, de 1 a 4 octets
+      sOpoCodeHex est une chaîne
+      pour i = 6 a 9
+      	sOctetI est chaine = ExtraitChaîne(sDesc,i,";")
+      	si sOctetI<>"" ALORS
+      		si taille(sOctetI)=1 alors sOctetI = "0" + sOctetI // force sur 2 octets
+      		sOpoCodeHex += sOctetI
+      	FIN
+      FIN
+      
+      // type d'encodageeeeeee des paramètres
+      //"" si rien de spécial
+      :encodage 					= ExtraitChaîne(sDesc,10,";") 
+      dbgAssertion(:encodage <> EOT)
+      
+      // si l'opcode fini par "+r"
+      si Droite(sOpoCodeHex,2)="+r" alors
+      	// encodage de l'opérande (registre) dans les bits de poids faible de l'opération. 
+      	:encodage 					= ENCODAGE_ADDREGTOOPCODE
+      	// enlève le "+r"
+      	sOpoCodeHex = milieu(sOpoCodeHex,1,taille(sOpoCodeHex)-2)
+      FIN
+      
+      :opcode	  		    	   = HexaVersBuffer(SansEspace(sOpoCodeHex) )
+      
+      // décodage des paramètres de l'instruction...... 4 au max
+      pour i = 1 a 4
+      	// récup de la chaine donnant le type du paramètre
+      	paramI est chaine = Minuscule( ExtraitChaîne(sDesc,1+i,";"))
+      	// "" indique qu'il n'y en a plus
+      	si paramI="" ALORS
+      		sortir
+      	fin
+      	// ajout du type de paramètre
+      	opTypeI est TypeOpérande 
+      	opTypeI.nomType = paramI
+      	tabTypeParam.Ajoute(opTypeI)
+      FIN
+      
+     type : 458752
+   -
+     name : GetSyntaxe
+     procedure_id : 1976289923846422417
+     type_code : 12
+     code : |1-
+      procédure GetSyntaxe()
+      
+      res est chaine = mnemonique 
+      POUR TOUT paramI DE tabTypeParam
+      	res +="," + paramI.nomType
+      FIN
+      renvoyer res
+     type : 458752
+   -
+     name : _bBitRex
+     procedure_id : 2020876198340613409
+     type_code : 12
+     code : |1+
+      // indique si un bit du préfixe REX doit être mis a 1 pour un paramètreS.
+      // ex: R9
+      procédure _bBitRex( operande est ValeurOpérande  ) : booléen
+      
+      // cas des registres R8,R9, ... R15
+      si operande.bEstModeRegistre()    _ou_ ...
+         operande.bEstModeIndirection() ALORS
+      	nReg est un entier = nIndiceRegistre( operande.registre)
+      	renvoyer nReg>=8
+      FIN
+      // cas des valeurs immédiates de 64 bits
+      si operande.bEstModeValeurImmediate() 
+      	si operande.nGetTailleEnBit()=64 ALORS
+      		RENVOYER 1
+      	sinon
+      		renvoyer 0
+      	fin
+      FIN
+      
+      //@autres : TODO
+      dbgAssertion(faux, "cas non géré" + operande.modeAdres )
+      renvoyer 0
+      
+     type : 458752
+   -
+     name : _EncodePrefix_REX
+     procedure_id : 2020855827309328332
+     type_code : 12
+     code : |1-
+      // encoder le préfixe REX en 64 bits 
+      // (pour accéder aux registre R8 par ex.)
+      // voir par ex : https://xem.github.io/minix86/manual/intel-x86-and-64-manual-vol2/o_b5573232dd8f1481-69.html
+      procédure _EncodePrefix_REX(tabValeurParam est un tableau de ValeurOpérande,  contexte est ContexteCompilation dynamique) : buffer
+      
+      SI tabValeurParam.Occurrence()<1 ALORS
+      	renvoyer ""
+      FIN
+      si contexte.tailleOpérande<64 ALORS
+      	renvoyer ""
+      FIN
+      // registre 32 bits : pas de préfixe REX. cas mov eax, 1
+      si bEstRegistreDeType( tabValeurParam[1].registre, REGISTRE_32BITS) ALORS
+      	renvoyer ""
+      FIN
+      
+      // si le n° de registre est les bits de poids faible de l'instruction.
+      SI :encodage = ENCODAGE_ADDREGTOOPCODE ALORS
+      	// si instructionnnnnparamètrerererereree , ex PUSH
+      	SI tabValeurParam.Occurrence()=1  alors
+      		// pas besoin de REX pour les 8 premiers
+      		nReg1 est un entier =  nIndiceRegistre(tabValeurParam[1].registre)
+      		si nReg1 <= 7
+      			renvoyer ""
+      		fin
+      		// REX : 0x41
+      		RENVOYER Caract( 0x41 )
+      	fin
+      	//2 paramètres. ex MOV	RAX,1234
+      	dbgassert(tabValeurParam.Occurrence()=2)
+      	
+      	
+      FIN
+      
+      nREX est un entier = 0x40 // 4 bits de poids fort
+      w est un booléen   = 1 // 0 = Operand size determined by CS.D / 1 = 64 Bit Operand Size
+      R est un booléen	   // Extension of the ModR/M reg field
+      X est un booléen	   // Extension of the SIB index field
+      B est un booléen	   // Extension of the ModR/M R/m field, SIB base field, or Opcode reg field
+      
+      
+       si :encodage = ENCODAGE_RM  // spécial R/M (2 reg dans 1 octets)
+      	R = _bBitRex( tabValeurParam[1] )
+      	B = _bBitRex( tabValeurParam[2] )
+      	SI  tabTypeParam[1].bModeEncodageRM() ALORS
+      		// si la syntaxe commence par r/M ex: MOV	r/m16/32	r16/32
+      		// l'ordre src/dest est inversé
+      		R<=>B
+      	fin	
+      	SI  tabValeurParam.Occurrence()=2 ALORS
+      		// cas mov  rax,qword ptr [r8+r12+1]
+      		SI tabValeurParam[2].registre2<>""  _et_ nIndiceRegistre(  tabValeurParam[2].registre2)>7 ALORS
+      			X=1
+      		FIN	
+      	FIN
+      
+      sinon
+      	SI  tabValeurParam.Occurrence()=1 ALORS
+      		B = _bBitRex( tabValeurParam[1] ) // cas "INC R10"
+      	FIN
+      	SI  tabValeurParam.Occurrence()=2 ALORS
+      		R = _bBitRex( tabValeurParam[1] ) 
+      		B = _bBitRex( tabValeurParam[2] )	
+      
+      	FIN
+      	SI  tabValeurParam.Occurrence()=3  ALORS
+      		R = _bBitRex( tabValeurParam[3] )	
+      		
+      	FIN
+      
+      fin
+      
+      // Calcul final de REX
+      si w ALORS	nREX = nREX | 0x08
+      si R ALORS	nREX = nREX | 0x04
+      si X ALORS	nREX = nREX | 0x02
+      si B ALORS	nREX = nREX | 0x01
+      
+      
+      renvoyer Caract( nREX )
+     type : 458752
+   -
+     name : Encode
+     procedure_id : 1976289923846553489
+     type_code : 12
+     code : |1+
+      // renvoyer l'instruction encodée (=le code x86 exécutable)
+      // pour pour les paramètres <TabParam>
+      Procédure encode(tabValeurParam est un tableau de ValeurOpérande,  contexte est ContexteCompilation dynamique) : buffer
+      dbgAssertion(tabTypeParam.Occurrence() = tabValeurParam.Occurrence())
+      
+      code est un buffer
+      nbParamTraite est un entier = 0
+      
+      // si on doit forcer le mode 16 bits
+      si contexte.tailleOpérande=16 ALORS
+      	code += Caract( 0x66 )
+      FIN
+      // si on doit forcer le mode 64 bits - REX
+      REX_Prefix est buffer
+      SI EnMode64bits() _et_ contexte.tailleOpérande=64 ALORS
+      	// REX: 0100 WRXB 
+      	REX_Prefix = _EncodePrefix_REX(tabValeurParam, contexte) // ex :  Caract( 0x40 )
+      	code 	  += REX_Prefix
+      FIN
+      
+      
+      // si encodage par ajoute du n° de registre a l'opcode (ex "POP")
+      si :Encodage = ENCODAGE_ADDREGTOOPCODE ALORS
+      	nReg est un entier = nIndiceRegistre(tabValeurParam[1].registre) 
+      	// pour le cas des registres étendus 64 bits. ex R8
+      	nReg = ETBinaire( nReg , 0x07) 
+      	
+      	code +=  caract( asc(:opcode) + nReg )
+      	nbParamTraite++
+      sinon
+      	// OPCODE principal
+      	code +=  :opcode 
+      fin
+      	
+      // si encodage spécial R/M (2 opérandes registres dans 1 octets)
+      SI :encodage = ENCODAGE_RM ALORS
+      	rm est buffer
+      	si  tabTypeParam[1].bModeEncodageRM() ALORS
+      		// si la syntaxe commence par r/M ex: MOV	r/m16/32	r16/32
+      		// l'ordre src/dest est inversé
+      		rm = TypeOpérande::Encode_RM_REG( tabValeurParam[2], tabValeurParam[1] )
+      	sinon
+      		rm = TypeOpérande::Encode_RM_REG( tabValeurParam[1], tabValeurParam[2] )
+      	fin
+      	
+      	code += rm
+      	nbParamTraite += 2
+      	RENVOYER code
+      fin
+      
+      // valeur du champ REG dans la partie modRegRM.
+      // ex : INC 0, DEC 1
+      nForceReg_modRegRM est entier = Val(:encodage)
+      contexte.offsetDansInstruction = taille(code)
+      
+      // paramètres 
+      POUR i = nbParamTraite+1 _a_ :tabTypeParam.Occurrence()
+      	soit typeParamI   = tabTypeParam[i]
+      	valeurParamI est ValeurOpérande <- tabValeurParam[i]
+      	contexte.offsetDansInstruction = Taille(code)
+      	
+      	// si la valeur est un label
+      	si valeurParamI.bEstModeLabel() ALORS
+      		valeurParamVide est ValeurOpérande 
+      		codeAPatcher est un buffer = typeParamI.Encode( valeurParamVide, nForceReg_modRegRM, contexte )
+      		// il faudra patcher ici
+      		contexte.onUtilisationLabel( valeurParamI.label, taille(code), taille(codeAPatcher), typeParamI )
+      		// encodage du paramètre avec 0 pour l'instant
+      		code += codeAPatcher
+      		//tabValeurParam
+      		continuer
+      	FIN
+      	
+      	
+      	// encodage du paramètre
+      	code += typeParamI.Encode( valeurParamI, nForceReg_modRegRM, contexte )
+      FIN
+      
+      
+      renvoyer code
+      
+     type : 458752
+   -
+     name : bEstMeilleureQue
+     procedure_id : 1977062395187041756
+     type_code : 12
+     code : |1+
+       // indique si on est une meilleure syntaxe (= on génère un code plus court)
+       procédure bEstMeilleureQue( autreSyntaxe est SyntaxeInstructionX86 ) : booléen
+      
+      renvoyer _nEvalRapideTaillleCodeGénéré() <  autreSyntaxe._nEvalRapideTaillleCodeGénéré()
+      
+     type : 458752
+   -
+     name : _nEvalRapideTaillleCodeGénéré
+     procedure_id : 1977062476791505041
+     type_code : 12
+     code : |1-
+       // évaluationde de la taille générée pour choix de la meilleure syntaxe
+       procédure _nEvalRapideTaillleCodeGénéré() : entier
+      
+      si :encodage = ENCODAGE_ADDREGTOOPCODE alors
+      	renvoyer taille(:opcode)
+      fin
+      
+      
+      SI :encodage = ENCODAGE_RM ALORS
+      	renvoyer Taille(:opcode) + 1
+      fin
+      
+      nTailleParam est un entier = 0
+      POUR i = 1 _a_ :tabTypeParam.Occurrence()
+      	soit typeParamI   = tabTypeParam[i]
+      	nTailleParam += typeParamI.nGetTailleEnBit()/8
+      fin
+      RENVOYER Taille(:opcode) + nTailleParam
+      	
+       
+     type : 458752
+  procedure_templates : []
+  property_templates : []
+ code_parameters :
+  internal_properties : BBYAAAAhAAAAAAABBA4UKMBAAIAAIwwUMLABwYEJEwYE
+  original_name : Classe1
+resources :
+ string_res :
+  identifier : 0x1b65619800409942
+  internal_properties : BBUAAAAjAAAAAAABBA4UKMBAAIAAJxAc+IBhAoYCAwI=
+custom_note :
+ internal_properties : BBYAAAApAAAAAAABBA4UKGDAwAwDGwwUQNChwAQPAwQE

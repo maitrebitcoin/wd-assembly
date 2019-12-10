@@ -1,0 +1,274 @@
+#To edit and compare internal_properties, use WINDEV integrated tools.
+#Internal properties refer to the properties of controls in windows, reports, etc.
+info :
+ name : Parseur
+ major_version : 25
+ minor_version : 0
+ type : 7
+ description : ""
+ subtype : 0
+procedure_set :
+ identifier : 0x1b72cad201318f30
+ internal_properties : BBYAAAAkAAAAAAABBA4UKABBAIAAKQwUEEACQYgRAwQE
+ code_elements :
+  type_code : 31
+  p_codes :
+   -
+     code : |1+
+      
+      
+      // expressions régulièrese identifiant les lexèmes (tokens en anglais) :
+      constant
+      	// étiquette dans le code. ex : "maProc12" dans" ""call maProc12"
+      	REGEXPTOKEN_LABEL 	=	"[a-zA-Z_][a-zA-Z0-9_]*"  
+      	// nombre hexa au format WL. ex : "0x12345"
+      	REGEXPTOKEN_NUMHEXAWL =	"0x[a-fA-F0-9]+"  
+      	// nombre hexa au format masm. ex : "12234H"
+      	REGEXPTOKEN_NUMHEXA2 =	"[a-fA-F0-9]+(H|h)"  
+      	// nombre hexa au format décimal. ex : "1456" ou "-2"
+      	REGEXPTOKEN_NUMDECIMAL ="0|-?([1-9][0-9]*)"  
+      	// caractère ansi. ex :  'A'
+      	REGEXPTOKEN_CHAR8BIT = "'.'"
+      fin
+     type : 720896
+  procedures :
+   -
+     name : bEstValeurImmediate
+     procedure_id : 1977866189681102640
+     type_code : 15
+     code : |1+
+      // Indique si <s> est une valeur immédiate, cad un nombre. 
+      // ex : "24" ou "0x500"
+      // si oui renvoie la valeur dans <valeur_OUT>
+      Procédure GLOBALE bEstValeurImmediate(s est chaine, valeur_OUT est un entier sur 8 octets sans signe ) 		
+      
+      // cas particulier de 0
+      si s="0" alors
+      	valeur_OUT = 0
+      	renvoyer Vrai
+      FIN
+      
+      // valeur hexadécimale
+      // ex : "0x123456789"
+      si  VérifieExpressionRégulière(s,REGEXPTOKEN_NUMHEXAWL) alors
+      	valeur_OUT = HexaVersEntier(Milieu(s,3))
+      	renvoyer vrai
+      fin
+      // support du format "1234h"
+      si VérifieExpressionRégulière(s,REGEXPTOKEN_NUMHEXA2) ALORS
+      	valeur_OUT = HexaVersEntier(gauche(s,taille(s)-1))
+      	RENVOYER Vrai
+      FIN
+      
+      // si c'est un entier
+      si VérifieExpressionRégulière(s,REGEXPTOKEN_NUMDECIMAL) alors
+      	valeur_OUT = val(s)
+      	renvoyer vrai
+      FIN
+      
+      // si c'est un caractère
+      SI VérifieExpressionRégulière(s,REGEXPTOKEN_CHAR8BIT) ALORS 
+      	valeur_OUT = Asc( milieu(s,2,1))
+      	renvoyer vrai
+      FIN
+      
+      
+      // pas une valeur immédiate
+      renvoyer faux
+     type : 458752
+   -
+     name : bEstLabel
+     procedure_id : 1977866189681168176
+     type_code : 15
+     code : |1+
+      procédure bEstLabel( sValeur chaine)
+      
+      // pas un regesitre
+      si bEstRegistre(sValeur) ALORS
+      	renvoyer faux
+      FIN
+      // doit commencer par une lettre ou puis lettre est chiffres.
+      renvoyer VérifieExpressionRégulière(sValeur, REGEXPTOKEN_LABEL)
+     type : 458752
+   -
+     name : bEstLigneVide
+     procedure_id : 1979002114068187235
+     type_code : 15
+     code : |1-
+      // indique si une ligne est vide ou juste une commentaire
+      procédure globale bEstLigneVide(sCodeAsm1Ligne chaine) : booléen
+      
+      SI sCodeAsm1Ligne=""     ALORS RENVOYER Vrai
+      SI sCodeAsm1Ligne[1]=";" ALORS RENVOYER Vrai
+      SI gauche(sCodeAsm1Ligne,2) = "//" ALORS RENVOYER Vrai
+      
+      // ligne non vide
+      renvoyer faux
+     type : 458752
+   -
+     name : AnalyseSyntaxiqueLigne
+     procedure_id : 1977866189681233712
+     type_code : 15
+     code : |1+
+      // analyse syntaxe d'une ligne de code assembleur
+      // 
+      // format :
+      // label: OPCODE P1,P2,P3 ;Coommentaire
+      Procédure AnalyseSyntaxiqueLigne( local sCodeAsm1Ligne est chaine  ) : ( chaine, chaine, tableau de chaine)
+      
+      // recherche d'un label
+      sLabel  est une chaîne
+      si position(sCodeAsm1Ligne,":")>0 ALORS
+      	sLabel  		= ExtraitChaîne(sCodeAsm1Ligne,1,":")
+      	si position(sLabel," ")>0 _ou_ position(sLabel,TAB)>0 ALORS
+      		// pas un label
+      		sLabel=""
+      	sinon
+      		sCodeAsm1Ligne  = milieu(sCodeAsm1Ligne,taille(sLabel)+2) // +1 pour le ":"; +1 pour commencer apres
+      	fin
+      FIN
+      // supprimer les commentaires ; ou //
+      // ex : "	ret ; fin du code" => "   ret"
+      SI Position(sCodeAsm1Ligne,";")>0 ALORS
+      	sCodeAsm1Ligne  = ExtraitChaîne(sCodeAsm1Ligne,1,";")
+      sinon si Position(sCodeAsm1Ligne,"//")>0 ALORS
+      	sCodeAsm1Ligne  = ExtraitChaîne(sCodeAsm1Ligne,1,"//")
+      fin
+      
+      // supprime TAB et espace
+      sCodeAsm1Ligne = Remplace(sCodeAsm1Ligne,TAB," ")
+      sCodeAsm1Ligne = SansEspace(sCodeAsm1Ligne)
+      
+      sopcode est une chaîne	= ExtraitChaîne(sCodeAsm1Ligne,1," ")
+      sParams est une chaîne	= SansEspace(milieu(sCodeAsm1Ligne, taille(sopcode) + 1))
+      
+      TabParam est un tableau de chaînes
+      si sParams<>"" alors
+      	pour TOUTE CHAINE sParamI DE sParams séparée par ","
+      		// ignorer les espaces avant/apres
+      		sParamOK est chaine = SansEspace(sParamI)
+      		TabParam.Ajoute(sParamOK)
+      	FIN
+      fin
+      
+      renvoyer  (sLabel, sopcode, TabParam)
+     type : 458752
+   -
+     name : bAnalyseChaineVersModeAdressage
+     procedure_id : 1977866189681299248
+     type_code : 15
+     code : |1+
+      PROCÉDURE bAnalyseChaineVersModeAdressage( sExpr est une chaîne, adressage_OUT est ValeurOpérande )
+      
+      // si c'est le nom d'un registre. ex "EAX"
+      SI bEstRegistre(sExpr) ALORS
+      	adressage_OUT.modeAdres	 = ValeurOpérande::MA_Registre
+      	adressage_OUT.registre  = Minuscule(sExpr)
+      	RENVOYER  Vrai
+      FIN
+      
+      // si c'est nun indirection. ex : [EBX + 4]
+      SI _bChaineVersIndirectionRegistre(sExpr, adressage_OUT) ALORS
+      	adressage_OUT.modeAdres = ValeurOpérande::MA_Indirection
+      	RENVOYER Vrai
+      FIN
+      
+      // si c'est une valeur immédiate
+      valeur est un entier sur 8 octets sans signe 
+      SI bEstValeurImmediate(sExpr,valeur) ALORS
+      	adressage_OUT.modeAdres       = ValeurOpérande::MA_Immemdiat
+      	adressage_OUT.valeurImmediate = valeur
+      	RENVOYER Vrai
+      FIN
+      
+      // si c'est un lablel
+      SI bEstLabel(sExpr) ALORS
+      	adressage_OUT.modeAdres  = ValeurOpérande::MA_Label
+      	adressage_OUT.label = sExpr
+      	RENVOYER Vrai
+      FIN
+      
+      
+      // pas un mode d'adressage valide
+      RENVOYER Faux
+      
+     type : 458752
+   -
+     name : _bChaineVersIndirectionRegistre
+     procedure_id : 1977866189681364784
+     type_code : 15
+     code : |1+
+      // indique si une expression représente une indirection.
+      // si oui revoie l'objet qui la représente
+      // ex : "[EBP+12]"
+      PROCÉDURE prive _bChaineVersIndirectionRegistre( local sExpr est une chaîne, valeur_OUT est ValeurOpérande )
+      
+      // si ca commence par un modifier de taille. ex : dword ptr
+      SI  Gauche(sExpr,9)="qword ptr" alors
+      	// taille pointée sur 64 bits
+      	valeur_OUT.ValeurOpérande.taillePtr = 64
+      	sExpr=SansEspace( milieu(sExpr,10),sscGauche)
+      FIN
+      SI Gauche(sExpr,9)="dword ptr" ALORS
+      	valeur_OUT.ValeurOpérande.taillePtr = 32
+      	sExpr=SansEspace( Milieu(sExpr,10), sscGauche)
+      FIN
+      SI Gauche(sExpr,8)="byte ptr" ALORS
+      	valeur_OUT.ValeurOpérande.taillePtr = 8
+      	sExpr=SansEspace( Milieu(sExpr,9), sscGauche)
+      FIN
+      
+      
+      SI Gauche(sExpr,1) <>"[" _ou_ Droite(sExpr,1)<>"]" ALORS
+      	// pas un indirection
+      	renvoyer FAUX
+      fin
+      
+      sMilieu est chaine = Milieu(sExpr,2, taille(sExpr)-2) // récup valeur entre [ ]
+      valeur_OUT.registre  =  minuscule( SansEspace( ExtraitChaîne(sMilieu,1,"+") ) )
+      // doit commencer par  un registre. 
+      SI PAS bEstRegistre(valeur_OUT.registre) ALORS
+      	// pas un regitre
+      	//ErreurDéclenche(ERR_COMPILATION_ASM, ChaîneConstruit(<§@1b6c8f2e01d8cdb10000§>, sReg_Out) )
+      	RENVOYER Faux
+      FIN
+      
+      sDepl est chaine = SansEspace(ExtraitChaîne(sMilieu,2,"+"))
+      // si c'est [EBP+EAX]
+      SI  bEstRegistre(sDepl)
+      	valeur_OUT.registre2 = minuscule(sDepl)
+      	sDepl = SansEspace(ExtraitChaîne(sMilieu,3,"+"))
+      fin	
+      SI sDepl=EOT ALORS
+      	valeur_OUT.deplacement = 0
+      SINON
+      	val64 est un entier sur 8 octets sans signe
+      	SI PAS bEstValeurImmediate( sDepl, val64) ALORS
+      		//ErreurDéclenche(ERR_COMPILATION_ASM, ChaîneConstruit(<§@1b6c8f2e01d8cdb10001§>,sDepl))
+      		RENVOYER Faux
+      	FIN
+      	valeur_OUT.deplacement = val64
+      FIN
+      // c'est une indirect sur registre 
+      RENVOYER Vrai
+     type : 458752
+  procedure_templates : []
+  property_templates : []
+ code_parameters :
+  internal_properties : BBYAAAAhAAAAAAABBA4UKMBAAIAAIwwUMLABwYEJEwYE
+  original_name : ProcéduresGlobales1
+resources :
+ string_res :
+  identifier : 0x1b6c8f2e01d8cdb1
+  internal_properties : BBUAAAAjAAAAAAABBA4UKMBAAIAAJxAc+IBhAoYCAwI=
+  strings :
+   -
+     text :
+      fr-FR : "Erreur de syntaxe : registre attendue au lieu de <%1>"
+     index : 0
+   -
+     text :
+      fr-FR : "Erreur de syntaxe : valeur immédiate attendu au lieu de <%1>"
+     index : 1
+custom_note :
+ internal_properties : BBYAAAApAAAAAAABBA4UKGDAwAwDGwwUQNChwAQPAwQE

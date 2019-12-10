@@ -1,0 +1,176 @@
+#To edit and compare internal_properties, use WINDEV integrated tools.
+#Internal properties refer to the properties of controls in windows, reports, etc.
+info :
+ name : AllocateurDeMemExecutable
+ major_version : 25
+ minor_version : 0
+ type : 4
+ description : ""
+ subtype : 0
+class :
+ identifier : 0x1b6542580025881d
+ internal_properties : BBYAAAAoAAAAAAABBA4UKABBAIAAMQwkQDCABIcRHQYE
+ code_elements :
+  type_code : 10
+  p_codes :
+   -
+     code : |1+
+      AllocateurDeMemExecutable est une Classe
+      	// blocs de mémmoires alloués
+      	tabBlocAlloué est un tableau d'entier système
+      	// taille par défaut d'un bloc
+      	nTaillDefautBloc   est un entier
+      	// fin du bloc en cours et taille dispo dedans
+      	pfinBloc est un entier système
+      	nTailleDispo est entier
+      FIN
+      
+      // constantes pour les API WIN32 VirtualAlloc, VirtualProtect,  VirtualFree 
+      CONSTANT
+      	MEM_COMMIT  	=            0x00001000 
+      	MEM_RESERVE	 	=            0x00002000 
+      	
+      	PAGE_EXECUTE 			=	0x10
+      	PAGE_READWRITE			=	0x04
+      	PAGE_EXECUTE_READWRITE 	=   0x40 
+      	
+      	MEM_RELEASE				= 0x8000
+      FIN 
+     type : 131072
+  procedures :
+   -
+     name : Constructeur
+     procedure_id : 1974056957398911005
+     type_code : 27
+     code : |1+
+      PROCEDURE Constructeur()
+      	// init taille bloc
+      	:nTaillDefautBloc = _nGetTailleBlocAlloc()
+      
+     type : 589824
+   -
+     name : Destructeur
+     procedure_id : 1974056957398976541
+     type_code : 28
+     code : |1+
+      PROCEDURE Destructeur()
+      // libération
+      POUR TOUT p DE :tabBlocAlloué
+      	_Free( p )
+      FIN
+      
+     type : 655360
+   -
+     name : pNouvelleZoneExecutable
+     procedure_id : 1974057197917201164
+     type_code : 12
+     code : |1+
+      // renvoie une zone de mémoire exécutable
+      procédure pNouvelleZoneExecutable( local tailleCode est un entier) : entier système
+      
+      // multiple de 8
+      si  modulo(tailleCode,8)<>0
+      	tailleCode = tailleCode + 8 - modulo(tailleCode,8)
+      fin
+      
+      // si pas assez de place dans le bloc en cours
+      si nTailleDispo<tailleCode alors
+      	// si on a besoin d'un gros bloc
+      	nTailleAlloc est entier = :nTaillDefautBloc
+      	si tailleCode>nTailleAlloc ALORS
+      		// alloc d'un gros bloc
+      		nTailleAlloc =  tailleCode 
+      		// la taille doit être un multiplie de :nTaillDefautBloc
+      		si nTailleAlloc modulo :nTaillDefautBloc <> 0 alors
+      			nTailleAlloc += :nTaillDefautBloc - (nTailleAlloc modulo :nTaillDefautBloc)
+      		fin
+      	fin
+      	// allocation d'un nouveau  bloc
+      	:pfinBloc 		= _pAlloueNouveauBloc(:nTaillDefautBloc)
+      	:nTailleDispo	= :nTaillDefautBloc
+      	
+      FIN
+      
+      // renvoie la suite dans la zone dispo
+      p est entier système  = :pfinBloc 
+      :pfinBloc			 += tailleCode 
+      :nTailleDispo		 -= tailleCode
+      
+      renvoyer p
+     type : 458752
+   -
+     name : _nGetTailleBlocAlloc
+     procedure_id : 1974057485680077261
+     type_code : 12
+     code : |1+
+      // récup de la taille de bloc de mémoire
+      procéduré privée _nGetTailleBlocAlloc() : entier
+      
+      // renvoie la taille d'un page de mémoire
+      SYSTEM_INFO  est composé de
+      	wProcessorArchitecture est un entier sur 2 octets
+      	wReserved			   est un entier sur 2 octets
+      	dwPageSize 	   est un entier sur 4 octets
+      	lpMinimumApplicationAddress est entier système
+      	lpMaximumApplicationAddress est entier système
+      	dwActiveProcessorMask est entier système
+      	dwNumberOfProcessors est entier sur 4 sans signe
+      	dwProcessorType est entier sur 4 sans signe
+      	dwAllocationGranularity est entier sur 4 sans signe
+      	wProcessorLevel est entier sur 2 sans signe
+      	wProcessorRevision est entier sur 2 sans signe
+      FIN
+      API("kernel32.dll","GetSystemInfo", &SYSTEM_INFO)
+      tailleCode est un entier = SYSTEM_INFO.dwPageSize;
+      
+      renvoyer tailleCode
+     type : 458752
+   -
+     name : _pAlloueNouveauBloc
+     procedure_id : 1974058306018890444
+     type_code : 12
+     code : |1+
+      // allocation d'un nouveau bloc de taile <nTailleAlloc> et ajout dans <tabBlocAlloué>
+      Procédure privée _pAlloueNouveauBloc( nTailleAlloc entier ) : entier système
+      dbgAssertion(nTailleAlloc>0)
+      
+      // alloc RAM pour le code
+      // NB :PAGE_READWRITE + PAGE_EXECUTE echoue ici, alors on le fait en 2 étapes
+      //#define MEM_DECOMMIT                0x00004000  
+      p est entier système
+      p = API("kernel32.dll","VirtualAlloc", 0, nTailleAlloc, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE)
+      dbgAssertion(p<>0)
+      
+      // modification des flags de protection de la zone
+      NewProtect  est un entier sur 4 octets sans signe =PAGE_EXECUTE_READWRITE
+      OldProtect  est un entier sur 4 octets sans signe =0
+      bok est un booléen = API("kernel32.dll","VirtualProtect",p,nTailleAlloc, NewProtect, &OldProtect)
+      dbgAssertion(bok)
+      
+      // ajout dans la table des blocs
+      tabBlocAlloué.Ajoute( p )
+      
+      // renvoie la zone exécutable de taille <:nTailleBloc>
+      renvoyer p
+     type : 458752
+   -
+     name : _Free
+     procedure_id : 1974062085590205070
+     type_code : 12
+     code : |1-
+      // libération d'un bloc alloué par _pAlloueNouveauBloc()
+      procédure privée _Free( p entier système)
+      
+      API("kernel32.dll","VirtualFree", p, 0, MEM_RELEASE  )
+     type : 458752
+  procedure_templates : []
+  property_templates : []
+ code_parameters :
+  internal_properties : BBYAAAAhAAAAAAABBA4UKMBAAIAAIwwUMLABwYEJEwYE
+  original_name : Classe1
+resources :
+ string_res :
+  identifier : 0x1b6542350022fee8
+  internal_properties : BBUAAAAjAAAAAAABBA4UKMBAAIAAJxAc+IBhAoYCAwI=
+custom_note :
+ internal_properties : BBYAAAApAAAAAAABBA4UKGDAwAwDGwwUQNChwAQPAwQE

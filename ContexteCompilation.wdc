@@ -1,0 +1,91 @@
+#To edit and compare internal_properties, use WINDEV integrated tools.
+#Internal properties refer to the properties of controls in windows, reports, etc.
+info :
+ name : ContexteCompilation
+ major_version : 25
+ minor_version : 0
+ type : 4
+ description : ""
+ subtype : 0
+class :
+ identifier : 0x1b6be79d01343f59
+ internal_properties : BBYAAAAoAAAAAAABBA4UKABBAIAAMQwkQDCABIcRHQYE
+ code_elements :
+  type_code : 10
+  p_codes :
+   -
+     code : |1+
+      ContexteCompilation est une Classe
+      	// ligne en cours de compilation
+      	nLigneSource est entier
+      	
+      	// position  dans le binaire produit (au début de l'instruction en cours)
+      	nOffsetDest est entier	 
+      	// taille du code avant le paramètre en cours d'encodage
+      	offsetDansInstruction est entier
+      	// talle des opérandes 
+      	tailleOpérande est un entier
+      	
+      	// symboles rencontrés durant la compilation
+      	tabSymboleRencontré est un tableau associatif de variant
+      	
+      	// symboles a patcher après la passe de compilation
+      	tabUtlisationSymbole est un tableau associatif de variant
+      FIN
+     type : 131072
+  procedures :
+   -
+     name : Constructeur
+     procedure_id : 1975927523048243033
+     type_code : 27
+     code : |1+
+      PROCEDURE Constructeur()
+      
+     type : 589824
+   -
+     name : Destructeur
+     procedure_id : 1975927523048308569
+     type_code : 28
+     code : |1+
+      PROCEDURE Destructeur()
+     type : 655360
+   -
+     name : onDéclarationLabel
+     procedure_id : 1975928205948201815
+     type_code : 12
+     code : |1-
+      // appeléelorsqueueueueuee la corencontretretretretrere une déclaration de label.
+      // ex : boucle:  inc eax
+      procédure onDéclarationLabel( sLabel chaine )
+      
+      :tabSymboleRencontré[sLabel].offset = :nOffsetDest
+     type : 458752
+   -
+     name : onUtilisationLabel
+     procedure_id : 1975929447193776825
+     type_code : 12
+     code : |1-
+       // appeléeeeee lors de la rencontre d'un label durant la compilation.
+       // ex : JMP boucle:
+       // pour patcher avec la bonne valeur a la fin de la compilation
+       procédure onUtilisationLabel( sLabel chaine,  offsetInstruction entier,  nTaille entier, operande est TypeOpérande )
+       
+       sClé est chaine = sLabel + ":" + :nLigneSource
+       tabUtlisationSymbole[sClé].offsetDestAddr= :nOffsetDest + offsetInstruction
+       tabUtlisationSymbole[sClé].offsetPatch	= :nOffsetDest + offsetInstruction
+       tabUtlisationSymbole[sClé].taille 		= nTaille
+       tabUtlisationSymbole[sClé].typeOperande  = operande
+       tabUtlisationSymbole[sClé].ligne		    = :nLigneSource
+       tabUtlisationSymbole[sClé].label		    = sLabel
+     type : 458752
+  procedure_templates : []
+  property_templates : []
+ code_parameters :
+  internal_properties : BBYAAAAhAAAAAAABBA4UKMBAAIAAIwwUMLABwYEJEwYE
+  original_name : Classe1
+resources :
+ string_res :
+  identifier : 0x1b6be76d01318427
+  internal_properties : BBUAAAAjAAAAAAABBA4UKMBAAIAAJxAc+IBhAoYCAwI=
+custom_note :
+ internal_properties : BBYAAAApAAAAAAABBA4UKGDAwAwDGwwUQNChwAQPAwQE

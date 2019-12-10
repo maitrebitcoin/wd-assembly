@@ -1,0 +1,258 @@
+#To edit and compare internal_properties, use WINDEV integrated tools.
+#Internal properties refer to the properties of controls in windows, reports, etc.
+info :
+ name : BddAsmX86
+ major_version : 25
+ minor_version : 0
+ type : 7
+ description : ""
+ subtype : 0
+procedure_set :
+ identifier : 0x1b72cb3701461c29
+ internal_properties : BBYAAAAkAAAAAAABBA4UKABBAIAAKQwUEEACQYgRAwQE
+ code_elements :
+  type_code : 31
+  p_codes :
+   -
+     code : |1+
+      
+      registres est un variant
+      tabHRegistre est un tableau associatif de variant
+      
+      
+      // types possible pour les opérandes
+      CONSTANT
+          // types de registres. 
+      	REGISTRE_8BITS  	 	  = "r8"
+      	REGISTRE_16BITS  	 	  = "r16"
+      	REGISTRE_16Ou2BITS 		  = "r16/32"
+      	REGISTRE_16Ou32ou64BITS   = "r16/32/64" // AL ou AX ou EAX ou RAX
+      	REGISTRE_32BITS 		  = "r32"
+      	REGISTRE_64BITS 		  = "r64"
+      	REGISTRE_32ou64BITS		  = "r32/64"
+      	REGISTRE_STATUS			  = "sreg"
+      	REGISTRE_CONTROL		  = "creg"
+      	REGISTRE_DEBUG			  = "dreg"
+      	
+      	IMMEDIATE_8BITS 	 	= "imm8"
+      	IMMEDIATE_16BITS 	 	= "imm16"
+      	IMMEDIATE_16ou32BITS 	= "imm16/32"
+      	IMMEDIATE_16ou32ou64BITS= "imm16/32/64"
+      	
+      	RELATIF_8BIT			 ="rel8"	 // ex : JNZ loop
+      	RELATIF_16ou32			 ="rel16/32" // ex : CALL Proc
+      
+      	MOD_REG_RM_32BITS		="r/m32" 
+      	MOD_REG_RM_16_OU_32BITS ="r/m16/32" 
+      //	MOD_REG_RM_16_32_64BITS ="r/m16/32/64" // AL ou AX ou EAX ou RAX
+      	MOD_REGISTRE_OU_INDIRCET_8BITS 	="r/m8" 
+      	
+      	// spécial
+      	MEMORY_16BITS			= "m16"
+      	INDIRECT_REL_8BIT		= "moffs8"     // ex : MOV AL,moffs8*	Move byte at (seg:offset) to AL.
+      	INDIRECT_REL_16ou32BIT	= "moffs16/32" // ex : MOV EAX,moffs32*	Move doubleword at (seg:offset) to EAX.
+      FIN
+      
+      // registres X86 au format JSON
+      SRegJson est chaine = 
+      [
+      	{
+      	"r8"  : { "type": "gp"  , "any": "r8"   , "nom": ["al", "cl"   , "dl", "bl", "ah", "ch"   , "dh", "bh"] },
+      	"r16" : { "type": "gp"  , "any": "r16"  , "nom": ["ax", "cx"   , "dx", "bx", "sp", "bp", "si", "di"] },
+      	"r32" : { "type": "gp"  , "any": "r32"  , "nom": ["eax", "ecx" , "edx","ebx", "esp", "ebp", "esi", "edi"] },
+      	"r64" : { "type": "gp"  , "any": "r64"  , "nom": ["rax", "rcx" , "rdx","rbx", "rsp", "rbp", "rsi", "rdi"] },
+      	"rxx" : { "type": "gp"                  , "nom": ["zax", "zcx" , "zdx","zbx", "zsp", "zbp", "zsi", "zdi"] },
+      	"sreg": { "type": "sreg", "any": "sreg" , "nom": ["es", "cs"   , "ss", "ds", "fs", "gs" ] },
+      	"creg": { "type": "creg", "any": "creg" , "nom": ["cr0","cr1","cr2","cr3","cr4","cr5","cr6","cr7"]  },
+      	"dreg": { "type": "dreg", "any": "dreg" , "nom": ["dr0","dr1","dr2","dr3","dr4","dr5","dr6","dr7"]  }
+      	}
+      ]
+      //@TDOD support mmx 
+       
+      registres = JSONVersVariant(SRegJson)
+      POUR TOUT Famille de registres
+      	i est un entier = 0
+      	pour tout regI de Famille.nom
+      		tabHRegistre[regI].type   = Famille..Nom
+      		tabHRegistre[regI].valeur = i
+      		i++
+      	FIN
+      FIN
+      // Ajout des registre R8-15 64 bits
+      pour nReg=8 a 15
+      	regI est chaine = "r"+nReg
+      	tabHRegistre[regI].type   = "r64"
+      	tabHRegistre[regI].valeur = nReg
+      	
+      FIN
+      
+      // options d'encodage pur les paramètres
+      CONSTANT
+      	ENCODAGE_ADDREGTOOPCODE = "+reg"
+      	ENCODAGE_AUCUN			= ""
+      	ENCODAGE_RM				= "r"
+      FIN
+      
+      // -- Instructions x86 et paramètres au format CVS -------
+      sFicCvs est chaine = "instructionsX86.csv"
+      	//@pour charger depuis la WDL ou le disque en mode test
+      	PROCÉDURE INTERNE _fChargeRessourceTexte(sFic chaine )
+      		sResultat est chaine 
+      		SI EnModeTest() ALORS
+      			// cas \exe
+      			sResultat = fChargeTexte( fRepExe()+"\..\" + sFic)
+      			SI PAS ErreurDétectée ALORS RENVOYER sResultat
+      			// cas \exe\Composant
+      			sResultat  = fChargeTexte( fRepExe()+"\..\..\" + sFic)
+      			SI PAS ErreurDétectée ALORS RENVOYER sResultat		
+      		FIN
+      		// dans le composant
+      		sNomCourt est chaine = fExtraitChemin(sFic,fFichier+fExtension)
+      		sResultat = fChargeTexte("WDL:"+sFic)
+      		SI PAS ErreurDétectée ALORS RENVOYER sResultat
+      		dbgAssertion(Faux,"Echec de chargement de "+RC+sFic)
+      		RENVOYER ""
+      	FIN
+      
+      gsTableIntruction est chaine = _fChargeRessourceTexte( sFicCvs )
+      dbgAssertion( gsTableIntruction<>"",  ErreurInfo() )
+      
+      
+      
+      // init table des instructions
+      tabInstruction est un tableau associatif de variants
+      numLigne est un entier = 0
+      POUR TOUTE CHAÎNE sLigneI DE gsTableIntruction séparée par RC
+      	numLigne++
+      	// ignorer la 1er ligne
+      	si numligne =1 ALORS
+      		continuer
+      	FIN
+      	// ajout de la decption de la synxtaxe d'une opération
+      	TypeInst est SyntaxeInstructionX86
+      	TypeInst.InitFromDescription( sLigneI )
+      	sSyntaxe est chaine = TypeInst.GetSyntaxe()
+      	
+      	// ajout au tableau des syntaxe pour l'opération <TypeInst.mnemonique>
+      	si pas tabInstruction[TypeInst.mnemonique]..Existe ALORS
+      		x est un tableau de SyntaxeInstructionX86
+      		tabInstruction[TypeInst.mnemonique] = x
+      		TableauAjoute( tabInstruction[TypeInst.mnemonique],  TypeInst )
+      	sinon
+      		TableauAjoute( tabInstruction[TypeInst.mnemonique],  TypeInst )
+      	FIN
+      FIN
+      
+      constant
+      	// 2 bits MOD du champ de bit "MOD REG R/M" qui spécifie le mode d'adressage des paramètres
+      	MODREGRM_MOD_Indirection		  = 0  // ex : [EBX]
+      	MODREGRM_MOD_Indirectio_Plus8Bit  = 1  // ex : [ebp + 32]
+      	MODREGRM_MOD_Indirectio_Plus32Bit = 2  // ex : [ebp + 0x1200]
+      	MODREGRM_MOD_Registre		      = 3  // ex :  ebx 
+      	
+      FIN
+     type : 720896
+   -
+     code : |1-
+      
+     type : 720898
+  procedures :
+   -
+     name : nIndiceRegistre
+     procedure_id : 1977866623474146345
+     type_code : 15
+     code : |1+
+      // renvoie l'indice d'un registe. commence a à 0 pour EAX par ex.
+      PROCÉDURE GLOBALE nIndiceRegistre( local nomRegistre chaine)
+      
+      
+      // recherche dans le talbeuan assosisatif des registres x86 connus
+      SI PAS tabHRegistre[nomRegistre]..Existe ALORS
+      	// pas trouvé
+      	dbgAssertion(Faux, nomRegistre )
+      	RENVOYER 0
+      FIN
+      // renvoyer l'indice
+      nIndice est un entier = tabHRegistre[nomRegistre].valeur
+      renvoyer nIndice
+      
+      
+     type : 458752
+   -
+     name : rechecheTypeInstruction
+     procedure_id : 1977866623474211881
+     type_code : 15
+     code : |1+
+      // recherche d'un syntaxe compatible pour la mnémonique <sopcode>
+      // ex "MOV"
+      PROCÉDURE rechecheTypeInstruction( sopcode chaine ) 
+      
+      // recherche de toute les syntaxe pour la commande <sOpcoe> en minuscules (format de la base des instructions)
+      sMnemonique est chaine = Minuscule(sopcode)
+      SI PAS tabInstruction[sMnemonique]..Existe ALORS
+      	// aucune syntaxe trouvée
+      	tabVide est un tableau de SyntaxeInstructionX86
+      	RENVOYER tabVide
+      FIN
+      
+      RENVOYER tabInstruction[sMnemonique]
+     type : 458752
+   -
+     name : bEstRegistre
+     procedure_id : 1977866623474277417
+     type_code : 15
+     code : |1+
+      // indique si <sExpr> représente un registre.
+      // ex "EAX"
+      procédure bEstRegistre( sExpr est une chaîne )
+      
+      // recherche dans le talbeuan assosisatif des registres x86 connus
+      si pas tabHRegistre[Minuscule(sExpr)]..Existe ALORS
+      	renvoyer faux
+      FIN
+      // c'est un regsitre
+      renvoyer vrai
+     type : 458752
+   -
+     name : bEstRegistreDeType
+     procedure_id : 1977866623474342953
+     type_code : 15
+     code : |1+
+      // indique si <sExpr> représente un registre et qu'il est d'un type donné (ex "r32").
+      // ex "EAX"
+      procédure bEstRegistreDeType( sExpr chaine, sTYpe chaine ) : booléen
+      
+      // recherche dans le talbleau des registres x86 connus
+      SI PAS tabHRegistre[sExpr]..Existe ALORS
+      	RENVOYER Faux
+      FIN
+      // regarde si c'est le bon type
+      si tabHRegistre[sExpr].type <> sTYpe ALORS
+      	renvoyer faux
+      FIN
+      
+      // c'est un regsitre et il est du type demandé
+      RENVOYER Vrai
+     type : 458752
+   -
+     name : sgetTypeRegistre
+     procedure_id : 1977866623474408489
+     type_code : 15
+     code : |1+
+      procédure sgetTypeRegistre( sRegistre est chaine ) : chaîne
+      
+      stype est chaine =  tabHRegistre[sRegistre].type
+      renvoyer stype
+      
+     type : 458752
+  procedure_templates : []
+  property_templates : []
+ code_parameters :
+  internal_properties : BBYAAAAhAAAAAAABBA4UKMBAAIAAIwwUMLABwYEJEwYE
+  original_name : ProcéduresGlobales1
+resources :
+ string_res :
+  identifier : 0x1b6573380052758e
+  internal_properties : BBUAAAAjAAAAAAABBA4UKMBAAIAAJxAc+IBhAoYCAwI=
+custom_note :
+ internal_properties : BBYAAAApAAAAAAABBA4UKGDAwAwDGwwUQNChwAQPAwQE
