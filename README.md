@@ -24,5 +24,5 @@ Trace( maProcAssembleur( x ) ) // affiche 1234
 
 # Détail
 Le code source est au format *texte* **WINDEV 25**.
-Il faut avoir WinDev 25 installé pour pouvoir le compiler.
+Il faut avoir **WINDEV 25** installé pour pouvoir le compiler.
 Il génère un composant externe qui peut ensuite être utilisé dans tout projet **WINDEV** ou **WEBDEV**.
