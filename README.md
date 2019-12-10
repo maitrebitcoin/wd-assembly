@@ -1,7 +1,7 @@
 # wd-asssembly
-Exécuter de l'**assembleur** en **WLangage** / Execute **assembly** code in **WLangage**
+Exécuter de l'assembleur en **WLangage** / Execute assembly code in **WLangage**
 
-# exemple
+# Exemple
 ```javascript
 sCodeAsm est chaîne  = [
 ```
@@ -15,14 +15,14 @@ sCodeAsm est chaîne  = [
 ```javascript
 ]
 maProcAssembleur est une Procédure = compileAsmX86( sCodeAsm )
-Trace( maProcAssembleur( x ) )
+Trace( maProcAssembleur( x ) ) // affiche 1234 
 ```
 
-# asm supportés
+# Asm supportés
 - intel x86 32 bits
 - intel x86 64 bits
 
-# détail
-Le code source est au format **texte** WinDev 25.
+# Détail
+Le code source est au format *texte* **WINDEV 25**.
 Il faut avoir WinDev 25 installé pour pouvoir le compiler.
-Il génère un composant externe qui peut ensuite être utilisé dans tout projet *WinDev* ou *WebDev*.
+Il génère un composant externe qui peut ensuite être utilisé dans tout projet **WINDEV** ou **WEBDEV**.
