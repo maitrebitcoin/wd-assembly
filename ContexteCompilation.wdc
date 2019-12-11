@@ -9,7 +9,7 @@ info :
  subtype : 0
 class :
  identifier : 0x1b6be79d01343f59
- internal_properties : BBYAAAAoAAAAAAABBA4UKABBAIAAMQwkQDCABIcRHQYE
+ internal_properties : BQAAAAUAAAB2/vstTMCJbS/hlxjFxirSqKvCUuv8YxgpWyl7S3iA
  code_elements :
   type_code : 10
   p_codes :
@@ -81,11 +81,11 @@ class :
   procedure_templates : []
   property_templates : []
  code_parameters :
-  internal_properties : BBYAAAAhAAAAAAABBA4UKMBAAIAAIwwUMLABwYEJEwYE
+  internal_properties : BQAAAAUAAAA6ih3UbgNXHwTtiPSFUEj+2fi/m7v4QV2rqidAupM=
   original_name : Classe1
 resources :
  string_res :
   identifier : 0x1b6be76d01318427
-  internal_properties : BBUAAAAjAAAAAAABBA4UKMBAAIAAJxAc+IBhAoYCAwI=
+  internal_properties : BQAAAAUAAAAnMYFQ1bL/vz9ehh7L22SNNSlIzGTOI8h5F/WtgDNP
 custom_note :
- internal_properties : BBYAAAApAAAAAAABBA4UKGDAwAwDGwwUQNChwAQPAwQE
+ internal_properties : BQAAAAUAAABtB9HWVzrXO2+4NDRVK0vmzaNKrCKqH1DBX30lMmGZ

@@ -9,9 +9,9 @@ info :
  subtype : 0
 class :
  identifier : 0x1b654a3600334512
- internal_properties : BBYAAAAoAAAAAAABBA4UKABBAIAAMQwkQDCABIcRHQYE
+ internal_properties : BQAAAAUAAAB2/vstTMCJbS/hlxjFxirSqKvCUuv8YxgpWyl7S3iA
  code_elements :
-  internal_properties : BDEAAAC/AAAAAAABBA4UKMBAAIAAXxEcuGrgAoYRJU6kWNHiRYwZM/6DkNCjRwEDGwwMmbFkgAkkMQYE
+  internal_properties : BQAAAAUAAACmcEcPUOl8P88f4DqAteA6m/Mt111GGOClrNjaLJ9vO63bNEtdrqYoCCnjX1eG34p8AOi72Du5JSuppQ==
   type_code : 10
   p_codes :
    -
@@ -339,12 +339,12 @@ class :
   procedure_templates : []
   property_templates : []
  code_parameters :
-  internal_properties : BBYAAAAhAAAAAAABBA4UKMBAAIAAIwwUMLABwYEJEwYE
+  internal_properties : BQAAAAUAAAA6ih3UbgNXHwTtiPSFUEj+2fi/m7v4QV2rqidAupM=
   original_name : Classe1
 resources :
  string_res :
   identifier : 0x1b654a130030bb60
-  internal_properties : BBUAAAAjAAAAAAABBA4UKMBAAIAAJxAc+IBhAoYCAwI=
+  internal_properties : BQAAAAUAAAAnMYFQ1bL/vz9ehh7L22SNNSlIzGTOI8h5F/WtgDNP
   strings :
    -
      text :
@@ -371,4 +371,4 @@ resources :
       fr-FR : Taille des paramètres incompatible.
      index : 5
 custom_note :
- internal_properties : BBYAAAApAAAAAAABBA4UKGDAwAwDGwwUQNChwAQPAwQE
+ internal_properties : BQAAAAUAAABtB9HWVzrXO2+4NDRVK0vmzaNKrCKqH1DBX30lMmGZ

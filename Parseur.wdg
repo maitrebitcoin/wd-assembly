@@ -9,7 +9,7 @@ info :
  subtype : 0
 procedure_set :
  identifier : 0x1b72cad201318f30
- internal_properties : BBYAAAAkAAAAAAABBA4UKABBAIAAKQwUEEACQYgRAwQE
+ internal_properties : BQAAAAUAAABGLu41kG7fjQV3iS4F72qmnKaNh5694reolNKIW0iw
  code_elements :
   type_code : 31
   p_codes :
@@ -255,12 +255,12 @@ procedure_set :
   procedure_templates : []
   property_templates : []
  code_parameters :
-  internal_properties : BBYAAAAhAAAAAAABBA4UKMBAAIAAIwwUMLABwYEJEwYE
+  internal_properties : BQAAAAUAAAA6ih3UbgNXHwTtiPSFUEj+2fi/m7v4QV2rqidAupM=
   original_name : ProcéduresGlobales1
 resources :
  string_res :
   identifier : 0x1b6c8f2e01d8cdb1
-  internal_properties : BBUAAAAjAAAAAAABBA4UKMBAAIAAJxAc+IBhAoYCAwI=
+  internal_properties : BQAAAAUAAAAnMYFQ1bL/vz9ehh7L22SNNSlIzGTOI8h5F/WtgDNP
   strings :
    -
      text :
@@ -271,4 +271,4 @@ resources :
       fr-FR : "Erreur de syntaxe : valeur immédiate attendu au lieu de <%1>"
      index : 1
 custom_note :
- internal_properties : BBYAAAApAAAAAAABBA4UKGDAwAwDGwwUQNChwAQPAwQE
+ internal_properties : BQAAAAUAAABtB9HWVzrXO2+4NDRVK0vmzaNKrCKqH1DBX30lMmGZ

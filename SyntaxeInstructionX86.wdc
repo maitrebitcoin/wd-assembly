@@ -9,9 +9,9 @@ info :
  subtype : 0
 class :
  identifier : 0x1b6d31370407bf91
- internal_properties : BBYAAAAoAAAAAAABBA4UKABBAIAAMQwkQDCABIcRHQYE
+ internal_properties : BQAAAAUAAAB2/vstTMCJbS/hlxjFxirSqKvCUuv8YxgpWyl7S3iA
  code_elements :
-  internal_properties : BE8AAAC/AAAAAAABBA4UKMBAAIAAXxEcuGrggoEqBjCkWDHWJCusJAo0VNFjnEsZNwY45NEiIZETAyAySTFeoZQCEzH8ByHhzZsCBjYYqLMlQZ8BJvT8KTAg
+  internal_properties : BQAAAAUAAACNovAR/6wlbzaEqZKonmKDsGl7Rn8TkHgPwmc47oRyHw6EhVIibzyTXadfYBW+Q4H7MZWHaJK0noShW6PGX6LdwmapNHiz0d3HvkCuynozZjwggdQAKPdQL8c=
   type_code : 10
   p_codes :
    -
@@ -392,11 +392,11 @@ class :
   procedure_templates : []
   property_templates : []
  code_parameters :
-  internal_properties : BBYAAAAhAAAAAAABBA4UKMBAAIAAIwwUMLABwYEJEwYE
+  internal_properties : BQAAAAUAAAA6ih3UbgNXHwTtiPSFUEj+2fi/m7v4QV2rqidAupM=
   original_name : Classe1
 resources :
  string_res :
   identifier : 0x1b65619800409942
-  internal_properties : BBUAAAAjAAAAAAABBA4UKMBAAIAAJxAc+IBhAoYCAwI=
+  internal_properties : BQAAAAUAAAAnMYFQ1bL/vz9ehh7L22SNNSlIzGTOI8h5F/WtgDNP
 custom_note :
- internal_properties : BBYAAAApAAAAAAABBA4UKGDAwAwDGwwUQNChwAQPAwQE
+ internal_properties : BQAAAAUAAABtB9HWVzrXO2+4NDRVK0vmzaNKrCKqH1DBX30lMmGZ
