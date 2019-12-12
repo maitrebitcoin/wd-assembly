@@ -31,7 +31,7 @@ procedure_set :
      procedure_id : 1974178960244996302
      type_code : 15
      code : |1+
-      // compile un code au format assemleur x86
+      // compile un code au format assembleur x86
       // renvoie la procédure exécutable a appeler.
       
       Procédure compileAsmX86( sCodeAsm est chaine) : procédure

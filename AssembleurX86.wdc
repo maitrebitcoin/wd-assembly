@@ -45,7 +45,7 @@ class :
      type_code : 12
      code : |1-
       // compile le code assembleur dans <codex86>
-      // renvoiee pointeur sur le code machine a exécuter
+      // renvoie pointeur sur le code machine a exécuter
       PROCÉDURE _pcompileX86( codeAssembleur est chaine ) : entier système
       
       // compilation du code source ASM vers binaire exécutable

@@ -23,7 +23,7 @@ window :
   -
     name : BTN_TEST
     identifier : 0x2b73e58d0154f9c7
-    internal_properties : BQAAAAUAAAAvdlGb8AokMt+jr4XYR9olvRixM48qknoZUe7mEdGG1uuMevP7KDcpJc8nu9XgDwM5aV+tPonpllwu0kq+tcpmEL+k6hDK2N6Hw4ZvpnzG8tlelNc9ZDWCyjorgHbZWJl8i1ulCV413oUScEQW7b+zeqEWo15BLNo/leVrwLhvl0Hs9PeiGxHqszHK/aJCUX+O83J+uLBq3N4sWW1ckDzgqBJdcfme+Q1TJGDe12UM60/srPzNOf/yUqGNHeOQJ76dPWfFZFRrQ58eqo6WpSVmrPwZypGJRh4bAonKiZP2JvC4S+tvboXt2n6Qtf1WpTOyRu/BqbzpLn2mxZ8aOiua+ukzqG9xcZBbhbdOUBr70S5moeOUCJvB1UylwiKtN5zl8LE86G5rHbBA2krfMq9/CqoLhd5Svv4wIxkWTfdjJDhw4M6N/ASmCp3ujCs1tGByOuGMpFLPJBCXiKsaZOonOQooXrCvGG3DHWNAJgh3EAHuqvvv94Dv0UgB+7FuPSfu+UIiO/3O+jRKgAQHQk5xW9FXR7RVGR8zwKB8PJ3Dwj0QzQWuuY2vhBTlkYiSASTUZVV5+gLlYDSfw4N7lalM1uQ8oAPLC2qcZi0gghhVZ5b/Xj8oXGtDmJjciORe7yZtpdBkLfWbTdS7J+CrGV0a5tKbi+4CQ85YSwvRUKLBxvnl/62WiIE4HC75G/T0kaOEAi4oxjB5HkH/yj11qvxfXqGUkjwCgyxFC4ljSAkgIw==
+    internal_properties : BQAAAAUAAAAFHE+RBgg2AOlZtbvmWcgjW+7v2eWQhHAbV+zsJ+O05NmaaCEJ3vnvN321MUtijYm339Xr9E+zTL6McGi0n8BcftWC0C44yszxWSw9dE6cMJ8c4p2z6p8o3Cg5diyTnuc6sZFz97zXvO94Dur0z4WhCJcsqUwX5qDxy1spjvI9zS+aWoWQKWM4je8QO/ikL/R+27qm3sbAdEhaw1sC8jhS3EZ10SvAixEFHiawIWMM4dekZBzH69Gu2GPPP82e/2ytBXtZIvJRz2n07AC4e1V0BMy1ZldnNMpVtIMoL7VmNCCI4xuxuPeBINxWT2eMlYnaFvMVn1r3Mvdw9y0glCeUkhkHTIkLq4i9W5Hk7lx3U26OzZfC7mmlUDdi3T949jNAy5aH46+s3jeHExFk/R6+8aFkdG3/F2PrZm7JMjLii79v6TW0qdXr3bir38CI5xOF1QbfN1t0vfeGGSoT27Uy6DnZ1Q9IUcYOqFCz20Nmb5wRv+6aJCkQVMN+pp7JENLZ7E8dbq6HLx9tfdfUrS2wPjzEqncuEjgW470PjfxyObOOsy9w/9d5UiLzg7pA03qKkwszPMCnokplGXV1i7NaxMoaQm2h5US6RAsCrM4frVzFlAlSan1V7i5iAh4UsWQr254Wf1sFN8KpFfKFP7fw3MiBldBgpbB+IVGLChhLTH9jfS8QFhNKYuQvLcYCg5GSEDwa0C57IEf1MJePgKaFZK+qjDYIjTZTGYdtUh8KCQ==
     type : 4
     code_elements :
      type_code : 4
@@ -43,6 +43,7 @@ window :
          bmpDest.CopieVersMémoire()
          
          ChronoDébut()
+         
          pour i = 1 a 200
          	// flouter l'image dans <bmpSource> vers <bmpDest>
          	_FlouteImage(bmpSource.pointeurSurPixel, bmpDest.pointeurSurPixel,  Image1..Largeur, Image1..Hauteur, bmpSource.largeur1Ligne)
@@ -56,6 +57,7 @@ window :
          	bmpSource.CopieVersMémoire()
          	
          fin
+         
          trace(chronofin())
          
         type : 18
