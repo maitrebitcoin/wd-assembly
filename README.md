@@ -8,7 +8,6 @@ sCodeAsm est chaîne  = [
 ```Assembly
 	mov	 EAX,1234
 	push ebp
-	mov  ebp,esp
 	pop  ebp 
 	ret  8
 ```
