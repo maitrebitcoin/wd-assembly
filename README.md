@@ -6,10 +6,10 @@ Exécuter de l'assembleur en **WLangage** / Execute assembly code in **WLangage*
 sCodeAsm est chaîne  = [
 ```
 ```Assembly
-	mov	 EAX,1234
+	mov	eax,1234
 	push ebp
-	pop  ebp 
-	ret  8
+	pop ebp 
+	ret 8
 ```
 ```javascript
 ]
