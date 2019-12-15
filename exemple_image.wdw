@@ -31,10 +31,10 @@ window :
       -
         code : |1+
          
+         // récupération de la bitmap pour le champ <Image1>
          hdc est un entier système
-         hdc = dDébutDessin(Image1) // API( "user32", "GetDC", handle(Image1) )
-         
-         
+         hdc = dDébutDessin(Image1)
+                 
          bmpSource est BitmapAvecPtr(hdc, Image1..Largeur, Image1..Hauteur)
          bmpDest   est BitmapAvecPtr(hdc, Image1..Largeur, Image1..Hauteur)
          
@@ -49,6 +49,7 @@ window :
          	
          	// copie vers le champ image
          	bmpDest.CopieVersEcran()
+          // invalidation et maj graphique
          	API("User32", "InvalidateRect", Handle(Image1),0,0)
          	Multitâche(-1)
          	
