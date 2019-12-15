@@ -1,5 +1,5 @@
 # wd-asssembly
-Exécuter de l'assembleur en **WLangage** / Execute assembly code in **WLangage**
+Exécuter du code assembleur en **WLangage** / Execute assembly code in **WLangage**
 
 # Exemple
 ```javascript
