@@ -62,6 +62,15 @@ procedure_set :
       
       // si c'est un entier
       si VérifieExpressionRégulière(s,REGEXPTOKEN_NUMDECIMAL) alors
+      	// cas négatif (ex -3)
+      	si s[[1]]="-" ALORS
+      		valeurNegative est un entier sur 8 octets = Val(s)
+      		// mee format binaire, on affecte pas pour éviter un warning de dépassement de capacité
+      		// valeur_OUT = valeurNegative
+      		Transfert( &valeur_OUT, &valeurNegative, 8)
+      		RENVOYER Vrai
+      	FIN
+      	
       	valeur_OUT = val(s)
       	renvoyer vrai
       FIN
