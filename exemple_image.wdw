@@ -29,6 +29,7 @@ window :
      type_code : 4
      p_codes :
       -
+        internal_properties : BQAAAAUAAAAbMMdkJf4Ku9VCSHxejhCcU0PDd/QcgM8TXRqHX0oFyTZL/EQ7QCJuN/O5v5V4BLOh/T1RoFRT7wgMI+rx5JkU31Qxh6/qGE15Ny/I6hSW0Rf8REpSz70DEG/fEgNRJXye6WvSElYO3TIP71mgz4QhPqDHW3Qo6eLoc3WIz9mP17aI77IeTnn4Eyq/HtWnEJdTduHTt9Grt3vwQapLw91X73Rw/CwiJ8c5/6+ASKmNNf5B9sE=
         code : |1+
          
          // récupération de la bitmap pour le champ <Image1>
@@ -135,6 +136,7 @@ window :
   procedures :
    -
      name : _FlouteImage
+     internal_properties : BQAAAAUAAAARQnVPkWNY1EQUftB9QW6mh3WIxqB4qlJWMh+07LlLKeLR+KvG/jUq1QrgFm8BQCjGrO1yAIZOgFcLCc8qjH8qFbu4HOZsTyAnEnVoB+RwnDBJx/MLa4lAgvweFwY2TN+NzIFjLaCcPivHFFiQnppuFiBtVNK5B9aHAaa3bvM62TVAyw27gFq8fZHCv1Xe376mPXqEsXHSxXxbuBhtbnKCQlQ0GGFn+UpB2vuhZndhdzeasHh/YXZtBPuU0Mm9iFFI+YzJptmfY2BccOOyeP352PzPjdmPaaSl4zb/QI3vyUkZTij2YeI83vuC79EJ4MSGM1dtw0SWgAQMybS0GKNYz3Rq1lZPvYe+sGyxjDk95C0v1M/OTytFcTrmQ9krXqUmc8TcrhnpET/bcc/Ynef8+ObW4xgbaC9Oap3HuBPzcg5HJTeueUEvwkYb+wvLu7ZLb1czzhgEWv0JHauNyJgcsKVmOAIoy/DkpFTagWGq5cv07MvOqZ4w0Z+AacaI0K02Q4f8zuuz7NG7tJjsJWDM/cNgGRQJjCEK5h5qrQbkkBX/cLfKnx+la9aqOp1Za6t7b2vPXcz6uop3rYuKMU8iIIrZWy1FdvyuM4oPpo2K4ibhaR/aByTKf15FtTg2tRwCqGJcknxcsQ8c4BzT11wQZ7NPfE+MqJVtYcHUINgd4crRRTasYy+xIPwnYARf0xzL4D9aLU3uj2nzMMHvdwCf+gTrdugfSlGbOYa0k4WUg6uK2l95Dg9dyP4+zOvfhExgXqTu4YYYcz8OEtDNUW5ejLquOTrWOxGw6oRZw5pwie58Sgi7Pi71OEvEIwPTXuL5GBQnX/2IYB7PiL25RnVQFkYhmKSiHJlF4v45jooSQgPDsYrad2SEDfwzyYIl
      procedure_id : 1978177969954699618
      type_code : 14
      code : |1+
@@ -203,7 +205,7 @@ window :
       	jnz boucle_Y;   tant que y > 0 goto boucle_X
       	
       	;--------------------------	
-      	; epilogue
+      	; épilogue
       	Pop esi
       	Pop edi
       	

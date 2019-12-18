@@ -82,7 +82,7 @@ procedure_set :
       	
       	
       	; --------------------------
-      	; epilogue
+      	; épilogue
       	pop			ecx
       	pop			edx
       	pop			esi
@@ -141,7 +141,7 @@ procedure_set :
       	mov eax,0
       	adc eax,0
       	
-      	; epilogue
+      	; épilogue
       	Pop ecx
       	Pop edx
       	ret 8	; // 2 paramètres de 4 octets
@@ -199,12 +199,8 @@ procedure_set :
       	mov	esi, [ebp + 20] // A0,B0
       	mov		 eax,[esi+16]
       	mov 	 [edi+16],eax
-      	//mov 	 [edi+20],[esi+20]
-      	//mov 	 [edi+24],[esi+22]
-      	//mov 	 [edi+26],[esi+28]
-      	
-      	// --------------------------
-      	; epilogue
+      
+      	; épilogue
       	Pop			ecx
       	Pop			edx
       	Pop			esi

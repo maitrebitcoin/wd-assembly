@@ -15,6 +15,7 @@ class :
   type_code : 10
   p_codes :
    -
+     internal_properties : BQAAAAUAAACq/LpgEObhENIHQCgw4BofIND1yEO9TYQ1tCqfP3E8WOTJPWLShV/vW8lXqJ3SoALJpIwdk5iFG+4EvwK9UMhS/4GFCRRRsN2Jsl6ezFsnvW8hmEgjQjKSiYpbXJd+b2VC1EyCqmvaQiNKO//GYBhUrMeUZ6BRbccpUjsMZ8T17cWkm1PDducVA7QsKMZXknqv8yI7Cw==
      code : |1+
       // instruction X86 pour un syntaxe spécifique
       SyntaxeInstructionX86 est une Classe
@@ -43,12 +44,13 @@ class :
      type : 655360
    -
      name : bEstcompatibleAvecTabValeur
+     internal_properties : BQAAAAUAAAACJNLoRv7MjmQ76GJm4JofPuCfdGVDFcKfEOpRXSH06AYdO4rsJ8NhPa3L+tOqeBp3FBqFATb1FcgIZ9gHzJyOvVG/baILbF+bnmVt9SjIumqSMdPAT8UhAHFuY4BreALBTXU5s8zJRS7lYg7fPYXlDyBd6s2OoIKcZWbbOBEmkhjpeHJ8v65McrMbO8OAKPA3e7qTow==
      procedure_id : 1976289923846291345
      type_code : 12
      code : |1+
       PROCÉDURE bEstcompatibleAvecTabValeur( tabValeurParam est un tableau de ValeurOpérande,  contexte est ContexteCompilation dynamique ) : booléen
       
-      // même nombreramètre
+      // si même nombre de paramètre
       si tabTypeParam.Occurrence() <> tabValeurParam.Occurrence() ALORS
       	renvoyer  faux
       FIN
@@ -61,25 +63,25 @@ class :
       	
       FIN
       
-      // vérif pour chaque paramètre
+      // vérification pour chaque paramètre que son type est compatible avec la syntaxe
       pour i = 1 _a_  tabTypeParam.Occurrence()
       	opTypeI est TypeOpérande <- tabTypeParam[i]
       	si pas opTypeI.bEstcompatibleAvecValeur(tabValeurParam[i], contexte) ALORS
       		// pas OK 
       		renvoyer faux
       	FIN
-      	
       FIN
       
       RENVOYER Vrai
      type : 458752
    -
      name : InitFromDescription
+     internal_properties : BQAAAAUAAABGaWuZPCRFBjnSFT6c6ONoC+6rHskAjPab3oOMDSe8ojiSOr61UG9pzndoB3y/jV8V0r4OnAKZ0GT9XLBMGtAEK26fkZ4o/hpFMjJvp+j1U74sVAskWhlSXdzMDWIy1rNfeuB/p0kNotf80r7tmj2oJ6HAaHkj7vHLavwDTFzkBNEZej8bdafmhL8M9kA8apWCDzi0wPGUOKi5oUb/s6l1yLjLvA==
      procedure_id : 1976289923846356881
      type_code : 12
      code : |1+
-      // Init d'une instruction a partir d'une de description au format CVS
-      // cad séparé par des ";"
+      // Initialisation d'une instruction a partir d'une de description au format CVS
+      // = séparé par des ";"
       // ex : ADD;r/m8;r8;;;;0;;r
       Procédure InitFromDescription( local sDesc est chaine)
       
@@ -107,7 +109,7 @@ class :
       	FIN
       FIN
       
-      // type d'encodageeeeeee des paramètres
+      // type d'encodage des paramètres
       //"" si rien de spécial
       :encodage 					= ExtraitChaîne(sDesc,10,";") 
       dbgAssertion(:encodage <> EOT)
@@ -181,6 +183,7 @@ class :
      type : 458752
    -
      name : _EncodePrefix_REX
+     internal_properties : BQAAAAUAAAApG0o1Pt5A+FVLcUpfk4GRsWXA+VeOCjHmHkITaWbGEiXj7T7gsVhwgoT2V3FF+WV+j1aNAXAjTwAcSXmls8WO0SRiGMLkHTwUS8AQJ0Ch2QfqJ2gKMVvZLJhCs4c+I6vE6XArviM+qeRgisYGfiZqBs6kdra9NWpqHkAt24QpINbmYiUwozFs0W8WO6fObir3K8zeE+xrk6lpcAURRMVzYAG5OfpT/+vL9uhjnjV6CiH2Gg==
      procedure_id : 2020855827309328332
      type_code : 12
      code : |1-
@@ -267,6 +270,7 @@ class :
      type : 458752
    -
      name : Encode
+     internal_properties : BQAAAAUAAAAiBDLIkKbo3ojjJFaqDDZTQjiPUJF7AQqLKL4F4T04rNJ1A+5IVy9hWS135k9W9PaTfFo5FcbxTfyo4wxjAGgqmVnXme4zwHefjmtn8+ZK3Aw8q63OnRf3amvk/X55skyLH2f7OYJz23D3MKCNi3dXscLnVNuEiuB+pzR9vkeoLKL7Qvwy5chyrG1RTcFOqtoXW5qzgw==
      procedure_id : 1976289923846553489
      type_code : 12
      code : |1+
@@ -368,7 +372,7 @@ class :
      procedure_id : 1977062476791505041
      type_code : 12
      code : |1-
-       // évaluationde de la taille générée pour choix de la meilleure syntaxe
+       // évaluation de de la taille générée pour choix de la meilleure syntaxe
        procédure _nEvalRapideTaillleCodeGénéré() : entier
       
       si :encodage = ENCODAGE_ADDREGTOOPCODE alors
