@@ -161,23 +161,22 @@ window :
       	push		ebx
       	push		esi
       	
-      	// récup paramètres
+      	; récupération des paramètres
       	mov			edi,[ebp+8]  ; pPixelSource
       	mov			esi,[ebp+12] ; pPixelDest
       	mov			edx,[ebp+20] ; edx = hauteur
-      	; // commencer à la ligne 1 a cause de la lecture de pixel a la ligne Y-1
-      	;//mov			ecx,[ebp+24] ; ecx = larg1LigneEnOctet
-      	Dec			edx
-      	Dec			edx	; //  arreter au pixel-1
+      	; commencer à la ligne 1 a cause de la lecture de pixel a la ligne Y-1
+      	dec			edx
+      	dec			edx	; //  arreter au pixel-1
       
       	push esi
       	Push edi
       boucle_Y:
-      	;// calcul edi/di
+      	; calcul edi/di
       	mov edi,[ESP]	; Var locale 0
       	mov esi,[ESP+4] ; Var LOCALE 1
-      	Add edi,[ebp+24]
-      	Add esi,[ebp+24]
+      	add edi,[ebp+24]
+      	add esi,[ebp+24]
       	mov [ESP],   edi ; Var LOCALE 0
       	mov [ESP+4], esi ; Var LOCALE 1
       		
@@ -185,9 +184,9 @@ window :
       	Add edi,3
       
       	mov			ecx,[ebp+16] ; ecx = largeur
-      	; // commencer à la colonne 1 a cause de la lecture de pixel a la colonne X-1
-      	dec	ecx		; commmcer au pixel X+1
-      	dec	ecx		; arreter au pixe   X-1
+      	; commencer à la colonne 1 a cause de la lecture de pixel a la colonne X-1
+      	dec	ecx		; commmencer au pixel X+1
+      	dec	ecx		; arreter au pixel   X-1
       
       boucle_X:
       	; R
@@ -214,21 +213,19 @@ window :
       	pop			ecx
       	pop 		edi
       	pop         ebp 
-      	ret			20 ;//  5 paramètres de 4 octets
+      	ret			20 ;  5 paramètres de 4 octets
       	
       FlouPixel:
-      	// procédure FlouPixel()
-      	// flouter un composante R/V ou B d'un pixel 24 bits.
-      	//   source dans [edi], 
-      	//   destination dans [esi]
+      	; procédure FlouPixel()
+      	; flouter un composante R/V ou B d'un pixel 24 bits.
+      	;   source dans [edi], 
+      	;   destination dans [esi]
       	push ecx
       	mov			ecx,[ebp+24] ; ecx = larg1LigneEnOctet
       	
       	xor	eax,eax	; eax= 0
       	xor	ebx,ebx	; ebx= 0
       	mov	al,[edi]
-      	//add eax,eax
-      	//shl eax,2	; // eax = eax*4, pondération a 4
       	mov	bl,[edi+3]	; X+1
       	add eax,ebx
       	mov	bl,[edi+-3] ; X-1
@@ -239,17 +236,18 @@ window :
       	mov	bl,[edi+ecx] ; Y-11
       	Add eax,ebx ;	
       	
-      	//shr eax, 3;// eax = eax/8 => moyenne
+      	; eax = eax/8 => moyenne
       	mov	ecx,5
       	div al,cl
-      	; // affecter la composant R,V ou B du pixel résultat
+      	;  affecter la composant R,V ou B du pixel résultat
       	mov	[esi],al
       	; pixel suivant
       	inc edi
       	inc esi
       	
       	pop ecx
-      	ret	// fin de la procédure
+      	; fin de la procédure
+      	ret
       ]
       
       // compiler le coder assembleur vers une procédure WL
