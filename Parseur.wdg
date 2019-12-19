@@ -17,7 +17,7 @@ procedure_set :
      code : |1+
       
       
-      // expressions régulièrese identifiant les lexèmes (tokens en anglais) :
+      // expressions régulière identifiant les lexèmes (tokens en anglais) :
       constant
       	// étiquette dans le code. ex : "maProc12" dans" ""call maProc12"
       	REGEXPTOKEN_LABEL 	=	"[a-zA-Z_][a-zA-Z0-9_]*"  
@@ -37,7 +37,7 @@ procedure_set :
      procedure_id : 1977866189681102640
      type_code : 15
      code : |1+
-      // Indique si <s> est une valeur immédiate, cad un nombre. 
+      // Indique si <s> est une valeur immédiate, CAD un nombre. 
       // ex : "24" ou "0x500"
       // si oui renvoie la valeur dans <valeur_OUT>
       Procédure GLOBALE bEstValeurImmediate(s est chaine, valeur_OUT est un entier sur 8 octets sans signe ) 		
@@ -54,24 +54,18 @@ procedure_set :
       	valeur_OUT = HexaVersEntier(Milieu(s,3))
       	renvoyer vrai
       fin
-      // support du format "1234h"
+      // support du format
+      // ex : "1234h"
       si VérifieExpressionRégulière(s,REGEXPTOKEN_NUMHEXA2) ALORS
       	valeur_OUT = HexaVersEntier(gauche(s,taille(s)-1))
       	RENVOYER Vrai
       FIN
       
-      // si c'est un entier
+      // si c'est un entier 
+      // ex : "123"
       si VérifieExpressionRégulière(s,REGEXPTOKEN_NUMDECIMAL) alors
-      	// cas négatif (ex -3)
-      	si s[[1]]="-" ALORS
-      		valeurNegative est un entier sur 8 octets = Val(s)
-      		// mee format binaire, on affecte pas pour éviter un warning de dépassement de capacité
-      		// valeur_OUT = valeurNegative
-      		Transfert( &valeur_OUT, &valeurNegative, 8)
-      		RENVOYER Vrai
-      	FIN
-      	
-      	valeur_OUT = val(s)
+      	// conversion de chaine vers UI8	
+      	valeur_OUT =I8VersUI8( val(s) )
       	renvoyer vrai
       FIN
       
@@ -92,7 +86,7 @@ procedure_set :
      code : |1+
       procédure bEstLabel( sValeur chaine)
       
-      // pas un regesitre
+      // pas un registre
       si bEstRegistre(sValeur) ALORS
       	renvoyer faux
       FIN
@@ -122,7 +116,7 @@ procedure_set :
       // analyse syntaxe d'une ligne de code assembleur
       // 
       // format :
-      // label: OPCODE P1,P2,P3 ;Coommentaire
+      // label: OPCODE P1,P2,P3 ;Commentaire
       Procédure AnalyseSyntaxiqueLigne( local sCodeAsm1Ligne est chaine  ) : ( chaine, chaine, tableau de chaine)
       
       // recherche d'un label
@@ -176,7 +170,7 @@ procedure_set :
       	RENVOYER  Vrai
       FIN
       
-      // si c'est nun indirection. ex : [EBX + 4]
+      // si c'est une indirection. ex : [EBX + 4]
       SI _bChaineVersIndirectionRegistre(sExpr, adressage_OUT) ALORS
       	adressage_OUT.modeAdres = ValeurOpérande::MA_Indirection
       	RENVOYER Vrai
@@ -256,10 +250,56 @@ procedure_set :
       		//ErreurDéclenche(ERR_COMPILATION_ASM, ChaîneConstruit(<§@1b6c8f2e01d8cdb10001§>,sDepl))
       		RENVOYER Faux
       	FIN
-      	valeur_OUT.deplacement = val64
+      	valeur_OUT.deplacement = UI8VersI8( val64 )
       FIN
       // c'est une indirect sur registre 
       RENVOYER Vrai
+     type : 458752
+   -
+     name : I8VersUI8
+     procedure_id : 2160365981516316789
+     type_code : 15
+     code : |1+
+      // conversion d'un entier sur 8 vers sa version sans signe
+      // pour éviter un warning de dépassement de capacité. 
+      // corrige https://github.com/maitrebitcoin/wd-assembly/issues/3
+      procédure I8VersUI8( valI8 est entier sur 8 ) : entier sur 8 octets sans signe
+      
+      valeur_OUT est entier sur 8 octets sans signe
+      
+      // cas négatif (ex -3)
+      SI valI8<0 ALORS
+      	// même format binaire, on affecte pas pour éviter un warning de dépassement de capacité
+      	// valeur_OUT = svalI8
+      	Transfert( &valeur_OUT, &valI8, 8)
+      sinon
+      	// affectation simple
+      	valeur_OUT = valI8
+      FIN
+      
+      renvoyer valeur_OUT
+     type : 458752
+   -
+     name : UI8VersI8
+     procedure_id : 2160367622193877993
+     type_code : 15
+     code : |1-
+      // conversion d'un entier sur 8 sans signe vers sa version signée
+      // pour éviter un warning de dépassement de capacité. 
+      PROCÉDURE UI8VersI8( valUI8 est entier sur 8  sans signe ) : entier sur 8 octets
+      valeur_OUT est entier sur 8 octets 
+      
+      // cas négatif (ex -3)
+      SI valUI8>0X7FFFFFFFFFFFFFFF ALORS
+      	// même format binaire, on affecte pas pour éviter un warning de dépassement de capacité
+      	// valeur_OUT = svalI8
+      	Transfert( &valeur_OUT, &valUI8, 8)
+      SINON
+      	// affectation simple
+      	valeur_OUT = valUI8
+      FIN
+      
+      RENVOYER valeur_OUT
      type : 458752
   procedure_templates : []
   property_templates : []
