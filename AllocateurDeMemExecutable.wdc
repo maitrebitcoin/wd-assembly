@@ -11,16 +11,17 @@ class :
  identifier : 0x1b6542580025881d
  internal_properties : BQAAAAUAAAB2/vstTMCJbS/hlxjFxirSqKvCUuv8YxgpWyl7S3iA
  code_elements :
+  internal_properties : BQAAAAUAAACmcEcPUOl8P88f4DqAteA6m/Mt111GGOClrNjaLJ9vO63bNEtdrqYoCCnjX1eG34p8AOi72Du5JSuppQ==
   type_code : 10
   p_codes :
    -
      code : |1+
       AllocateurDeMemExecutable est une Classe
-      	// blocs de mémmoires alloués
+      	// blocs de mémoires alloués
       	tabBlocAlloué est un tableau d'entier système
       	// taille par défaut d'un bloc
       	nTaillDefautBloc   est un entier
-      	// fin du bloc en cours et taille dispo dedans
+      	// fin du bloc en cours et taille disponible dedans
       	pfinBloc est un entier système
       	nTailleDispo est entier
       FIN
@@ -40,6 +41,7 @@ class :
   procedures :
    -
      name : Constructeur
+     internal_properties : BQAAAAUAAABhuWPf24fox0QJTXJHJ6SMYiWFGaBXBzJxbDjj9k9PbE7TvxVJGJtAsIofe6FP8s2jMio6yfbBQ44ORaW7nAUE7BwGKbOkefgr2PYmkvbNoi84sZQJrWTffrE3xsfdE77Iu6XMEKBSqV4jCU0KvRanJM6pW7TowzxG3cd4/dMLxpmhjn+fGUMCIFeuFgLlXGCY12sa
      procedure_id : 1974056957398911005
      type_code : 27
      code : |1+
@@ -62,6 +64,7 @@ class :
      type : 655360
    -
      name : pNouvelleZoneExecutable
+     internal_properties : BQAAAAUAAAC4irx2E4wUOJb/lCQ0dH6zNGgVvM/1keQRBH6rG+UApNDxjVbmBdPP95lLTFGebHY1zFwZX9hB4/KM26bJnHw2a/n1lQDZLG11ujDEFsW1O51PRnbF7Ng0b0ClEkmQnYto6oLYTJUQfGkwJbWYUuYymr3CpTrb47nHoI3a0T57C7OCoRklKCXP8eKePuhZqWWl6SglHQ==
      procedure_id : 1974057197917201164
      type_code : 12
      code : |1+
@@ -100,6 +103,7 @@ class :
      type : 458752
    -
      name : _nGetTailleBlocAlloc
+     internal_properties : BQAAAAUAAADqPHrXaa4c/kRLeKJmEOo/joDf1IXjhcKvsCqhTeH0+CYN67rcF8Px/b1bGjOa6PpndPoF4XZFtbjoB+j3LPzevcGvPTLbzA+bDi0lrSCQMpI6uWvIp615qLkWuziDYPoptd1xu2RRPdZN6gY3Fe09l6ilArWGCFrkzY7zEOkOimCxYApENzbkmlsDkzuYIPjKs2J7yw==
      procedure_id : 1974057485680077261
      type_code : 12
      code : |1+
@@ -127,15 +131,16 @@ class :
      type : 458752
    -
      name : _pAlloueNouveauBloc
+     internal_properties : BQAAAAUAAADQMHzU0NDITZxgVCH/QuufPi3lZvLw6tCUKBrtyEHE95wzVTXOtIqhwMNgWdZKUB5hveXr0jkN+NYk50nEbYrfS3B4K7Bo/i67R3vkaONp/0rgQ3Q1H0YitI1RnOqzPFCt4Y00QxXmovxsGyWB1xsItXqLB0txN8uexBduMFnOHseobdBvbaUVw0elZLRZ8QEFN8XfMHhBhBVNP+rSuWXbQkt4xF5RG4FiKdS9mh5sYjqaQW8fGyZ6TeG62vo+28BT
      procedure_id : 1974058306018890444
      type_code : 12
      code : |1+
-      // allocation d'un nouveau bloc de taile <nTailleAlloc> et ajout dans <tabBlocAlloué>
+      // allocation d'un nouveau bloc de taille <nTailleAlloc> et ajout dans <tabBlocAlloué>
       Procédure privée _pAlloueNouveauBloc( nTailleAlloc entier ) : entier système
       dbgAssertion(nTailleAlloc>0)
       
       // alloc RAM pour le code
-      // NB :PAGE_READWRITE + PAGE_EXECUTE echoue ici, alors on le fait en 2 étapes
+      // NB :PAGE_READWRITE + PAGE_EXECUTE échoue ici, alors on le fait en 2 étapes
       //#define MEM_DECOMMIT                0x00004000  
       p est entier système
       p = API("kernel32.dll","VirtualAlloc", 0, nTailleAlloc, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE)
@@ -155,6 +160,7 @@ class :
      type : 458752
    -
      name : _Free
+     internal_properties : BQAAAAUAAAByVIKv4RaTwHJXEOjQ8MpfMNAVaCOd3QTlNKrPbzF8aKT57TICVR8f+7lnaB0CEMK5ZGzdExj1Ox6kn5LtkOiiXxH12eQBEC3pYtbGNOOfxSfZ8JAbKqp64QITZJ8GJ41abOQKIpMSCrti8wcu6JBcpL+Mb5hZ5U+hSjMUD+wNdX3ckxsbHp+9uwykMM4fmHBCK+rjUw==
      procedure_id : 1974062085590205070
      type_code : 12
      code : |1-
