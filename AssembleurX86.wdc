@@ -45,7 +45,7 @@ class :
      type_code : 12
      code : |1-
       // compile le code assembleur dans <codex86>
-      // renvoiee pointeur sur le code machine a exécuter
+      // renvoie un pointeur sur le code machine a exécuter
       PROCÉDURE _pcompileX86( codeAssembleur est chaine ) : entier système
       
       // compilation du code source ASM vers binaire exécutable
@@ -89,13 +89,14 @@ class :
       		dbgAssertion(faux,"Erreur de compilation"+rc+sErreurCompilation)
       	FIN
       
-      // success
+      // succès
       résultat est une procédure
       résultat= _executeCodeAsm
       renvoyer résultat
      type : 458752
    -
      name : _sCompile
+     internal_properties : BQAAAAUAAAAr9yUhSuGuOQwhi8LjTzzUZqkl+4IJ4RCZROI7Ej//FDo3c0t37rVyZF4Fc2Vz0u3XVg6Yzwz3cWIaC1XvYGWUfKTC57kytw7ziEuj9dtgN8SV2qW8cjEqxVS0Q7qKbhu9+Kp5ZznrOPmS4k4ZjsHc4QOmABNJJOddBJCRjCQaN2rSoxzeKmQlNwo/hyGO58piGSXQ
      procedure_id : 1974066921724178358
      type_code : 12
      code : |1+
@@ -154,6 +155,7 @@ class :
      type : 458752
    -
      name : _CompileUneLigne
+     internal_properties : BQAAAAUAAADqPHrXWQ7cXsRrGIKm0EpfjgA/dIXDhWLvEErBTWGU2CYNi5qcN4MRfZ27OrMaiFrn9FqlYdZF1fgIZ4j3rBw+/QGP3bJ7DK8bbv213XDAwiJKKTsYN70JeGnmS6gTEAr5BQ1BC/ThTeb9OtbnJd2NZ/hVEsVWWCp0/V4DAHm+GrABENoUBwY0aotT46sokAjKs2J7yw==
      procedure_id : 1974067480069991068
      type_code : 12
      code : |1+
@@ -278,7 +280,7 @@ class :
      procedure_id : 1974112237926149665
      type_code : 12
      code : |1-
-      // recherche la syntaxe qui correspondd a un instruction et ses paramètres
+      // recherche la syntaxe qui correspond a une instruction et ses paramètres
       Procédure _rechercheSyntaxeInstruction( sopcode chaine, tabValeurParam tableau de ValeurOpérande, contexte est ContexteCompilation dynamique ) : SyntaxeInstructionX86
       
       
