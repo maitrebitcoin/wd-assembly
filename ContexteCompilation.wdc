@@ -11,6 +11,7 @@ class :
  identifier : 0x1b6be79d01343f59
  internal_properties : BQAAAAUAAAB2/vstTMCJbS/hlxjFxirSqKvCUuv8YxgpWyl7S3iA
  code_elements :
+  internal_properties : BQAAAAUAAACmcEcPUOl8P88f4DqAteA6m/Mt111GGOClrNjaLJ9vO63bNEtdrqYoCCnjX1eG34p8AOi72Du5JSuppQ==
   type_code : 10
   p_codes :
    -
@@ -51,10 +52,11 @@ class :
      type : 655360
    -
      name : onDéclarationLabel
+     internal_properties : BQAAAAUAAACtbY+LKZMI45AVKT6fS/wEbinNnYzbl0Z1GJQH1mOH3NJfLzEV7LPs5Nab/6lTij0XDjqWtYKx97pKmfkDgCWsuHgeVY/AYXzn9MwkrBQ7HClaJ9qLo2IdaJeVTOl7meBi5UOams54T5AxZ8u0o9ThZkAvyV4W6SqA8+1+pzmRqPtzrB05Fzl4Cn1E5IwzsjTMg59W
      procedure_id : 1975928205948201815
      type_code : 12
      code : |1-
-      // appeléelorsqueueueueuee la corencontretretretretrere une déclaration de label.
+      // appelée lorsque l'on rencontre une déclaration de label.
       // ex : boucle:  inc eax
       procédure onDéclarationLabel( sLabel chaine )
       
@@ -65,7 +67,7 @@ class :
      procedure_id : 1975929447193776825
      type_code : 12
      code : |1-
-       // appeléeeeee lors de la rencontre d'un label durant la compilation.
+       // appelée lors de la rencontre d'un label durant la compilation.
        // ex : JMP boucle:
        // pour patcher avec la bonne valeur a la fin de la compilation
        procédure onUtilisationLabel( sLabel chaine,  offsetInstruction entier,  nTaille entier, operande est TypeOpérande )
