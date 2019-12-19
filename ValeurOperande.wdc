@@ -30,7 +30,7 @@ class :
       
       // mode possible
       constant
-      	MA_Vide	   		= -1 // vide pour résever de place avnat patch des labels
+      	MA_Vide	   		= -1 // vide pour réserver de place avant patch des labels
       	
       	MA_Registre    = 0 // registre direct. ex : EAX
       	MA_Immemdiat   = 1 // valeur immédiate. ex : 1234
@@ -60,7 +60,7 @@ class :
      procedure_id : 2157233700605074629
      type_code : 12
      code : |1-
-      // renvoie le tyep de la zone pointée. ex :  REGISTRE_32BITS
+      // renvoie le type de la zone pointée. ex :  REGISTRE_32BITS
       Procédure sGetType() : chaîne 
       
       renvoyer sgetTypeRegistre( registre )
@@ -92,7 +92,7 @@ class :
       // indice  registre source
       nRegSource est un entier  = nIndiceRegistre(RegSource)//&0x7
       
-      // si on esst un adressage de rtpye registre
+      // si on est un adressage de type registre
       si bEstModeRegistre() ALORS
       	renvoyer Encode_MOD_REG_RM_RegistreDest( nReg ) 		
       FIN
