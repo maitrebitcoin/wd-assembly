@@ -15,7 +15,7 @@ class :
   type_code : 10
   p_codes :
    -
-     internal_properties : BQAAAAUAAABWd3PsTKiZgifw0fhe+vnWtRxNgXFK2MZLhvNUmSfwHmAqLqYNcBvh1he4nxDfaaul0mLOHALNgPxd3Iig8hQYU/77GTZ4uloFcpJf81gZP1bEpq2ChDNk0y4+/xhsAFn9QGLBjdOfbM2ORCjT/NfGxQdiAtcN0NMZNJa1iubuIs8nHKF5V3nAIuke4Ha2epWVKtN7Seifje1yzDWMgv44dvLbrA==
+     internal_properties : BQAAAAUAAADxmroiT69cm2UyyNwCplRA4y5821AAfLvPWW4Dow6BxRp0i4y9eNJO1ztJNzUYfJvRvYVhoHTbt7CcKyopDKnEB+wR/xeC+K3JT5+Q+gSOeTcsPFqiT7XbyD/DHr/dQWiSzY8exhraMcaL41U8K5AdogR7V8gc5SZ8j6mEm/X7Uzp8ww5ysuUs53YDOjFzXAUhLSFDh7GL3xMw6coDQ10/v+uKhpIUETkPAaGSptFUltOXXGs=
      code : |1+
       // modes d'adressage x86 et leur encodage
       ValeurOperande est une Classe
@@ -80,6 +80,7 @@ class :
      type : 458752
    -
      name : EncodeAdressage
+     internal_properties : BQAAAAUAAAA3ucjqAm5qmfGFWZI1a+GJZvGwuONyU7ZTHOQHuaF640//+A3EqTaVgCb4UqsIOgpldf66rCTF10Z3R7L381+m0/NTeqWJRWJENthilwwR7tjIipJy/IM0/Sw6QjOvct/KiknDd8o1e3ezL20wAphhWuiknR0hwqiDSEZ+Qq6NXo/9aVuuEPWxm8g5bcA947+3CFij3J/0CU82DNzz2w11/2HLR2kxPnIfZlRyVmKGAH8unr2VRGCuovU5FA/LyckRnTrdT68Tp1M/cSn78V8/TioTYB1a0IrhWJYYUroIKw==
      procedure_id : 2157233700605205701
      type_code : 12
      code : |1-
@@ -144,10 +145,11 @@ class :
      type : 458752
    -
      name : Encode_MOD_REG_RM_IndirectionRegistre
+     internal_properties : BQAAAAUAAAD0KCwXLA6BT5fLxnLW5X2XjYnPJYS5kahJkdW51JvdvP22ndCi/ptfsgMUXPLktX3vVMOjrXa8SddT25L5ussk50Ji0y6mskY1GOVX49WvYtvXtaR2y+2ae9l3pqp7XFo1Fm8oswQddkXvZfe3G5NVa28T+6OUxt3xneFuZAnyYe0nccYp1K34eA6RSaT2EupmNQUruA8oiH0WhArkL8v80Lu3
      procedure_id : 2157233700605271237
      type_code : 12
      code : |1+
-      //encode  l'acces a une adress pointée par un regsitre avec ou sans sans déplacmeent.
+      //encode  l’accès a une adresse pointée par un registre avec ou sans sans déplacement.
       // ex : inc [reg]
       PROCÉDURE Encode_MOD_REG_RM_IndirectionRegistre( nForceReg est entier ) : buffer
       dbgAssertion( bEstModeIndirection() )
@@ -167,10 +169,11 @@ class :
      type : 458752
    -
      name : _Encode_MOD_REG_RM
+     internal_properties : BQAAAAUAAADRU6ktHYFI5EkVk1EdkAEPs1FfmI7MnjgbYCE3OEEa9F+KDb7Agbgg2tSuR5mF+Q1+H761yZj79xAkSSGFK/0e6UximNI0zZycG1ggX1DhYdeqT9DyydNx3JxuRwu6ry9gFbR30tfyndCUhoo6GuIuUkoIsvpx2W5mAlwhzzDlZLLCVtGEF7UQPYMyL0u62p6z+BmzTKzYOIU9YUFnJloH+7QioK8jj9jwp+2iVcmJGVmuQg==
      procedure_id : 2157233700605336773
      type_code : 12
      code : |1-
-      // encodage du champ de bits qui spécifie le mode d'adressage des paramaètres x86
+      // encodage du champ de bits qui spécifie le mode d'adressage des paramètres x86
       // voir
       // https://www.intel.fr/content/www/fr/fr/architecture-and-technology/64-ia-32-architectures-software-developer-vol-2a-manual.html?wapkw=programming+manuals
       // 2.1.3 et 2.3.5 :
@@ -266,6 +269,7 @@ class :
      type : 458752
    -
      name : bEstModeRegistreDeNom
+     internal_properties : BQAAAAUAAABTr03kXzE+ycyBizLzf8xklkmVu0KpQfAJNPJbkn+flLrHc9vnnoVCpF6loxXDYp1nVv44z6wXUTKK2zWPQKW0XJTilwlCp/5TaAPLHUMobxwdop30ijkyjbws60ISdjNVYNIR35FToOG6GnZBdklUeQuueIsh7C8FTMhZdEwCL+JaizQW4gyNf7LXD2mWr1+KwV0o
      procedure_id : 2157233700605729989
      type_code : 12
      code : |1-
@@ -312,6 +316,7 @@ class :
      type : 458752
    -
      name : nGetTailleEnBit
+     internal_properties : BQAAAAUAAAAqfDrgqj5/IBLHAKhw4FpfIFD1SAN9DcQ1tKrfvzG82CQJ/SJShV9vGwkXqF3SYEJJJAydU9hFW+6EP0K9EEjSv8HFyRTRMN3Jcv6+LDuHHc8BuGjDohLyaep7fPfez8UitOyiSku6ogMq25+mQPg0jKc0h0AxzacJstssR6TVTaWEu3PjVsd1YxRMyKan1BQvc6K7iw==
      procedure_id : 2157233700606057669
      type_code : 12
      code : |1+
