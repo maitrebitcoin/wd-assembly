@@ -38,6 +38,7 @@ class :
      type : 655360
    -
      name : bEstcompatibleAvecValeur
+     internal_properties : BQAAAAUAAABiRPK/0ebHIOLHaIjoGEIv8KDNyLuVbXwdzNrXf9EcUIyxLcpCBcfv+5k/yGU62LIpZNTd23AFk3ac74rdgMhKZ9n18WSRaL1pcvK62Dc7wTNlfFz/DoZmRRb/+BP689kGCLBm5vd+9l8WbxsiHNwY4HvIuzz9ges13l8oQ+DZ0cmY/5efcmuJf6AQNMJT6MAyG9rzQw==
      procedure_id : 2157233528784387948
      type_code : 12
      code : |1+
@@ -60,7 +61,7 @@ class :
       FIN
       
       
-      // selon le tyoe voulu pour le paramètre
+      // selon le type voulu pour le paramètre
       SELON nomType
       	CAS	 REGISTRE_8BITS 
       		RENVOYER valeurParam.bEstModeRegistreDeType( REGISTRE_8BITS )
@@ -115,7 +116,7 @@ class :
       		FIN		
       		RENVOYER valeurParam.bEstModeRegistreDeType( REGISTRE_32ou64 )
       	cas MOD_REGISTRE_OU_INDIRCET_8BITS
-      		// inc [ebx] est OK par ex. veut dire incréementer l'octet en [Ebx]
+      		// inc [ebx] est OK par ex. veut dire incrémenter l'octet en [Ebx]
       		SI valeurParam.bEstModeIndirection() _et_ valeurParam.sGetType() = REGISTRE_32ou64 ALORS
       		    SI valeurParam.taillePtr<>0 _et_ valeurParam.taillePtr<>8 ALORS
       		    	// cas "inc [ebx]" (FE) qui veut dire inc byte ptr [ebx] 
@@ -128,16 +129,15 @@ class :
       		RENVOYER valeurParam.bEstRegistre8Bits_PourRM()
       		
       	cas INDIRECT_REL_8BIT, INDIRECT_REL_16ou32BIT:
-      		// TOOD
-      		//renvoyer bEstIndirectionRelative(valeur,nomRegistreSiIndirection,imm64) ET_ imm64<=0xFF
+      		// non supporté
       		renvoyer faux
       	
       	cas RELATIF_8BIT
-      		// doit être un lablel
+      		// doit être un label
       		si pas  valeurParam.bEstModeLabel() ALORS
       			renvoyer faux
       		FIN
-      		// doit etre a moins de 127 octest
+      		// doit être a moins de 127 octets
       		sLabel est chaine = valeurParam.label
       		si contexte.tabSymboleRencontré[sLabel]..existe alors
       			offset est un entier = contexte.tabSymboleRencontré[sLabel].offset
@@ -145,7 +145,7 @@ class :
       				renvoyer vrai // OK
       			FIN
       		fin
-      		// label apres ou inconnu, on force sur 32 bits
+      		// label après ou inconnu, on force sur 32 bits
       		renvoyer faux
       			
       		
@@ -154,12 +154,11 @@ class :
       				
       		
       	cas MEMORY_16BITS
-      		//TODO
       		// non supporté 
       		renvoyer faux
       		
       	autre cas
-      		//@TODO
+      		// non supporté 
       		dbgAssertion(Faux,"Type d'opérande non géré : " + nomType)
       		RENVOYER Faux
       fin
@@ -167,6 +166,7 @@ class :
      type : 458752
    -
      name : Encode
+     internal_properties : BQAAAAUAAADa7CpnGb6ODsiz7EayZI7zAui3AAmjsaJjAH7d0R3o9DqtwyZ4t7fRGb2/FjfOPKZTPEI5PT6R5USg0zRjkIiCEVHXUd4zOHffzo8DT8K+MOCQHyEqeXtLtne4Wap1tlCfI1vPFc5HL5wTFNz5F9s75YYrmIfQ3rTaoziJ6nNMMIbfVsBekfwWCJlleS0KsAj6Y5JL+w==
      procedure_id : 2157233528784453484
      type_code : 12
      code : |1+
@@ -189,13 +189,9 @@ class :
       			RENVOYER _encodeImmediate32(valeur.valeurImmediate) 	
       		fin
       
-      
       	CAS	REGISTRE_8BITS, REGISTRE_16Ou2BITS, REGISTRE_32BITS, REGISTRE_CONTROL
       		RENVOYER valeur.Encode_MOD_REG_RM_RegistreDest( nValRegDans_modRegRM) 			
-      		//RENVOYER Encode_MOD_REG_RM_RegistreDest(valeur, nValRegDans_modRegRM) 			
-      	//cas REGISTRE_CONTROL
       		
-      	
       	cas MOD_REG_RM_16_OU_32BITS
       		// si c'est un registre, 
       		SI valeur.bEstModeRegistre() ALORS
@@ -216,7 +212,7 @@ class :
       		SI valeur:modeAdres = ValeurOpérande::MA_Vide ALORS
       			RENVOYER _encodeImmediate8("0") 
       		FIN
-      		// encode un offset par rapport a EIP apres l'exécution de l'instruction
+      		// encode un offset par rapport a EIP après l'exécution de l'instruction
       		offset est un entier = val(valeur.valeurImmediate) - contexte.nOffsetDest - 1 - contexte.offsetDansInstruction
       		RENVOYER _encodeImmediate8(""+offset) 		
       		
@@ -226,7 +222,7 @@ class :
       			RENVOYER _encodeImmediate32("0") 
       		FIN
       		
-      		// encode un offset par rapport a EIP apres l'exécution de l'instruction
+      		// encode un offset par rapport a EIP après l'exécution de l'instruction
       		offset est un entier = val(valeur.valeurImmediate) - contexte.nOffsetDest - 4 - contexte.offsetDansInstruction
       		RENVOYER _encodeImmediate32(""+offset) 
       	
@@ -242,7 +238,7 @@ class :
       		dbgAssertion(faux)
       	
       	AUTRE CAS
-      		// si c'est un regdistre, rien a encoder
+      		// si c'est un registre, rien a encoder
       		// ex : PUSH ES
       		si bEstRegistre(nomType) ALORS
       			renvoyer ""
@@ -275,11 +271,12 @@ class :
      type : 458752
    -
      name : _encodeImmediate16
+     internal_properties : BQAAAAUAAABxSWYNsh4VS/CVqS6PG0wUPml9fQx7d+YFKOSntsNHnFLPjyFlfKOcxLa7r7kDOg3nzkq2FUIxN+qayTkjIKVMGEh+xV+QEWznlIRs9JwjdIHir7LD+6qlUN9tlJHjQRi6zUuSUmYg95j5v7O8qzy5XqiXQXYu8fIIG4WGz+F5oPN71LWRb6Eg8gVcrBwIlPO153sK
      procedure_id : 2157233528784650092
      type_code : 12
      code : |1-
       Procédure _encodeImmediate16(valeur entier sur 8 sans signe  )
-      // convrstion texte => entier sur 16 bits
+      // conversion texte => entier sur 16 bits
       imm16 est entier sur 2 sans signe = valeur
       // renvoie en little endian
        renvoyer  Caract(PoidsFaible(imm16,2)) ...
@@ -299,17 +296,19 @@ class :
      type : 458752
    -
      name : _encodeImmediate32
+     internal_properties : BQAAAAUAAABxSWYNsh4VS/CVqS6PG0wUPml9fQx7d+YFKOSntsNHnFLPjyFlfKOcxLa7r7kDOg3nzkq2FUIxN+qayTkjIKVMGEh+xV+QEWznlIRs9JwjdIHir7LD+6qlUN9tlJHjQRi6zUuSUmYg95j5v7O8qzy5XqiXQXYu8fIIG4WGz+F5oPN71LWRb6Eg8gVcrBwIlPO153sK
      procedure_id : 2157233528784781164
      type_code : 12
      code : |1+
       PROCÉDURE _encodeImmediate32(valeur entier sur 8 sans signe )
-      // convrstion texte => entier sur 16 bits
+      // conversion texte => entier sur 16 bits
       imm32 est entier sur 4 sans signe = valeur
       // renvoie le buffer en little endian
       RENVOYER AssembleurX86::uint32VersbufferLowEndian(imm32)	 
      type : 458752
    -
      name : _encodeImmediate64
+     internal_properties : BQAAAAUAAAD1xeqRbgxtZ7xpRRK//0Q8aq0VITgPV0JhJBj7Bj8n5C6TR7WZWEPoqIpniwnnUl0bmroCgT5x8y6mpa27jD08vFwu+cPkgZBzCIpirtL5TnPs5bCNMfBj8l1L4tOp34oMn5nYJMR+TcKvjZmmCWJj6NJN1whcL7A6GSskGW/XIs1V8lvz3Q9WJPOyYjYuWB9Ba/eO
      procedure_id : 2157233528784846700
      type_code : 12
      code : |1-

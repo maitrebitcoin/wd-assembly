@@ -11,6 +11,7 @@ procedure_set :
  identifier : 0x1b65b0da0072368d
  internal_properties : BQAAAAUAAABGLu41kG7fjQV3iS4F72qmnKaNh5694reolNKIW0iw
  code_elements :
+  internal_properties : BQAAAAUAAAC8Sl0pfseidXE9/kBmawagKU2LQSv8bn6/vNDKIJF1LaO5OrXnJBCSprdxyfnkeSCSHo4FglHTPzGvuw==
   type_code : 31
   p_codes :
    -
@@ -18,7 +19,7 @@ procedure_set :
       
       clAsm est AssembleurX86
       
-      // Erreur lévée si pb de compilation
+      // Erreur levée si pb de compilation
       CONSTANT ERR_COMPILATION_ASM = 733
      type : 720896
    -
@@ -28,6 +29,7 @@ procedure_set :
   procedures :
    -
      name : compileAsmX86
+     internal_properties : BQAAAAUAAABmqF6cMN3/qZ88LLQbrPMfLKCjqoKxqzVp7H7Di0VQDIi5XQ42VSt/d6lD3LnGVBa1XDSZd5ChGwpU677ZPGyuI7G1TXA5xN1FOuSQ0iHZX0HzqnqxuLwIOwz5niWsgZ9sfsYcGOHUUOXsOfHEnhr2PlFWGaaXp/1T3PG2naOcdDE276sjSr7cI/ScH1rQhwLDj0YHPw==
      procedure_id : 1974178960244996302
      type_code : 15
      code : |1+
@@ -41,6 +43,7 @@ procedure_set :
      type : 458752
    -
      name : compileAsmX86_API
+     internal_properties : BQAAAAUAAABmqF6cMN3/qZ88LLQbrPMfLKCjqoKxqzVp7H7Di0VQDIi5XQ42VSt/d6lD3LnGVBa1XDSZd5ChGwpU677ZPGyuI7G1TXA5xN1FOuSQ0iHZX0HzqnqxuLwIOwz5niWsgZ9sfsYcGOHUUOXsOfHEnhr2PlFWGaaXp/1T3PG2naOcdDE276sjSr7cI/ScH1rQhwLDj0YHPw==
      procedure_id : 2119897803268269690
      type_code : 15
      code : |1+

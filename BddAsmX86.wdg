@@ -11,9 +11,11 @@ procedure_set :
  identifier : 0x1b72cb3701461c29
  internal_properties : BQAAAAUAAABGLu41kG7fjQV3iS4F72qmnKaNh5694reolNKIW0iw
  code_elements :
+  internal_properties : BQAAAAUAAAC8Sl0pfseidXE9/kBmawagKU2LQSv8bn6/vNDKIJF1LaO5OrXnJBCSprdxyfnkeSCSHo4FglHTPzGvuw==
   type_code : 31
   p_codes :
    -
+     internal_properties : BQAAAAUAAACYCLZZSvIfFeXIdbCOISKamWYtikfozekBku0qcu1SGIrZA0qJFNS+nVKYKs9XtNdKFO+5APYxavjOhm/EfSt1lQtAeeuwbPGTfy+BI47y6Cj3tun29FJEr0haaUeRyThcP5wfF5QUO8556BfYRB1FX4AurIA0I/H1QHFjMrKJBjhVXS675nmEnPh/u7kPQEvnoCjA0cFyWjo0bbQi2ePkMKcR4KWQ7d/P+rNJX6oIouSa8SoG+MwzPL66UvvHU8IlAiD+/bfoKvbYkWldsvXZpINpk5qxHfTsmIcGtHWfu0pzCK66ux7vl0GUAInLdrkfjQIC2ig/QTBQUTkIXaudZVrIP7rtW9x//4MH76/+wLOGVg4JUQlIwj03aBcMQ5d2RX8hKjMM3se7jnhyCvsdj2x1TtOhTVFlhbDvryeuKEFyBSleZAWiyxoaiePVmKmTLQ+733dXkqFvIl7mNMezb1AFRDuwAoIsmm0VTeQ+63JkBu3+xAM=
      code : |1+
       
       registres est un variant
@@ -128,7 +130,7 @@ procedure_set :
       	si numligne =1 ALORS
       		continuer
       	FIN
-      	// ajout de la decption de la synxtaxe d'une opération
+      	// ajout de la description de la syntaxe d'une opération
       	TypeInst est SyntaxeInstructionX86
       	TypeInst.InitFromDescription( sLigneI )
       	sSyntaxe est chaine = TypeInst.GetSyntaxe()
@@ -162,11 +164,11 @@ procedure_set :
      procedure_id : 1977866623474146345
      type_code : 15
      code : |1+
-      // renvoie l'indice d'un registe. commence a à 0 pour EAX par ex.
+      // renvoie l'indice d'un registre. commence a à 0 pour EAX par ex.
       PROCÉDURE GLOBALE nIndiceRegistre( local nomRegistre chaine)
       
       
-      // recherche dans le talbeuan assosisatif des registres x86 connus
+      // recherche dans le tableau associatif des registres x86 connus
       SI PAS tabHRegistre[nomRegistre]..Existe ALORS
       	// pas trouvé
       	dbgAssertion(Faux, nomRegistre )
@@ -180,6 +182,7 @@ procedure_set :
      type : 458752
    -
      name : rechecheTypeInstruction
+     internal_properties : BQAAAAUAAAC4irx2GVdT7918NGaZfPcb9uwJqmirP6uDAH7d0R3o9DqtwyZ4t7fRGb2/FjfOPKZTPEI5PT6R5USg0zRjkIiCEVHXUd4zOHffzg+Dz0I+sGAQn6Gq+fvLNvc42Sr1NtAfo9tPlU7HrxyTlFx5l1u7ZQarGAdQXjRaI7gJChxlwezjHEJEq53HBkc3gv8hNJul6SglHQ==
      procedure_id : 1977866623474211881
      type_code : 15
      code : |1+
@@ -206,11 +209,11 @@ procedure_set :
       // ex "EAX"
       procédure bEstRegistre( sExpr est une chaîne )
       
-      // recherche dans le talbeuan assosisatif des registres x86 connus
+      // recherche dans le tableau associatif des registres x86 connus
       si pas tabHRegistre[Minuscule(sExpr)]..Existe ALORS
       	renvoyer faux
       FIN
-      // c'est un regsitre
+      // c'est un registre
       renvoyer vrai
      type : 458752
    -
@@ -222,7 +225,7 @@ procedure_set :
       // ex "EAX"
       procédure bEstRegistreDeType( sExpr chaine, sTYpe chaine ) : booléen
       
-      // recherche dans le talbleau des registres x86 connus
+      // recherche dans le tableau des registres x86 connus
       SI PAS tabHRegistre[sExpr]..Existe ALORS
       	RENVOYER Faux
       FIN
@@ -231,7 +234,7 @@ procedure_set :
       	renvoyer faux
       FIN
       
-      // c'est un regsitre et il est du type demandé
+      // c'est un registre et il est du type demandé
       RENVOYER Vrai
      type : 458752
    -
@@ -242,7 +245,7 @@ procedure_set :
       procédure sgetTypeRegistre( sRegistre est chaine ) : chaîne
       
       stype est chaine =  tabHRegistre[sRegistre].type
-      renvoyer stype
+      renvoyer sTYpe
       
      type : 458752
   procedure_templates : []

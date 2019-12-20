@@ -269,11 +269,10 @@ class :
      type : 458752
    -
      name : bEstModeRegistreDeNom
-     internal_properties : BQAAAAUAAABTr03kXzE+ycyBizLzf8xklkmVu0KpQfAJNPJbkn+flLrHc9vnnoVCpF6loxXDYp1nVv44z6wXUTKK2zWPQKW0XJTilwlCp/5TaAPLHUMobxwdop30ijkyjbws60ISdjNVYNIR35FToOG6GnZBdklUeQuueIsh7C8FTMhZdEwCL+JaizQW4gyNf7LXD2mWr1+KwV0o
      procedure_id : 2157233700605729989
      type_code : 12
      code : |1-
-      // indique si on est un adressage direct sur un registe spécifique. ex "EAX"
+      // indique si on est un adressage direct sur un registre spécifique. ex "EAX"
       procédure bEstModeRegistreDeNom( sNomReg chaine )
       
       RENVOYER  :modeAdres = MA_Registre _et_ :registre = sNomReg

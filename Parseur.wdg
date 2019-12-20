@@ -11,9 +11,11 @@ procedure_set :
  identifier : 0x1b72cad201318f30
  internal_properties : BQAAAAUAAABGLu41kG7fjQV3iS4F72qmnKaNh5694reolNKIW0iw
  code_elements :
+  internal_properties : BQAAAAUAAAASV2OHJDNQ//5/LFEqvGYcLHtdVjrpN7i9ZlHiXGHea0lOuc54K3FpJ1azMF3mlBUZRstxMv8D+MmhPEJPdryPuMj+QOXu
   type_code : 31
   p_codes :
    -
+     internal_properties : BQAAAAUAAACC+mFRO4Xs8nl0+xhnY6lHAHk4BwwmI6twNHSXRHk5k7TOe+7xQcXBLP+HcbX6A+rTXDLDvyIS+x7p+zLp5PJKHOhVWBqFeZ4hsqBc0M2162kImfLTDOi+/0k5b4oyrC3mBAm/ZEpG3fhsrFluURU+yxAAeaYereayTjLqNYuA9/GisrqCgvNC2xtmSMMJhZG/STZPifCeIDo8nXswNrs3Pwp4KZMUH1w4L6WmfzXJd2JBH+WkPwcPqIfBXMH2VfbEUW9pZVrEi03n
      code : |1+
       
       
@@ -110,6 +112,7 @@ procedure_set :
      type : 458752
    -
      name : AnalyseSyntaxiqueLigne
+     internal_properties : BQAAAAUAAAAMt2gLxuL7YXgYpyGGNHsOSfbuKsYBfab6LDTRYYr6+8wJiwrJlMB5MmpmGC6IaV5a4vajRjjVM3JePbbMzgSh+boInOjIjz7QiMIrEzgXfG1CIsTEeSa1cxCbuxbbe+IS8QKiawywW68qxUbPT1K/SD7EBQM0H0QPxLNvdKQkGfkr0wFyrfThjzy+ppv/OmuJS6Fct9w=
      procedure_id : 1977866189681233712
      type_code : 15
      code : |1+
@@ -127,7 +130,7 @@ procedure_set :
       		// pas un label
       		sLabel=""
       	sinon
-      		sCodeAsm1Ligne  = milieu(sCodeAsm1Ligne,taille(sLabel)+2) // +1 pour le ":"; +1 pour commencer apres
+      		sCodeAsm1Ligne  = milieu(sCodeAsm1Ligne,taille(sLabel)+2) // +1 pour le ":"; +1 pour commencer après
       	fin
       FIN
       // supprimer les commentaires ; ou //
@@ -158,6 +161,7 @@ procedure_set :
      type : 458752
    -
      name : bAnalyseChaineVersModeAdressage
+     internal_properties : BQAAAAUAAAA4s3JO1Gg5WXYGCw3qWpte25C83DrfIX58RnglTZjq18IPoWQZfpRdnPT20BaC5cpgEOzlXrL5U2yIiQ5UkLR5o1xaumR288r6kp5K1C0GdQaLYc1l7rvYVDmEhtvkvt9rSmmLvDEdxthDHn1k2BGwTQuHCgA1ELegXfwObbEfFh7wEprXNp14bFm7QeSkBd7gaE9ou9A=
      procedure_id : 1977866189681299248
      type_code : 15
      code : |1+
@@ -198,6 +202,7 @@ procedure_set :
      type : 458752
    -
      name : _bChaineVersIndirectionRegistre
+     internal_properties : BQAAAAUAAADngy9aJyVTH2GOP2kAuMxWbXDh4BCYmqFwdKYJxllXBv3FAKpldblXIVNBYhREMaZFafqHa2ObF9LPc3zvPQXFZECvEy7z/Z5B1keGQgBPjYUYoiDyemZ+e8LWUgjLIY6Au/fmKrjtG0g5ITXBTyPyXIfXRQGGyGoUd9m2qGhJQMK/CwFoULGkW1fL+gn/PgDyq0yB3qnBDirMgIYQV9/9k/i3P8MpUUfNY9uXajVk1kbqvOSU028D5q0RsZFTgt5tnDaNZ00H9SroZA==
      procedure_id : 1977866189681364784
      type_code : 15
      code : |1+
