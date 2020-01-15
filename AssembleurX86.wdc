@@ -154,8 +154,30 @@ class :
       renvoyer bufCodeAsm
      type : 458752
    -
+     name : _bEstDirectiveDeCompilation
+     procedure_id : 2170363432707260301
+     type_code : 12
+     code : |1+
+      // indique si la ligne est une directive de compilation
+      // ie pas du code assembleur
+      // ex : .CODE
+      procédure _bEstDirectiveDeCompilation( sCodeAsm1Ligne est chaine  ) : booléen
+      
+      // ignorer .CODE, .TEXT
+      si (sCodeAsm1Ligne ~= ".CODE") renvoyer vrai
+      si (sCodeAsm1Ligne ~= ".TEXT") renvoyer vrai
+      
+      //ignorer les directive PROC / ENCODE
+      sDernierToken est chaine = minuscule( ExtraitChaîne(sCodeAsm1Ligne,1," ",DepuisFin) )
+      si sDernierToken="proc"  RENVOYER Vrai
+      si sDernierToken="endproc"  RENVOYER Vrai
+      
+      // autre chose, du code asm
+      renvoyer faux
+     type : 458752
+   -
      name : _CompileUneLigne
-     internal_properties : BQAAAAUAAADqPHrXWQ7cXsRrGIKm0EpfjgA/dIXDhWLvEErBTWGU2CYNi5qcN4MRfZ27OrMaiFrn9FqlYdZF1fgIZ4j3rBw+/QGP3bJ7DK8bbv213XDAwiJKKTsYN70JeGnmS6gTEAr5BQ1BC/ThTeb9OtbnJd2NZ/hVEsVWWCp0/V4DAHm+GrABENoUBwY0aotT46sokAjKs2J7yw==
+     internal_properties : BQAAAAUAAADK3Bp3eS48roQLOKKmEKr/DoBf1MUjxYKvsKrhTSF0eGZNq/pcF8NxPX2bGvOaqDrn9HoFobYFdbhohyh3bPxe/YHv/bJbTI/bzo0FTcCwUrLamUsoR02ZyFn2G1ijgBrJVT3RG4TxXfZtyubXNY3dN0gF4hUmKHqE7W5TsImuqgDRQOok19YEOvvj81sIsCjqU4Jb6w==
      procedure_id : 1974067480069991068
      type_code : 12
      code : |1+
@@ -165,6 +187,11 @@ class :
       
       // ignorer les lignes vides et commentaires
       si parseur.bEstLigneVide(sCodeAsm1Ligne)  alors renvoyer ""
+      
+      // gestion des directives de compilation pour compat avec un fichier .asm "masm"
+      // ex : ".CODE" ou "xxxxx proc"
+      si _bEstDirectiveDeCompilation( sCodeAsm1Ligne ) ALORS rENVOYER ""
+      
       
       // découper la ligne en ses élément lexicaux : 
       // label: OPCODE P1,P2,P3 ;Commentaire
