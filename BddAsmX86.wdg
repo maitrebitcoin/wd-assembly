@@ -15,7 +15,7 @@ procedure_set :
   type_code : 31
   p_codes :
    -
-     internal_properties : BQAAAAUAAACYCLZZSvIfFeXIdbCOISKamWYtikfozekBku0qcu1SGIrZA0qJFNS+nVKYKs9XtNdKFO+5APYxavjOhm/EfSt1lQtAeeuwbPGTfy+BI47y6Cj3tun29FJEr0haaUeRyThcP5wfF5QUO8556BfYRB1FX4AurIA0I/H1QHFjMrKJBjhVXS675nmEnPh/u7kPQEvnoCjA0cFyWjo0bbQi2ePkMKcR4KWQ7d/P+rNJX6oIouSa8SoG+MwzPL66UvvHU8IlAiD+/bfoKvbYkWldsvXZpINpk5qxHfTsmIcGtHWfu0pzCK66ux7vl0GUAInLdrkfjQIC2ig/QTBQUTkIXaudZVrIP7rtW9x//4MH76/+wLOGVg4JUQlIwj03aBcMQ5d2RX8hKjMM3se7jnhyCvsdj2x1TtOhTVFlhbDvryeuKEFyBSleZAWiyxoaiePVmKmTLQ+733dXkqFvIl7mNMezb1AFRDuwAoIsmm0VTeQ+63JkBu3+xAM=
+     internal_properties : BQAAAAUAAADU1GIljoxn7dkEFcCC2RIKVQqxikP4vQEtVrUKFl1qz7Tr+3CrODR2c1gGlqkz0gfYWlPnom7N6lR0jEOmgR2pD40oW2GMZB1Drf1VpWqwmDqRuq8w9H7kg9J81SktzySGCTxx4URYZ3b7bmMqKN+pjT7iikp8z4lReo/b0JpD3nKfiez1pr1ATEpJ05enCr9VBrQWm2k+8qLCj5T4qf00bsWJ0q9wIeMvmCGZjZp2dipwycQc1FzDXLxI85Q8Okmq2T/pGEiVd7MHQLruDxTwXdbETtVKqgnB31aXoTq2slvug71h9JOI/PgDYTa8BcAcDIEFzTFESrmrPEZVakLUOtFXIp2CROV05uLg5KT542y5Aek0tjoBC8hajXw1nnpbFK50pYxxoxhGAW07/4JctJsESY6mVha+MKuk0IQpo9KNKACNLernPJ1djiQS+cpKKgy84CJOhCfhlIzYqnURNZrfeiHmGNxKnGfz1wIEMTigyqkyiM8=
      code : |1+
       
       registres est un variant
@@ -93,6 +93,7 @@ procedure_set :
       	ENCODAGE_ADDREGTOOPCODE = "+reg"
       	ENCODAGE_AUCUN			= ""
       	ENCODAGE_RM				= "r"
+      	ENCODAGE_VEX			= "vex"
       FIN
       
       // -- Instructions x86 et paramètres au format CVS -------

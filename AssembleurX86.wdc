@@ -15,12 +15,17 @@ class :
   type_code : 10
   p_codes :
    -
-     code : |1+
+     code : |1-
       AssembleurX86 est une Classe
       	cAlloMemExecutable est AllocateurDeMemExecutable 
-      
+      	eMode 			   est EModeASM  // pour Test auto.
       FIN
       
+      EModeASM est une énumération
+      	SelonPlateforme   // 32 ou 64 bits selon la plateforme courante
+      	force32Bits 	  // force a générer du code 32 bits
+      	force64Bits       // force a générer du code 64 bits
+      fin
      type : 131072
   procedures :
    -
@@ -104,6 +109,7 @@ class :
       procédure _sCompile( codeAssembleur est chaine ) : buffer
       
       contexte est ContexteCompilation
+      contexte.compilateur <- objet
       
       // 1 Passe : compilation ligne a ligne
       bufCodeAsm est un buffer
@@ -188,8 +194,8 @@ class :
       // ignorer les lignes vides et commentaires
       si parseur.bEstLigneVide(sCodeAsm1Ligne)  alors renvoyer ""
       
-      // gestion des directives de compilation pour compat avec un fichier .asm "masm"
-      // ex : ".CODE" ou "xxxxx proc"
+      // gestion des directives de compilation pour compatibilité avec un fichier  "masm"
+      // ex : ".CODE" ou "MaProcédure PROC"
       si _bEstDirectiveDeCompilation( sCodeAsm1Ligne ) ALORS rENVOYER ""
       
       
@@ -256,12 +262,9 @@ class :
      code : |1+
       procédure _bTailleOperandeValide( n entier )
       
-      // registre 32 bits non supportés en  64 bits
-      //si n=32 _et_ EnMode64bits() ALORS
-      //	renvoyer faux
-      //FIN
+      
       // registre 64 bits interdits en 32 bits
-      si n=64 _et_ pas EnMode64bits() alors
+      si n=64 _et_ pas b64Bits() alors
       	renvoyer faux
       FIN
       
@@ -361,12 +364,28 @@ class :
      internal_properties : BQAAAAUAAAA3i9EtQI1m/RiNJz4b06xMwnXlt1b1OVw9MIaPWvN37C6bKx8zioV+uIKR771/+u3j0s4UG7B3NU42t/l/lA2sINi6o72O76pXbLEBp8kuYe4HmHu2eC9gf6qaQeRwJE3PqpjXOW8Z7hNoQBTT/OfWe53MVo0n+v0XCp6P7oJI4TTsWSLgKFJTYfA15QPk7c5mJTnM
      procedure_id : 2020871396566059043
      type_code : 12
-     code : |1-
+     code : |1+
       // conversion d'un entier sur 8 octets sans signe en un buffer en petit endian 
       procédure GLOBALE uint64VersbufferLowEndian( LOCAL imm64 est entier sur 8 sans signe ) : buffer
       bufLowEdian est un buffer = Répète(caract(0),8)
       Transfert(&bufLowEdian,&imm64,8)
       RENVOYER bufLowEdian
+     type : 458752
+   -
+     name : b64Bits
+     procedure_id : 2170743859441436027
+     type_code : 12
+     code : |1-
+      procédure b64Bits() : booléen
+      
+      selon eMode
+      	CAS SelonPlateforme
+      		renvoyer EnMode64bits()
+      	CAS force32Bits
+      		renvoyer  Faux
+      	CAS force64Bits
+      		renvoyer vrai
+      FIN
      type : 458752
   procedure_templates : []
   property_templates : []

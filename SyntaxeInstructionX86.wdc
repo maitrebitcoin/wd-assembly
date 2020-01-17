@@ -57,7 +57,7 @@ class :
       
       // cas particulier REX en 64 bits : de 0x40 a 0x48 
       // instructiont DEC 32 bits non utilisables en mode 64, il faut utiliser la version rp/mod en 0xFE
-      si EnMode64bits() 
+      si contexte.compilateur.b64Bits() 
       	si :opcode=Caract(0x40)  ALORS renvoyer faux
       	si :opcode=Caract(0x48)  ALORS renvoyer faux
       	
@@ -177,16 +177,61 @@ class :
       FIN
       
       //@autres : TODO
-      dbgAssertion(faux, "cas non géré" + operande.modeAdres )
+      dbgAssertion(faux, "cas non géré" + operande.modeAdres.nom )
       renvoyer 0
+     type : 458752
+   -
+     name : _WRXB_PourREXouVeX
+     procedure_id : 2171126158774637368
+     type_code : 12
+     code : |1-
+      // renvoie les 4 booléen W,R, X,B pour l'encodage REW/VEX
+      procédure _WRXB_PourREXouVeX(tabValeurParam est un tableau de ValeurOperande) : (booléen, booléen, booléen, booléen)
       
+      w	est un booléen		= 1	// 0 = Operand size determined by CS.D / 1 = 64 Bit Operand Size
+      R	est un booléen			// Extension of the ModR/M reg field
+      X	est un booléen			// Extension of the SIB index field
+      B	est un booléen			// Extension of the ModR/M R/m field, SIB base field, or Opcode reg field
+      
+      
+      SI :encodage = ENCODAGE_RM  // spécial R/M (2 reg dans 1 octets)
+      	R	= _bBitRex( tabValeurParam[1] )
+      	B	= _bBitRex( tabValeurParam[2] )
+      	SI  tabTypeParam[1].bModeEncodageRM() ALORS
+      		// si la syntaxe commence par r/M ex: MOV	r/m16/32	r16/32
+      		// l'ordre src/dest est inversé
+      		R<=>B
+      	FIN	
+      	SI  tabValeurParam.Occurrence()=2 ALORS
+      		// cas mov  rax,qword ptr [r8+r12+1]
+      		SI tabValeurParam[2].registre2<>""  _ET_ nIndiceRegistre(  tabValeurParam[2].registre2)>7 ALORS
+      			X=1
+      		FIN	
+      	FIN
+      	
+      SINON
+      	SI  tabValeurParam.Occurrence()=1 ALORS
+      		B = _bBitRex( tabValeurParam[1] ) // cas "INC R10"
+      	FIN
+      	SI  tabValeurParam.Occurrence()=2 ALORS
+      		R	= _bBitRex( tabValeurParam[1] ) 
+      		B	= _bBitRex( tabValeurParam[2] )	
+      		
+      	FIN
+      	SI  tabValeurParam.Occurrence()=3  ALORS
+      		R = _bBitRex( tabValeurParam[3] )	
+      		
+      	FIN
+      	
+      FIN
+      renvoyer (w,R,X,B)
      type : 458752
    -
      name : _EncodePrefix_REX
      internal_properties : BQAAAAUAAAApG0o1Pt5A+FVLcUpfk4GRsWXA+VeOCjHmHkITaWbGEiXj7T7gsVhwgoT2V3FF+WV+j1aNAXAjTwAcSXmls8WO0SRiGMLkHTwUS8AQJ0Ch2QfqJ2gKMVvZLJhCs4c+I6vE6XArviM+qeRgisYGfiZqBs6kdra9NWpqHkAt24QpINbmYiUwozFs0W8WO6fObir3K8zeE+xrk6lpcAURRMVzYAG5OfpT/+vL9uhjnjV6CiH2Gg==
      procedure_id : 2020855827309328332
      type_code : 12
-     code : |1-
+     code : |1+
       // encoder le préfixe REX en 64 bits 
       // (pour accéder aux registre R8 par ex.)
       // voir par ex : https://xem.github.io/minix86/manual/intel-x86-and-64-manual-vol2/o_b5573232dd8f1481-69.html
@@ -221,46 +266,17 @@ class :
       	
       FIN
       
-      nREX est un entier = 0x40 // 4 bits de poids fort
+      //  récup des booléen qui encodent les paramètres
       w est un booléen   = 1 // 0 = Operand size determined by CS.D / 1 = 64 Bit Operand Size
       R est un booléen	   // Extension of the ModR/M reg field
       X est un booléen	   // Extension of the SIB index field
       B est un booléen	   // Extension of the ModR/M R/m field, SIB base field, or Opcode reg field
+      (W,R,X,B) =	_WRXB_PourREXouVeX(tabValeurParam)
       
-      
-       si :encodage = ENCODAGE_RM  // spécial R/M (2 reg dans 1 octets)
-      	R = _bBitRex( tabValeurParam[1] )
-      	B = _bBitRex( tabValeurParam[2] )
-      	SI  tabTypeParam[1].bModeEncodageRM() ALORS
-      		// si la syntaxe commence par r/M ex: MOV	r/m16/32	r16/32
-      		// l'ordre src/dest est inversé
-      		R<=>B
-      	fin	
-      	SI  tabValeurParam.Occurrence()=2 ALORS
-      		// cas mov  rax,qword ptr [r8+r12+1]
-      		SI tabValeurParam[2].registre2<>""  _et_ nIndiceRegistre(  tabValeurParam[2].registre2)>7 ALORS
-      			X=1
-      		FIN	
-      	FIN
-      
-      sinon
-      	SI  tabValeurParam.Occurrence()=1 ALORS
-      		B = _bBitRex( tabValeurParam[1] ) // cas "INC R10"
-      	FIN
-      	SI  tabValeurParam.Occurrence()=2 ALORS
-      		R = _bBitRex( tabValeurParam[1] ) 
-      		B = _bBitRex( tabValeurParam[2] )	
-      
-      	FIN
-      	SI  tabValeurParam.Occurrence()=3  ALORS
-      		R = _bBitRex( tabValeurParam[3] )	
-      		
-      	FIN
-      
-      fin
       
       // Calcul final de REX
-      si w ALORS	nREX = nREX | 0x08
+      nREX est un entier = 0x40 // 4 bits de poids fort
+      si W ALORS	nREX = nREX | 0x08
       si R ALORS	nREX = nREX | 0x04
       si X ALORS	nREX = nREX | 0x02
       si B ALORS	nREX = nREX | 0x01
@@ -269,8 +285,74 @@ class :
       renvoyer Caract( nREX )
      type : 458752
    -
+     name : _EncodePrefix_VEX
+     procedure_id : 2170759682100575087
+     type_code : 12
+     code : |1-
+      // encoder le préfixe VEX des instructions:
+      //voir https://www.intel.com/content/dam/www/public/us/en/documents/manuals/64-ia-32-architectures-software-developer-instruction-set-reference-manual-325383.pdf
+      //     2.3.5 :
+      //		The VEX prefix	is encoded in either the two-byte form (the first byte must be C5H) or in the three-byte form (the
+      //		first byte must be C4H). The two-byte VEX	is used mainly for 128-bit, scalar, and the most common 256-bit AVX
+      //		instructions; while the three-byte VEX provides a compact replacement of REX and 3-byte opcode instructions
+      //		(including AVX and FMA instructions).
+      // ex :   mulx        rax,rax,rax  => "C4 E2 FB F6 C0"     
+      procédure _EncodePrefix_VEX(tabValeurParam est un tableau de ValeurOpérande,  contexte est ContexteCompilation dynamique) : buffer
+      dbgAssertion(tabValeurParam.Occurrence() = 3) // seul ca géré
+      
+       // VEX sur 3 Bytes :
+       // voir https://en.wikipedia.org/wiki/VEX_prefix
+       
+      //  récup des booléen qui encodent les paramètres
+      //w	est un booléen		= 1	// 0 = Operand size determined by CS.D / 1 = 64 Bit Operand Size
+      //R	est un booléen			// Extension of the ModR/M reg field
+      //X	est un booléen			// Extension of the SIB index field
+      //B	est un booléen			// Extension of the ModR/M R/m field, SIB base field, or Opcode reg field
+      soit (W,R,X,B) =	_WRXB_PourREXouVeX(tabValeurParam)
+       
+       // Byte 0 : indique qu'on est un préfixe VEX sur 3:
+      bufVEX est un buffer = caract(0xC4)
+      // byte 1 : R̅	X̅	B̅	m4	m3	m2	m1	m0
+      byteVex1 est un entier = 0
+      SI pas R ALORS	byteVex1 = byteVex1 | 0x80
+      SI pas X ALORS	byteVex1  =byteVex1 | 0x40
+      SI pas B ALORS	byteVex1 = byteVex1 | 0x20
+      // m replaces leading opcode prefix bytes. 
+      // The values 1, 2 and 3 are equivalent to opcode prefixes 0F, 0F 38 and 0F 3A; all other values are reserved. m
+      m est un entier 
+      SI :opcode[1] <> Caract(0x0F) ALORS
+      	dbgAssertion(Faux)
+      	renvoyer "" // non géré
+      FIN
+      si       :opcode[2] = Caract(0x38) ALORS
+      	m=2
+      sinon si :opcode[2] = Caract(0x3A) ALORS
+      	m=3
+      SINON  
+      	m=1
+      FIN
+      byteVex1 = byteVex1 | m
+      bufVEX += caract(byteVex1)
+      
+      // byte 2 : W	v̅3	v̅2	v̅1	v̅0	L	p1	p0
+      //v̅ is the inversion of an additional source register index.
+      //L indicates the vector length; 0 for 128-bit SSE (XMM) registers, and 1 for 256-bit AVX (YMM) registers.
+      //p encodes additional prefix bytes. The values 0, 1, 2, and 3 correspond to implied prefixes of none, 66, F3, and F2.
+      //   These encode the operand type for SSE instructions: packed single, packed double, scalar single and scalar double, respectively.
+      byteVex2 est un entier = 0
+      v est un entier = tabValeurParam[3].registre + 1  
+      v=  OUExclusifBinaire(v, 0xF) // vvvv: a register specifier (in 1’s complement form) or 1111 if unused.
+      SI W ALORS	byteVex2 = byteVex2 | 0x80
+       			byteVex2 = byteVex2 | (v * 8)
+      bufVEX += Caract(byteVex2)
+      
+      
+      dbgAssertion(taille(bufVEX) = 3) 
+      renvoyer bufVEX
+     type : 458752
+   -
      name : Encode
-     internal_properties : BQAAAAUAAAAiBDLIkKbo3ojjJFaqDDZTQjiPUJF7AQqLKL4F4T04rNJ1A+5IVy9hWS135k9W9PaTfFo5FcbxTfyo4wxjAGgqmVnXme4zwHefjmtn8+ZK3Aw8q63OnRf3amvk/X55skyLH2f7OYJz23D3MKCNi3dXscLnVNuEiuB+pzR9vkeoLKL7Qvwy5chyrG1RTcFOqtoXW5qzgw==
+     internal_properties : BQAAAAUAAADixHKI0GaoPsgjZNbqDPYTQjiP0FG7QcoLKD5F4X24LBI1Q67I16/hmW23Zg9WNLaTfNq5VYaxDfwoY8xjQOiqWZkX2e4zQPffTstHk4ZqfKxcC42uvTeXigvEXZ6ZUmyrP8dbmSITexCXkAAtqxf30WLHtDskqoCeRxTd3mdITEIbItwSBWiSTA2xrWEOahrXm1pzww==
      procedure_id : 1976289923846553489
      type_code : 12
      code : |1+
@@ -286,12 +368,18 @@ class :
       si contexte.tailleOpérande=16 ALORS
       	code += Caract( 0x66 )
       FIN
-      // si on doit forcer le mode 64 bits - REX
-      REX_Prefix est buffer
-      SI EnMode64bits() _et_ contexte.tailleOpérande=64 ALORS
-      	// REX: 0100 WRXB 
-      	REX_Prefix = _EncodePrefix_REX(tabValeurParam, contexte) // ex :  Caract( 0x40 )
-      	code 	  += REX_Prefix
+      // si on doit forcer le mode 64 bits - REX ou VEX
+      VEX_REX_Prefix est buffer
+      SI contexte.compilateur.b64Bits() _et_ contexte.tailleOpérande=64 ALORS
+      	// si 3 opérandes => VEX
+      	si :encodage=ENCODAGE_VEX ALORS
+      		// VEX :
+      		VEX_REX_Prefix = _EncodePrefix_VEX(tabValeurParam, contexte)
+      	sinon
+      		// REX: 0100 WRXB 
+      		VEX_REX_Prefix = _EncodePrefix_REX(tabValeurParam, contexte) // ex :  Caract( 0x40 )
+      	fin
+      	code 	  += VEX_REX_Prefix
       FIN
       
       
@@ -303,6 +391,10 @@ class :
       	
       	code +=  caract( asc(:opcode) + nReg )
       	nbParamTraite++
+      SInon si :encodage = ENCODAGE_VEX ALORS	
+      	// l'OPCODE n'est que le denier octet. le reste est encodé dans VEX_REX_Prefix
+      	dbgAssertion(taille(opcode)=3)
+      	code +=  droite(:opcode,1)
       sinon
       	// OPCODE principal
       	code +=  :opcode 
@@ -347,9 +439,13 @@ class :
       		continuer
       	FIN
       	
-      	
       	// encodage du paramètre
       	code += typeParamI.Encode( valeurParamI, nForceReg_modRegRM, contexte )
+      	
+      	SI :encodage = ENCODAGE_VEX ALORS
+      		sortir // on stop au 1er, le reste a été encodé dans le préfixe
+      	FIN
+      	
       FIN
       
       

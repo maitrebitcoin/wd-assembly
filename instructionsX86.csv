@@ -116,7 +116,7 @@ JNLE;rel8;;;;;;7F;;
 JG;rel8;;;;;;7F;;
 ADD;r/m8;imm8;;;;;80;;0
 OR;r/m8;imm8;;;;;80;;1
-ADC;r/m8;imm8;;;;;80;;2
+ADC+A1114;r/m8;imm8;;;;;80;;2
 SBB;r/m8;imm8;;;;;80;;3
 AND;r/m8;imm8;;;;;80;;4
 SUB;r/m8;imm8;;;;;80;;5
@@ -1109,3 +1109,5 @@ PADDW;mm;mm/m64;;;0F;;FD;;r
 PADDW;xmm;xmm/m128;;;0F;66;FD;;r
 PADDD;mm;mm/m64;;;0F;;FE;;r
 PADDD;xmm;xmm/m128;;;0F;66;FE;;r
+MULX;r16/32;r16/32;r/m32;;0F;38;F6;;vex
+ADCX;r16/32;r16/32;;;0F;38;F6;;r

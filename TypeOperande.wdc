@@ -56,7 +56,7 @@ class :
       
       // type registre généraux comme EAX,ECX ou RAX,RCX,R9 selon le mode 32 ou 64 bits.
       REGISTRE_32ou64 est chaine = REGISTRE_32BITS
-      SI EnMode64bits() ALORS
+      SI contexte.compilateur.b64Bits() ALORS
       	REGISTRE_32ou64 = REGISTRE_64BITS
       FIN
       
@@ -70,7 +70,7 @@ class :
       			RENVOYER valeurParam.bEstModeRegistreDeType( REGISTRE_16BITS )
       		FIN
       		// cas 65 bits 
-      		SI EnMode64bits() ALORS
+      		SI contexte.compilateur.b64Bits() ALORS
       			SI  nomType=REGISTRE_16Ou32ou64BITS  ALORS
       				// MOV EAX,1 est légal en 64 bits
       				SI valeurParam.bEstModeRegistreDeType( REGISTRE_32BITS ) ALORS
@@ -81,7 +81,7 @@ class :
       		FIN		
       		RENVOYER valeurParam.bEstRegistre32Bits() 
       	CAS	REGISTRE_32BITS
-      		SI EnMode64bits() ALORS
+      		SI contexte.compilateur.b64Bits() ALORS
       			RENVOYER valeurParam.bEstRegistre64Bits()
       		FIN
       		RENVOYER valeurParam.bEstRegistre32Bits() 
@@ -101,7 +101,7 @@ class :
       	cas IMMEDIATE_16ou32BITS
       		RENVOYER valeurParam.bEstModeValeurImmediate() _ET_ valeurParam.valeurImmediate<=0xFFFFFFFF
       	cas IMMEDIATE_16ou32ou64BITS
-      		SI EnMode64bits() ALORS
+      		SI contexte.compilateur.b64Bits() ALORS
       			RENVOYER valeurParam.bEstModeValeurImmediate() 
       		FIN		
       		RENVOYER valeurParam.bEstModeValeurImmediate() _ET_ valeurParam.valeurImmediate<=0xFFFFFFFF
@@ -182,7 +182,7 @@ class :
       	CAS	IMMEDIATE_16ou32BITS
       		RENVOYER _encodeImmediate32(valeur.valeurImmediate) 	
       	CAS	IMMEDIATE_16ou32ou64BITS // cas de MOV RAX, 0xFFFFFFFFFFFFFFFFFFF
-      		SI EnMode64bits() _ET_ contexte.tailleOpérande=64 ALORS
+      		SI contexte.compilateur.b64Bits() _ET_ contexte.tailleOpérande=64 ALORS
       			// cas valeur immédiate comme 0xFFFFFFFFFFFFFFFF
       			RENVOYER _encodeImmediate64(valeur.valeurImmediate)
       		sinon

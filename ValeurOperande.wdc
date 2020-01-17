@@ -19,7 +19,7 @@ class :
      code : |1+
       // modes d'adressage x86 et leur encodage
       ValeurOperande est une Classe
-      	modeAdres	est entier     // mode d'adressage, MA_Registre, MA_Immemdiat, MA_Indirection
+      	modeAdres	est ModeAdressage // mode d'adressage, MA_Registre, MA_Immemdiat, MA_Indirection
       	taillePtr   est entier     // taille pointée si indirection + taille précisée. ex : dword ptr[ebx]
       	registre    est chaîne	   // ex : "EAX"
       	registre2   est chaîne	   // 2eme regsitre si indirection. ex : "EDX" si mode = "[EBP+EDX]"
@@ -28,15 +28,14 @@ class :
       	label		est chaine  // si mode = MA_Label
       FIN
       
-      // mode possible
-      constant
+      // modes d'adressage possible
+      ModeAdressage est une énumération
       	MA_Vide	   		= -1 // vide pour réserver de place avant patch des labels
       	
       	MA_Registre    = 0 // registre direct. ex : EAX
       	MA_Immemdiat   = 1 // valeur immédiate. ex : 1234
       	MA_Indirection = 2 // indirection. ex : [EBX+EDX+6]
       	MA_Label	   = 3 // label. ex:  jmp boucle
-      		
       fin
      type : 131072
   procedures :

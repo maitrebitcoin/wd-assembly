@@ -32,6 +32,9 @@ class :
       	
       	// symboles a patcher après la passe de compilation
       	tabUtlisationSymbole est un tableau associatif de variant
+      	
+      	// compilateur en cours
+      	compilateur est AssembleurX86 dynamique
       FIN
      type : 131072
   procedures :
