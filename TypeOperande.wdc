@@ -38,7 +38,7 @@ class :
      type : 655360
    -
      name : bEstcompatibleAvecValeur
-     internal_properties : BQAAAAUAAAAKHNq3yY4gDoRroAIeuKLfHoAnBG2rRarnCPqpLWGkMG5VywKc16txHS0zmltC0IqHZHJF2Q4V/VCghxCXzOyGtSmPxWKb9K/LHhk5gZRsjm4mRTf8C/nVzO3SL6xXHBbF0Yktv9jNSfpR9rqbWdm5Y4QBvvladMYo8fpXtL365uxNzKZ4uyLQzr/vdy+8ANgqE8Kbqw==
+     internal_properties : BQAAAAUAAAD6zArH+R6RaDafrMTcjHaDBGh9nIeNUQzZTL4TG0UwXKiJDR4mhWtPdzlT3JkWJLYl3FS5NxBxO9rUqy4J/AyeA8HF3aAJZE3liuzoapkhF8l7MtK5sCSAozSB9n1kCffUZi704Pl86E00AamcVuIu5nnekU4vz7UbZHlOtZKnh3/eDZW5vLFLNbbK8owtkGhaw3Jr2w==
      procedure_id : 2157233528784387948
      type_code : 12
      code : |1+
@@ -77,12 +77,16 @@ class :
       					RENVOYER Vrai
       				FIN
       			FIN
-      			RENVOYER valeurParam.bEstRegistre64Bits()
+      			// 32 et 64 acceptés en 64 bits
+      			RENVOYER valeurParam.bEstRegistre64Bits()	_OU_ ...
+      					 valeurParam.bEstRegistre32Bits() 
       		FIN		
       		RENVOYER valeurParam.bEstRegistre32Bits() 
       	CAS	REGISTRE_32BITS
       		SI contexte.compilateur.b64Bits() ALORS
-      			RENVOYER valeurParam.bEstRegistre64Bits()
+      			// 32 et 64 acceptés en 64 bits
+      			RENVOYER valeurParam.bEstRegistre64Bits() _ou_ ...
+      			         valeurParam.bEstRegistre32Bits() 
       		FIN
       		RENVOYER valeurParam.bEstRegistre32Bits() 
       	
@@ -125,6 +129,13 @@ class :
       		SI nomType<>MOD_REG_RM_32BITS _ET_ contexte.tailleOpérande = 16 ALORS
       			RENVOYER valeurParam.bEstModeRegistreDeType( REGISTRE_16BITS )
       		FIN		
+      		// en 64 bits les registres 32 sont OK, on omets le préfixe REX
+      		SI contexte.compilateur.b64Bits() ALORS
+      			si valeurParam.bEstModeRegistreDeType( REGISTRE_32BITS ) ALORS
+      				renvoyer vrai
+      			FIN
+      		FIN
+      		// OK si registre la taille par défaut
       		RENVOYER valeurParam.bEstModeRegistreDeType( REGISTRE_32ou64 )
       	cas MOD_REGISTRE_OU_INDIRCET_8BITS
       		// inc [ebx] est OK par ex. veut dire incrémenter l'octet en [Ebx]

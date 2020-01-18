@@ -100,9 +100,9 @@ window :
         type : 161
         enabled : false
   -
-    name : Setb
+    name : XOR
     identifier : 0x2e231e9f00b40a8f
-    internal_properties : BQAAAAUAAACOAAYPT8kqLWNty67VT1Q37Nvn359vam79lUmZR4x4B8FQr50QwUHOFH5dybooZUHfEj4Mwx9LUkQrZnBpQN6pB4rMtdLfyE/0LFsQ6OTVpa7AonG/Y7wHzYTEoyztESRyIf2wdcpqzRyOOOkrq6yyenjnqCMdPpXrj1Sc+FY/SB1kZUaTuur/KFHR/1oTQ13MCtPVJ7H3G31QXWNK31hrsrZF9kmk9wskVnJ2nC/xaKEkHqKGMs0O55bIEgunkakR6QZg2OEQmGCIgWuPShhUE5Jv3gpSWCXjAmkjBshrR9eu8We2iDGCeIwlhdlGcVZejjbFnanpXKHtDVNFRTq43zsASGFPYvys4IT5MA8EMLzTX9tfxt2StBHOHOxTKgIDgvqSXQviYbnDpRbJsARj/oqyK719xz53ZM4k4+kAIB5i3UZOcceuM4DBHGlXDboWQqYu/Y9KxBOkC71ylFnnpwR/LPOuf0NcqP4asAbKYMN8G5cUaLcT4meqjVNMIJcuRTHWSDrHZrmRzwidVPN7vcdWOanO5pvIF6nq0niKpFd2TwjAJR2GiJpxuFuPP0UBHskoOn9bJTk6rtqhNdxWsHInHRJS7x9Hb9oTufu++cToFtubZzXmsIJhRAg+aSWYtI9vO92BRWRTJ1SEZCJSBaRUr+FtZ1X2N/ctWF8nTpFnOSB+uxfoiaOjLY8VUuO0IUoklv2iXAUeTXCmhxRrYvVjVA==
+    internal_properties : BQAAAAUAAAAyPKohi8SfZtYusOFckufCUcCMYFFxBNj/z+dTjVZSCVPmMdeao+NYjsBj+zCi73vJcPDu/VnNpJZ1XAofisCDCRBPD8KSohykUx6hUTanxgJ7tjZ8XFbtR6gdcSG9jOvOp8vJvzkkzk0FY5qivvULwWO5sxO13nVrT7Q8uJafyD2EBSRLggbvWPEBV86bx9kEst/V/2mrMwVQpbOOF4RfYn6JbrFc02M0bqqOMI9lpKm8uio2GuEmTy44qnev7bU5mUrw+LkMAJAAsSvjsvSwU9rTftJy9NU7skmzwshH2+/GJW9WoB1ikMyFLUUW7VIWTnI1TRn1RKH9vZuhrR6cp3uUiHkXRlx86KxBRAcgdNzrpWnp/BMI7g9sUu4RcDStDEjQ34lYn4vZ68yr3tpFQPQgqVeL1czh8nxaneeucvhki8SgtxV8Hf7PEluNy/TQ3DS8T82AOiX66ZNc+m/pUb69Gu20hVH+fiwIWmRwiuVuIf1WXpU5dM2A24U6vsF4Nw+8ivh1VOsHvX5v2vFVF2mMF6PE3JHyxceotJ4ANkcG39gQFQ222MrBSMv/p60U1U+NxBhrDvGbDKVD5elBGpDtNcla01z6PSjDT6fV9VsPboH6gqpWvYQoH8bmPvbJbsENeW8P0wZlSUrSNsDcD55u9Y8vNaOwQQHbDomNACMBk9ZUHYVWi1W107W/mJXEwb5CVj3kZqO0bSq+Z1YZjpmfqA==
     type : 4
     code_elements :
      type_code : 4
@@ -111,7 +111,7 @@ window :
         code : |1+
          // compiler le coder assembleur vers une procédure WL
          //procMult256x256Modulo est une procédure = compileAsmX86("setb  r8b ") 
-         codeAssembleur est chaine = "setb  r8b"
+         codeAssembleur est chaine = "xor         edx,edx"
          bufCodeAsm est un Buffer =  WDAssembleur.clAsm._sCompile( codeAssembleur )
          SI ErreurDétectée ALORS
          	Erreur()
