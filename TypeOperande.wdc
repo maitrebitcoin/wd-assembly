@@ -38,7 +38,7 @@ class :
      type : 655360
    -
      name : bEstcompatibleAvecValeur
-     internal_properties : BQAAAAUAAABiRPK/0ebHIOLHaIjoGEIv8KDNyLuVbXwdzNrXf9EcUIyxLcpCBcfv+5k/yGU62LIpZNTd23AFk3ac74rdgMhKZ9n18WSRaL1pcvK62Dc7wTNlfFz/DoZmRRb/+BP689kGCLBm5vd+9l8WbxsiHNwY4HvIuzz9ges13l8oQ+DZ0cmY/5efcmuJf6AQNMJT6MAyG9rzQw==
+     internal_properties : BQAAAAUAAAAKHNq3yY4gDoRroAIeuKLfHoAnBG2rRarnCPqpLWGkMG5VywKc16txHS0zmltC0IqHZHJF2Q4V/VCghxCXzOyGtSmPxWKb9K/LHhk5gZRsjm4mRTf8C/nVzO3SL6xXHBbF0Yktv9jNSfpR9rqbWdm5Y4QBvvladMYo8fpXtL365uxNzKZ4uyLQzr/vdy+8ANgqE8Kbqw==
      procedure_id : 2157233528784387948
      type_code : 12
      code : |1+
@@ -105,7 +105,18 @@ class :
       			RENVOYER valeurParam.bEstModeValeurImmediate() 
       		FIN		
       		RENVOYER valeurParam.bEstModeValeurImmediate() _ET_ valeurParam.valeurImmediate<=0xFFFFFFFF
-      
+      	cas MOD_REG_RM_64BITS
+      		// registres 64 bits OK en 64 bits uniquement
+      		si pas contexte.compilateur.b64Bits() ALORS
+      			renvoyer faux
+      		FIN
+      		SI valeurParam.bEstModeIndirection() _ET_ valeurParam.sGetType() = REGISTRE_32ou64 ALORS
+      			RENVOYER Vrai
+      		FIN
+      		SI nomType<>MOD_REG_RM_32BITS _ET_ contexte.tailleOpérande = 16 ALORS
+      			RENVOYER valeurParam.bEstModeRegistreDeType( REGISTRE_16BITS )
+      		FIN		
+      		RENVOYER valeurParam.bEstModeRegistreDeType( REGISTRE_32ou64 )		
       	
       	cas MOD_REG_RM_32BITS, MOD_REG_RM_16_OU_32BITS
       		si valeurParam.bEstModeIndirection() _ET_ valeurParam.sGetType() = REGISTRE_32ou64 ALORS
@@ -199,7 +210,7 @@ class :
       		FIN		
       		RENVOYER  valeur.Encode_MOD_REG_RM_IndirectionRegistre( nValRegDans_modRegRM )
       	
-      	cas MOD_REG_RM_32BITS
+      	cas MOD_REG_RM_32BITS, MOD_REG_RM_64BITS
       		// cas géré par l'appelant
       		dbgAssertion(Faux)
       		RENVOYER ""
@@ -338,6 +349,7 @@ class :
       
        renvoyer :nomType = MOD_REG_RM_16_OU_32BITS		 _ou_ ...
        		  :nomType = MOD_REG_RM_32BITS				 _ou_ ...
+       		  :nomType = MOD_REG_RM_64BITS				 _ou_ ...
       		  :nomType = MOD_REGISTRE_OU_INDIRCET_8BITS
       
      type : 458752

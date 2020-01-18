@@ -26,6 +26,8 @@ class :
       	syntaxeEnClair est chaine
       	vex_extPP 	   est chaine // extension PP   si l'encode est VEX : rien, 66, F3 ou F2
       	vex_extM 	   est chaine // extension MMMM si l'encode est VEX : 0F , 0F38 ou 0F3A
+      	rex_prefixe	   est chaine // préfixe pour REX. "" ou "66"
+      	modeValide est chaine // limitation du mode de compilation . "", ou "32"  ou "64"
       FIN
      type : 131072
   procedures :
@@ -76,8 +78,24 @@ class :
       RENVOYER Vrai
      type : 458752
    -
+     name : bEstcompatibleAvecContexte
+     procedure_id : 2171592175616764002
+     type_code : 12
+     code : |1-
+      procédure bEstcompatibleAvecContexte( context est ContexteCompilation dynamique ) : booléen
+      
+      si :modeValide="" renvoyer Vrai
+      
+      b64 est un booléen = context.compilateur.b64Bits()
+      si :modeValide="32" _et_     b64  renvoyer faux
+      si :modeValide="64" _et_ pas b64  renvoyer faux
+      
+      // OK 
+      renvoyer vrai
+     type : 458752
+   -
      name : InitFromDescription
-     internal_properties : BQAAAAUAAAB2GTvJTBRNZkkCJT58yMNIy75r7pkQvGZbvgM8XVcs0ijySr7VEK9p/ifYZ/x/Df8VQt5eTLJpYGT93KBcCiCUO26vsd5I3rpV4mLP5+jVM/7cHOO88qGahYTkFQpaPmuXgshX/6FVan/EiubVgkVgf6mIwDF7VllTMjQrVCSsXAkhwreTba8urIck/ugkco0al0Cs+KlcwBBhOY7Ho7kFeOj7jA==
+     internal_properties : BQAAAAUAAAAOodNhVAzRbhHCnQ5koNNI07b7ZhHo7MYLZvOk7deUOkgSoh7lINchZpfQ19QXPe/tGk5GhDopoPS1HPgMWrg8q+7HgU7IVpK9MipvfxBFM1bEKDcILvVmIfgAOV4+Ml/jrtRr6715RvtIlpp5Jjm029WEFM2XWlUfJpC/+MhwkEWd/quvibM6mLvgMsx4pqEGg7wgdDXQvBwVdVK7C9EdEACDdA==
      procedure_id : 1976289923846356881
      type_code : 12
      code : |1+
@@ -119,6 +137,9 @@ class :
       	:vex_extPP 				= ExtraitChaîne(sDesc,11,";")  
       	:vex_extM				= ExtraitChaîne(sDesc,12,";")  
       	dbgAssertion( gauche(:vex_extM,2)="0F")
+      FIN
+      si :encodage=ENCODAGE_RM ALORS
+      	:rex_prefixe		    =HexaVersBuffer(SansEspace(ExtraitChaîne(sDesc,11,";") ))
       FIN
       
       // si l'opcode fini par "+r"
@@ -214,7 +235,7 @@ class :
       SI :encodage = ENCODAGE_RM alors // spécial R/M (2 reg dans 1 octets)
       	R	= _bBitRex( tabValeurParam[1] )
       	B	= _bBitRex( tabValeurParam[2] )
-      	SI  tabTypeParam[1].bModeEncodageRM() ALORS
+      	SI _InverseOrdreParam_EncodageRM()   ALORS
       		// si la syntaxe commence par r/M ex: MOV	r/m16/32	r16/32
       		// l'ordre src/dest est inversé
       		R<=>B
@@ -305,7 +326,7 @@ class :
      name : _EncodePrefix_VEX
      procedure_id : 2170759682100575087
      type_code : 12
-     code : |1-
+     code : |1+
       // encoder le préfixe VEX des instructions:
       //voir https://www.intel.com/content/dam/www/public/us/en/documents/manuals/64-ia-32-architectures-software-developer-instruction-set-reference-manual-325383.pdf
       //     2.3.5 :
@@ -314,7 +335,7 @@ class :
       //		instructions; while the three-byte VEX provides a compact replacement of REX and 3-byte opcode instructions
       //		(including AVX and FMA instructions).
       // ex :   mulx        rax,rax,rax  => "C4 E2 FB F6 C0"     
-      procédure _EncodePrefix_VEX(tabValeurParam est un tableau de ValeurOpérande,  contexte est ContexteCompilation dynamique) : buffer
+      procédure _EncodePrefix_VEX(tabValeurParam est un tableau de ValeurOpérande,  contexte est ContexteCompilation dynamique <utile>) : buffer
       dbgAssertion(tabValeurParam.Occurrence() = 3) // seul ca géré
       
        // VEX sur 3 Bytes :
@@ -376,6 +397,27 @@ class :
       renvoyer bufVEX
      type : 458752
    -
+     name : _InverseOrdreParam_EncodageRM
+     procedure_id : 2171602895855468099
+     type_code : 12
+     code : |1-
+      procédure _InverseOrdreParam_EncodageRM() : booléen
+      
+      si :encodage=ENCODAGE_VEX ALORS
+      	renvoyer  faux
+      FIN
+      
+      // si la syntaxe commence par R/M ex: MOV	r/m16/32	r16/32
+      // l'ordre src/dest est inversé
+      // mais pas si le 2eme paramètre est aussi un R/M. ex: ADCX	r/m64	r/m64
+      // empirique.
+      si  tabTypeParam[1].bModeEncodageRM() _ET_ pas tabTypeParam[2].bModeEncodageRM()  ALORS
+      	renvoyer vrai
+      FIN
+      // cas normale
+      renvoyer faux
+     type : 458752
+   -
      name : Encode
      internal_properties : BQAAAAUAAACCpFJoMMZILkiDBPbqDFazAnivsNHbAWrLCJ4lYX2YzFJ1Yw7Id+9BmU3XRg8WVBYTfHoZVSbxrTzIw2yjwEhK2Zk3ue4TQNffbvu3Izb67NyM273eracHepu0je7J4lxb75cLSVJDK4BnwHB9mydnQVJX5OtUWjCOVwRNrleYfHLLcsyC9ViCfN3hHfEuSnq3+zoTIw==
      procedure_id : 1976289923846553489
@@ -402,7 +444,7 @@ class :
       		VEX_REX_Prefix = _EncodePrefix_VEX(tabValeurParam, contexte)
       	sinon
       		// REX: 0100 WRXB 
-      		VEX_REX_Prefix = _EncodePrefix_REX(tabValeurParam, contexte) // ex :  Caract( 0x40 )
+      		VEX_REX_Prefix = :rex_prefixe + _EncodePrefix_REX(tabValeurParam, contexte) // ex :  Caract( 0x40 )
       	fin
       	code 	  += VEX_REX_Prefix
       FIN
@@ -431,7 +473,7 @@ class :
       SI bEncodeRM ALORS
       
       	rm est buffer
-      	si  tabTypeParam[1].bModeEncodageRM() _et_ :encodage<>ENCODAGE_VEX ALORS
+      	si  _InverseOrdreParam_EncodageRM() ALORS
       		// si la syntaxe commence par r/M ex: MOV	r/m16/32	r16/32
       		// l'ordre src/dest est inversé
       		rm = TypeOpérande::Encode_RM_REG( tabValeurParam[nIndiceParam2RM], tabValeurParam[1] )
@@ -489,7 +531,7 @@ class :
      type_code : 12
      code : |1+
        // indique si on est une meilleure syntaxe (= on génère un code plus court)
-       procédure bEstMeilleureQue( autreSyntaxe est SyntaxeInstructionX86 ) : booléen
+      procédure bEstMeilleureQue( autreSyntaxe est SyntaxeInstructionX86 ) : booléen
       
       renvoyer _nEvalRapideTaillleCodeGénéré() <  autreSyntaxe._nEvalRapideTaillleCodeGénéré()
       

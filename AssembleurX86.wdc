@@ -307,7 +307,7 @@ class :
      type : 458752
    -
      name : _rechercheSyntaxeInstruction
-     internal_properties : BQAAAAUAAADS9CLY+m60HkSrYILeuGKfnoCnBC3rhepnCPppraGkMC4Vi0KcVytxXW1zGhtCEEoH5PJFmU5VvVAgh9CXDGwGdWnPBeIbdC8LXnkZobQMLo5GJRdcK5l17I2yD0x3vDbl8WmNn3ht6ZrxVpq7eXlZgyRhHtl6lOZIkdo3VN0ahgxtrAZY28Jwbl9P109M/MQHS4pD8w==
+     internal_properties : BQAAAAUAAACylEJ4Go4UboTLgGJeeEK/ngDHZG1LRUqnKNpJ7WEEUO7Va2IcN6sRXc2TupvCMCrHpJKl2W7V3RCAJ7AXjAzmNSkvJeI7tI/L/okpUcS8vh7WlWcsO6kFPP3C3zzHrMY1QRld78g9OSph5urrCalpU/SRLukKpPYYwapHRK2Klhz9HNYoKxLAvg+fJ/8snGSn6yojEw==
      procedure_id : 1974112237926149665
      type_code : 12
      code : |1-
@@ -320,6 +320,11 @@ class :
       // recherche la syntaxe selon l'opération et ses paramètres
       tabSyntaxe est un tableau de SyntaxeInstructionX86 <- rechecheTypeInstruction(sopcode)
       POUR TOUT syntaxeI DE tabSyntaxe
+      	// test si la syntaxe est OK avec le contexte (ex :32 bits/64 bits)
+      	si pas syntaxeI.bEstcompatibleAvecContexte( contexte ) ALORS
+      		continuer // on ne peut pas l'utiiser
+      	FIN
+      	
       	// si la syntaxe est compatible avec les paramètres
       	SI syntaxeI.bEstcompatibleAvecTabValeur( tabValeurParam, contexte ) ALORS
       		// si on en  a déjà trouvé une

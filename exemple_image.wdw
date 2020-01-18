@@ -97,9 +97,9 @@ window :
         type : 161
         enabled : false
   -
-    name : TEst_vex
+    name : TEst_rex
     identifier : 0x2e20147c0065a377
-    internal_properties : BQAAAAUAAACecb/h2yJB1IgTTx7vsUkjPwskJrThsAbo/G7lgnDN2tYQH73lljh+hzC9d+U28UdoZfvs43JApoHzOabK2IJEi5QK2xsEcv0tpPT1kAP0wtO4s/5yCaIp8KwV2zH2myPFeOkCsxStwsJSQeJVV30Ijluo7NSHi9awk6mDE+Vhb5IlyNNDcqNclsldVrjFKhlUoNEMuvnrthFwA/SfgnFiQGHT/2fYT9MMBop1c3MJ1SjYyiIe/rGl9U7X7lvJ/NBZRF+F+etcYWO4B8awMRA/7N1TyMZ0FhK9WNuFOfaJv/mP3rFL8RHxoDJWA4koJc+kdTdG/g83s5fPfW1L6xKRTj6PLZXssqIZdOoj+24/0Km7qB2uQy3zavALKD6yrH3nUqniMnVnEMfVPG4eFSmH+qb3ZUAOZqNZVr61WhXh9lGhF/8/23cvamGyBRwm5NZD4nXl50h2bS5iczjdyTJ3TKHP9VwjYMgefAm0FRkGsdXQZutrdZVYTZ+jR/pzi57h6DAK0V9rwOkB30HB9ZXO7ARQ8zfZZI/+52zk4/JAMQCcSafV0yPE6hcR0fF8ZmY8atyuktuaf5JJm16odDe+Xuq0DVAQsv9oxt3JkFr31p2p1Bwq0ns96FrqFlET+KESEISPU2kC8Yor8aiBCKKxiplseGhKKTKoH9myA3lBBWMjuiquUs5LRmNri6Yc/L+hrBTvUUay34LUaKUnIv6mX+4Rr8Dpf44=
+    internal_properties : BQAAAAUAAACecb/h2yJB1IgTTx7vsUkjPwskJrThsAbo/G7lgnDN2tYQH73lljh+hzC9d+U28UdoZfvs43JApoHzOabK2IJEi5QK2xsE8v0tpPT1kAP0wtO4s/5yCaIp8KwV2zH2myPFeOkCsxStwsJSQeJVV30Ijluo7NSHi9awk6mDE+Vhb5IlyNNDcqNclsldVrjFKhlUoNEMuvnrthFwA/SfgnFiQGHT/2fYT9MMBop1c3MJ1SjYyiIe/rGl9U7X7lvJ/NBZRF+F+etcYWO4B8awMRA/7N1TyMZ0FhK9WNuFOfaJv/mP3rFL8RHxoDJWA4koJc+kdTdG/g83s5fPfW1L6xKRTj6PLZXssqIZdOoj+24/0Km7qB0uw61z6nCLqL4yLP1n0ilisvXnkEdVvO6elakHeiZ35cCO5iPZ1j412pVhdtEhl3+/W/ev6uEyhZymZFbDYvVlZ8j27a7i87hdSbL3zCFPddyj4Eie/Ik0lZmGMVVQ5mvr9RXYzR8jx3rzCx5haLCKUd/rQGmBX8FBdRVObITQc7dZ5A9+Z+xkY3LAsYAcySdVU6NEapeRUXH85ua86lwuElsa/xLJG94o9Lc+3mo0jdCQMn/oRl1JENp3Vh0pVJyqUvu9aNpqltGTeCGSEISPU2kC8Yor8aiBCKKxiplseGhKKTKoH9myA3lBBWMjuiquUs5LRmNri6Yc/L+hrBTvUUay34LUaKUnIv6mX+4Rr8Dpf44=
     type : 4
     code_elements :
      type_code : 4
@@ -108,7 +108,8 @@ window :
         code : |1+
          
          sCodeAssembleur est chaine
-         sCodeAssembleur = "mulx r11,rax,rsi"
+         sCodeAssembleur = "adcx r11,rcx"
+         //sCodeAssembleur = "mov r11,rcx"
          
          // compiler le coder assembleur vers une procédure WL
          sCodeASM est buffer =  WDAssembleur.clAsm._sCompile( sCodeAssembleur )

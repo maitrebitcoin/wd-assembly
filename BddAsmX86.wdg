@@ -15,7 +15,7 @@ procedure_set :
   type_code : 31
   p_codes :
    -
-     internal_properties : BQAAAAUAAADU1GIljoxn7dkEFcCC2RIKVQqxikP4vQEtVrUKFl1qz7Tr+3CrODR2c1gGlqkz0gfYWlPnom7N6lR0jEOmgR2pD40oW2GMZB1Drf1VpWqwmDqRuq8w9H7kg9J81SktzySGCTxx4URYZ3b7bmMqKN+pjT7iikp8z4lReo/b0JpD3nKfiez1pr1ATEpJ05enCr9VBrQWm2k+8qLCj5T4qf00bsWJ0q9wIeMvmCGZjZp2dipwycQc1FzDXLxI85Q8Okmq2T/pGEiVd7MHQLruDxTwXdbETtVKqgnB31aXoTq2slvug71h9JOI/PgDYTa8BcAcDIEFzTFESrmrPEZVakLUOtFXIp2CROV05uLg5KT542y5Aek0tjoBC8hajXw1nnpbFK50pYxxoxhGAW07/4JctJsESY6mVha+MKuk0IQpo9KNKACNLernPJ1djiQS+cpKKgy84CJOhCfhlIzYqnURNZrfeiHmGNxKnGfz1wIEMTigyqkyiM8=
+     internal_properties : BQAAAAUAAACbfpHbDIBRgkI9/1BeDZb0myWbOd0aWJV2rsSxLy8M19gjOL3Mh/8t9HxbSEgZNJqO/Z91tJ3TkWv5vry2h9HOAOUXsauHpsSw95niF5E+cOA4QV1rFXzo3uKB94OKJdKx7Hr4MlFoZw+nJK1UPXKsTsXCVUkAXqTPC/ywIOl1xJ1D+Q3uatVjb2Pqlc1qqijn0oTQhgoPZX/17nh3r7T7DQHLloiFk16796Fw1AH3PsI27h2TU55JNQXK1Un8vbag2TPFsGN3EAmxHplfS2t1EZIkVqndGITDmeSGxrgrR0NSU1NzKdkTlKYsP0ahxShXY4QSLmMlktTQdRihNSXdUm33lIMx1DW48poNl0xwKDdJvQ/epQzwyVgMxhbYnPOkvjY8ja+ryKmrXp+sTmaorwAhd9Z3NbpP0uQwGW6g/4Bhs81CSpexqvSxktdnDO7dAb8MBRJzkEDmDSOrTdiQtb/nQDeLRj3/1QVhCuflt3mrh/WvyKqxqw==
      code : |1+
       
       registres est un variant
@@ -44,8 +44,9 @@ procedure_set :
       	RELATIF_8BIT			 ="rel8"	 // ex : JNZ loop
       	RELATIF_16ou32			 ="rel16/32" // ex : CALL Proc
       
-      	MOD_REG_RM_32BITS		="r/m32" 
-      	MOD_REG_RM_16_OU_32BITS ="r/m16/32" 
+      	MOD_REG_RM_32BITS		= "r/m32" 
+      	MOD_REG_RM_16_OU_32BITS = "r/m16/32" 
+      	MOD_REG_RM_64BITS 		= "r/m64" 
       //	MOD_REG_RM_16_32_64BITS ="r/m16/32/64" // AL ou AX ou EAX ou RAX
       	MOD_REGISTRE_OU_INDIRCET_8BITS 	="r/m8" 
       	
