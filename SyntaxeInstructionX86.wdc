@@ -251,17 +251,24 @@ class :
       	FIN
       	
       SINON
-      	SI  tabValeurParam.Occurrence()=1 ALORS
-      		B = _bBitRex( tabValeurParam[1] ) // cas "INC R10"
-      	FIN
-      	SI  tabValeurParam.Occurrence()=2 ALORS
-      		R	= _bBitRex( tabValeurParam[1] ) 
-      		B	= _bBitRex( tabValeurParam[2] )	
-      		
-      	FIN
-      	SI  tabValeurParam.Occurrence()=3  ALORS
-      		R = _bBitRex( tabValeurParam[3] )	
-      		
+      	nbParamRM est un entier= tabValeurParam.Occurrence()
+      	SI  nbParamRM=2 _ET_
+      		tabValeurParam[2].modeAdres=ValeurOperande.MA_Immemdiat ALORS 	// cas add         r8b,0FFh  , il n'y que 1 paramètre dans REX
+      		nbParamRM=1
+      	fin
+      	// selon le nb de paramètres a encoder :	
+      	selon nbParamRM 
+      		cas 1
+      			B = _bBitRex( tabValeurParam[1] ) // cas "INC R10"
+      			
+      		CAS 2
+      			R = _bBitRex( tabValeurParam[1] ) 
+      			B = _bBitRex( tabValeurParam[2] )
+      			
+      		CAS 3 
+      			R = _bBitRex( tabValeurParam[3] )	
+      		AUTRE CAS
+      			dbgAssertion(faux)
       	FIN
       	
       FIN

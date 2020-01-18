@@ -79,22 +79,27 @@ window :
          sCodeAssembleur = fChargeTExte("C:\Users\Paul Albert\Source\myRepo\LibInt256\multiplicationModulo_sepc256k.asm")
          
          // compiler le coder assembleur vers une procédure WL
-         procMult256x256Modulo est une procédure = compileAsmX86(sCodeAssembleur) 
+         procMult256x256Modulo est  entier système = compileAsmX86_API(sCodeAssembleur) 
          SI ErreurDétectée ALORS
          	Erreur()
          	RETOUR
          FIN
+         sAddr est chaine = "0x" + EntierVersHexa(procMult256x256Modulo,16)
+         trace( sAddr)
+         VersPressePapier(sAddr)
          
          nombreA est un buffer = Répète(caract(  5),32)
          nombreB est un buffer = Répète(caract(255),32)
          nombreResultat est un buffer = Répète(caract(0),32)
          
+         
          // appel procédure WL qui exécute le code assembleur
-         procMult256x256Modulo( procAssembeur, nombreA, nombreB , nombreResultat )
+         API( procMult256x256Modulo, nombreA, nombreB , nombreResultat )
          trace(  BufferVersHexa( nombreA,SansRegroupement) )
          trace(  BufferVersHexa( nombreB,SansRegroupement) )
          Trace("=")
          trace(  BufferVersHexa( nombreResultat,SansRegroupement) )
+         trace( "2828282828282828282828282828282828282828282828282d2d2d534b4b93a8" )
         type : 18
       -
         type : 161
@@ -111,7 +116,7 @@ window :
         code : |1+
          // compiler le coder assembleur vers une procédure WL
          //procMult256x256Modulo est une procédure = compileAsmX86("setb  r8b ") 
-         codeAssembleur est chaine = "cmp         r12,0FFFFFFFFFFFFFFFFh"
+         codeAssembleur est chaine = "add         r8b,0FFh"
          bufCodeAsm est un Buffer =  WDAssembleur.clAsm._sCompile( codeAssembleur )
          SI ErreurDétectée ALORS
          	Erreur()
