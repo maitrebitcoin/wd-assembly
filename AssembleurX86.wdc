@@ -172,6 +172,7 @@ class :
       // ignorer .CODE, .TEXT
       si (sCodeAsm1Ligne ~= ".CODE") renvoyer vrai
       si (sCodeAsm1Ligne ~= ".TEXT") renvoyer vrai
+      si (sCodeAsm1Ligne ~= ".DATA") renvoyer vrai
       
       //ignorer les directive PROC / ENCODE
       sDernierToken est chaine = minuscule( ExtraitChaîne(sCodeAsm1Ligne,1," ",DepuisFin) )
