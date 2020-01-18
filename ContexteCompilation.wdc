@@ -24,7 +24,7 @@ class :
       	nOffsetDest est entier	 
       	// taille du code avant le paramètre en cours d'encodage
       	offsetDansInstruction est entier
-      	// talle des opérandes 
+      	// taille des opérandes par défaut
       	tailleOpérande est un entier
       	
       	// symboles rencontrés durant la compilation

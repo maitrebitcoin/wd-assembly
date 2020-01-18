@@ -227,11 +227,11 @@ class :
       renvoyer  _Encode_MOD_REG_RM( MODREGRM_MOD_Registre, nIndiceRegistre(regDest) & 0x7, nIndiceRegistre(regSource) & 0X7)   
      type : 458752
    -
-     name : bEstRegistre8Bits_PourRM
+     name : bEstRegistre8Bits
      procedure_id : 2157233700605533381
      type_code : 12
      code : |1+
-      PROCEDURE bEstRegistre8Bits_PourRM()
+      PROCEDURE bEstRegistre8Bits() : booléen
       
       si  :modeAdres <> MA_Registre ALORS
       	renvoyer faux
@@ -241,6 +241,10 @@ class :
       		renvoyer Vrai
       	CAS "ah","bh","ch","dh"
       		RENVOYER Vrai		
+      	// +registres étendus 64 bits		
+      	CAS "r8b", "r9b", "r10b","r11b",...
+      	    "r12b","r13b","r14b","r15b"
+      		RENVOYER Vrai					
       	AUTRE CAS
       		renvoyer faux
       FIN

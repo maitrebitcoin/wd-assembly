@@ -221,6 +221,9 @@ class :
       X	est un booléen			// Extension of the SIB index field
       B	est un booléen			// Extension of the ModR/M R/m field, SIB base field, or Opcode reg field
       
+      si  tabValeurParam[1].bEstRegistre8Bits() ALORS
+      	w= 0 // pas 64 bits
+      FIN
       
       SI :encodage=ENCODAGE_VEX _ET_ :tabTypeParam[1].bModeEncodageRM()  _ET_ :tabTypeParam[3].bModeEncodageRM()  ALORS 
       	// cas particulier de RM a 3 paramètre. le 2 est dans le préfixe
@@ -235,7 +238,7 @@ class :
       SI :encodage = ENCODAGE_RM alors // spécial R/M (2 reg dans 1 octets)
       	R	= _bBitRex( tabValeurParam[1] )
       	B	= _bBitRex( tabValeurParam[2] )
-      	SI _InverseOrdreParam_EncodageRM()   ALORS
+      	SI _bInverseOrdreParam_EncodageRM()   ALORS
       		// si la syntaxe commence par r/M ex: MOV	r/m16/32	r16/32
       		// l'ordre src/dest est inversé
       		R<=>B
@@ -266,25 +269,16 @@ class :
      type : 458752
    -
      name : _EncodePrefix_REX
-     internal_properties : BQAAAAUAAAApG0o1Pt5A+FVLcUpfk4GRsWXA+VeOCjHmHkITaWbGEiXj7T7gsVhwgoT2V3FF+WV+j1aNAXAjTwAcSXmls8WO0SRiGMLkHTwUS8AQJ0Ch2QfqJ2gKMVvZLJhCs4c+I6vE6XArviM+qeRgisYGfiZqBs6kdra9NWpqHkAt24QpINbmYiUwozFs0W8WO6fObir3K8zeE+xrk6lpcAURRMVzYAG5OfpT/+vL9uhjnjV6CiH2Gg==
+     internal_properties : BQAAAAUAAABkuV/++9L9+q94L3yR1L1fBwts+wZSLdIjzaMZlu1X5FfGvaQiqBslRFdWrNiyu8G1yCcjmVDMA7EfZYI7xH1EkaoKV2Kc/nT7wB+nRUf1jvHYxPO1vtLxnlr2wU1qf/2m1/Zfem/CTbi0uLZuRt6k+CwG1lbDNwycyvxN+3QZ/D6A+O1wjxqHl8s8wCNUgBR/fuZSnx1nWT//j6qIL2TOYysn
      procedure_id : 2020855827309328332
      type_code : 12
      code : |1+
       // encoder le préfixe REX en 64 bits 
       // (pour accéder aux registre R8 par ex.)
       // voir par ex : https://xem.github.io/minix86/manual/intel-x86-and-64-manual-vol2/o_b5573232dd8f1481-69.html
-      procédure _EncodePrefix_REX(tabValeurParam est un tableau de ValeurOpérande,  contexte est ContexteCompilation dynamique) : buffer
+      procédure _EncodePrefix_REX(tabValeurParam est un tableau de ValeurOpérande,  contexte est ContexteCompilation dynamique <utile>) : buffer
       
-      SI tabValeurParam.Occurrence()<1 ALORS
-      	renvoyer ""
-      FIN
-      si contexte.tailleOpérande<64 ALORS
-      	renvoyer ""
-      FIN
-      // registre 32 bits : pas de préfixe REX. cas mov eax, 1
-      si bEstRegistreDeType( tabValeurParam[1].registre, REGISTRE_32BITS) ALORS
-      	renvoyer ""
-      FIN
+      dbgAssertion( tabValeurParam.Occurrence()>=1 )
       
       // si le n° de registre est les bits de poids faible de l'instruction.
       SI :encodage = ENCODAGE_ADDREGTOOPCODE ALORS
@@ -309,12 +303,12 @@ class :
       R est un booléen	   // Extension of the ModR/M reg field
       X est un booléen	   // Extension of the SIB index field
       B est un booléen	   // Extension of the ModR/M R/m field, SIB base field, or Opcode reg field
-      (W,R,X,B) =	_WRXB_PourREXouVeX(tabValeurParam)
+      (w,R,X,B) =	_WRXB_PourREXouVeX(tabValeurParam)
       
       
       // Calcul final de REX
       nREX est un entier = 0x40 // 4 bits de poids fort
-      si W ALORS	nREX = nREX | 0x08
+      si w ALORS	nREX = nREX | 0x08
       si R ALORS	nREX = nREX | 0x04
       si X ALORS	nREX = nREX | 0x02
       si B ALORS	nREX = nREX | 0x01
@@ -397,11 +391,11 @@ class :
       renvoyer bufVEX
      type : 458752
    -
-     name : _InverseOrdreParam_EncodageRM
+     name : _bInverseOrdreParam_EncodageRM
      procedure_id : 2171602895855468099
      type_code : 12
-     code : |1-
-      procédure _InverseOrdreParam_EncodageRM() : booléen
+     code : |1+
+      procédure PRIVÉE _bInverseOrdreParam_EncodageRM() : booléen
       
       si :encodage=ENCODAGE_VEX ALORS
       	renvoyer  faux
@@ -415,6 +409,52 @@ class :
       	renvoyer vrai
       FIN
       // cas normale
+      renvoyer faux
+      
+     type : 458752
+   -
+     name : _bAvecPrefixeVEXouREX
+     procedure_id : 2171616991939055884
+     type_code : 12
+     code : |1-
+      // indique si on doit rajouter un préfixe VEX/REX a l'encodage
+      procédure privée _bAvecPrefixeVEXouREX(tabValeurParam est un tableau de ValeurOpérande, contexte est ContexteCompilation dynamique) : booléen
+      
+      // si forcé dans l'encodage
+      SI :encodage=ENCODAGE_VEX ALORS
+      	renvoyer vrai
+      FIN
+      
+      // pas de REX si pas de paramètres
+      SI tabValeurParam.Occurrence()<1 ALORS
+      	RENVOYER faux
+      FIN
+      
+      
+      // si 64 bits :
+      si contexte.compilateur.b64Bits() ALORS
+      	si contexte.tailleOpérande=64 alors
+      		// registre 32 bits : pas de préfixe REX. cas mov eax, 1
+      		SI bEstRegistreDeType( tabValeurParam[1].registre, REGISTRE_32BITS) ALORS
+      			RENVOYER faux
+      		FIN		
+      		
+      		renvoyer vrai
+      	FIN
+      	// si un des paramètres est un registre d'indice supérieur a 8
+      	// ex : r8 ou r12
+      	pour tout paramI de tabValeurParam
+      		si paramI.registre<>"" _et_ nIndiceRegistre(paramI.registre) >= 8 ALORS
+      			renvoyer vrai
+      		FIN
+      		SI paramI.registre2<>"" _ET_ nIndiceRegistre(paramI.registre2) >= 8 ALORS
+      			RENVOYER Vrai
+      		FIN		
+      		
+      	FIN
+      	
+      FIN
+      
       renvoyer faux
      type : 458752
    -
@@ -437,7 +477,7 @@ class :
       FIN
       // si on doit forcer le mode 64 bits - REX ou VEX
       VEX_REX_Prefix est buffer
-      SI contexte.compilateur.b64Bits() _et_ contexte.tailleOpérande=64 ALORS
+      SI _bAvecPrefixeVEXouREX(tabValeurParam,contexte)  ALORS
       	// si 3 opérandes => VEX
       	si :encodage=ENCODAGE_VEX ALORS
       		// VEX :
@@ -473,7 +513,7 @@ class :
       SI bEncodeRM ALORS
       
       	rm est buffer
-      	si  _InverseOrdreParam_EncodageRM() ALORS
+      	si  _bInverseOrdreParam_EncodageRM() ALORS
       		// si la syntaxe commence par r/M ex: MOV	r/m16/32	r16/32
       		// l'ordre src/dest est inversé
       		rm = TypeOpérande::Encode_RM_REG( tabValeurParam[nIndiceParam2RM], tabValeurParam[1] )

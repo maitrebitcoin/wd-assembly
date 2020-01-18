@@ -136,8 +136,8 @@ class :
       			
       			RENVOYER Vrai
       		FIN
-      		// al,bh,cl,dl, ah,dh,ch
-      		RENVOYER valeurParam.bEstRegistre8Bits_PourRM()
+      		// al,bh,cl,dl, ah,dh,ch, ...
+      		RENVOYER valeurParam.bEstRegistre8Bits()
       		
       	cas INDIRECT_REL_8BIT, INDIRECT_REL_16ou32BIT:
       		// non supporté

@@ -15,7 +15,7 @@ procedure_set :
   type_code : 31
   p_codes :
    -
-     internal_properties : BQAAAAUAAACbfpHbDIBRgkI9/1BeDZb0myWbOd0aWJV2rsSxLy8M19gjOL3Mh/8t9HxbSEgZNJqO/Z91tJ3TkWv5vry2h9HOAOUXsauHpsSw95niF5E+cOA4QV1rFXzo3uKB94OKJdKx7Hr4MlFoZw+nJK1UPXKsTsXCVUkAXqTPC/ywIOl1xJ1D+Q3uatVjb2Pqlc1qqijn0oTQhgoPZX/17nh3r7T7DQHLloiFk16796Fw1AH3PsI27h2TU55JNQXK1Un8vbag2TPFsGN3EAmxHplfS2t1EZIkVqndGITDmeSGxrgrR0NSU1NzKdkTlKYsP0ahxShXY4QSLmMlktTQdRihNSXdUm33lIMx1DW48poNl0xwKDdJvQ/epQzwyVgMxhbYnPOkvjY8ja+ryKmrXp+sTmaorwAhd9Z3NbpP0uQwGW6g/4Bhs81CSpexqvSxktdnDO7dAb8MBRJzkEDmDSOrTdiQtb/nQDeLRj3/1QVhCuflt3mrh/WvyKqxqw==
+     internal_properties : BQAAAAUAAACqqi95olny68bFAfdN2c0yrjo42MQwx/oXOoyX7AuhdDw7O4OXafWcEUVnhqYQBVohjvzR0gYoI6X8FBenpgbrVBAulN4NueTYPmdsk11p8FdIiwNayY1twsNCz4dNMeZhBOh/3no+eufFQRDrwwOJtWa1SUCwUwxUuxrGfA1MylGTHQ8eMkIlx7ep9jqYjeSw0LrKX8i5XuCUFz+wG8F+x3gOyqomCrx8xWUDYfewlVu8HLyIdajFqoS/MUSjV/3C8PP/DW1ULX5b2tHCeLeyc8kUyI4Pv/N4+bKMFxdbYMUP5x8Is/SeTdqqSSUCt+85YHjM0WeK14EQB1JWYEOgiowlDtwBhfrTuEJVAjEKFT+wQ+1F1xNvsFiyTnWJEv7mC5R4pvd2/yqVXothWZ6/sx0N6Q0fkLnqynawKl3y/KbMj50VXmIoYyjbrFjGVMdvrghtUy2n1n417tNQmMq3/RJb8qiD09IK7QMFc6Y+WIB4w4wi6afcmCV2bQ==
      code : |1+
       
       registres est un variant
@@ -86,6 +86,12 @@ procedure_set :
       	regI est chaine = "r"+nReg
       	tabHRegistre[regI].type   = "r64"
       	tabHRegistre[regI].valeur = nReg
+      FIN
+      // version 8 bits. ex "r8b"
+      POUR nReg=8 a 15
+      	regIb est chaine = "r"+nReg+"b"
+      	tabHRegistre[regIb].Type	= "r8"
+      	tabHRegistre[regIb].Valeur	= nReg
       	
       FIN
       
