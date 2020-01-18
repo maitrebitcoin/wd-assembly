@@ -65,9 +65,9 @@ window :
         type : 161
         enabled : false
   -
-    name : TEst_mult
+    name : TEst_mult_depuis_fic
     identifier : 0x2e1eac8100a87e13
-    internal_properties : BQAAAAUAAABeoSVpoNx4rwiGM78g8mKIHKVVEPbJkVt175LboF2Azo9yhTIqYsnczwXJxhGr4dK/vPrVA7TZQI/4pJWq06DK13xKZIIEmZY1sP8e+ygxA3emuJ7qUfdIbJEy6eFwErEC9Qys0plozwuTt4uNTr9wdsIEdztzLsjt8fXIhbAr8GBjWFjbA3DHC2YZrzB1dEC0Se1sTWtid8EDbU29cLJ1xsz3Sx5D6+mdqYLwaXxW9iacVKslCgGcPWkJ7ZBNoIZfDRinhRdI8c/uhkJT7m+qQCWuDsi+uUfnCem0+65rtqufqfzsnKNWz50wKuRN8UN6ZkawSirzWBLvLMJK7nIBsQlqdVIWMsxICB+cwlveEzTLIDIAkL4zSEYA3N3OIDd+ZJqglEkxQK+cqWSQjfYmeR5Y4ZLT3IfT6+AoeACE4Tkyg+49zwjzRcufUNBET+vjmjjmzsGPSRvp2+19DeuyXkSxupRKRhJeEdpOXXVIH85W02GVGpSkjCRsI7Jx5Bif2d+GB3YGYTfafaT4deGIdGtEvYKov6CiCC0Qd4Dlzg1HEmc4KCUUV64SM4nljE9jZdTWwQ8yrkbnmAzCWJChgbKVaUmYUEyBBGyTRgpU8LMsJO8Y5bLjAAlaQZBakiHS37mVphmW6Gfj1rDPn3C3cl4RViFARO0XiaZO3/EUZzsihtf5qO3+MqjC8G4e8nu9bVQCVA2534IocMP6aqFL+A7E3JSJh/zW
+    internal_properties : BQAAAAUAAAAOUDK59IHv8rNJzILPvsJuRtSK+gaYUnVdMUY6nEYhpGwr0qF2bZt2LUTYVmvNDD6ujW68TA8JCuhHLNihKuwLiv4V67xLqH0C1nexjvKWuCU5nYb+0OfDTLeUY+IhSVfQmy6hRTmRPTySKe1W5tXDDn7YSF4ViGBO2p0LvY97zzTBm+98R8wPNKWR7lhQsD3/G7jZoImcFN1bYcAPzsvDQwiZgPGKePcVGLR1ek8Sr+RsIA7YqfLHbOeotw6GtVXHO92+6ec94dn5bOvpHI+QuKyxQYBLVlCmRx9jNrgvituWV/ksEztIYdTDVikKHKaz3H33j9PgA1bLUHScsDmj9dZYjG0w1uH1OnwHHzsBqOuclS1lTcVBL2CSihXLXkW9P4HLO8NeEj4l9jYUvMx+uM+lHMlHi/NYuFnGOM1cM1qDEP+K2zNtUoL6SJ4RdaVIJXdNGSEK+TSotsVzYunSk/OcyzHaseSdmr88rWiy56GpYmoafJOAXyVZw7wkvFoyVkDDOPQ/L0bjYrpI4AOQ8dzJvj/OtlLzp+A6Y2fdbP3n/lzZ7tROkEnRXRUU5GmECgVJiK+ffFPIVchoDVBlFEPaEu7YOwDEo1etFiVqZLaTjwRJ05l/0zZFX0Bv7l09YBYorb0JUH9V+EfGArKx+nYEQYBUR5990w415Up2qdIdMlH+RrIX/I3Vy9JZWwtByI/W1YtRrDQYUcZ3JxdoNNJ7mN0HLviYmSWDdR491E5Tdk6SOo0=
     type : 4
     code_elements :
      type_code : 4
@@ -91,35 +91,10 @@ window :
          
          // appel procédure WL qui exécute le code assembleur
          procMult256x256Modulo( procAssembeur, nombreA, nombreB , nombreResultat )
+         trace(  BufferVersHexa( nombreA,SansRegroupement) )
+         trace(  BufferVersHexa( nombreB,SansRegroupement) )
+         Trace("=")
          trace(  BufferVersHexa( nombreResultat,SansRegroupement) )
-        type : 18
-      -
-        type : 161
-        enabled : false
-  -
-    name : TEst_rex
-    identifier : 0x2e20147c0065a377
-    internal_properties : BQAAAAUAAACecb/h2yJB1IgTTx7vsUkjPwskJrThsAbo/G7lgnDN2tYQH73lljh+hzC9d+U28UdoZfvs43JApoHzOabK2IJEi5QK2xsE8v0tpPT1kAP0wtO4s/5yCaIp8KwV2zH2myPFeOkCsxStwsJSQeJVV30Ijluo7NSHi9awk6mDE+Vhb5IlyNNDcqNclsldVrjFKhlUoNEMuvnrthFwA/SfgnFiQGHT/2fYT9MMBop1c3MJ1SjYyiIe/rGl9U7X7lvJ/NBZRF+F+etcYWO4B8awMRA/7N1TyMZ0FhK9WNuFOfaJv/mP3rFL8RHxoDJWA4koJc+kdTdG/g83s5fPfW1L6xKRTj6PLZXssqIZdOoj+24/0Km7qB0uw61z6nCLqL4yLP1n0ilisvXnkEdVvO6elakHeiZ35cCO5iPZ1j412pVhdtEhl3+/W/ev6uEyhZymZFbDYvVlZ8j27a7i87hdSbL3zCFPddyj4Eie/Ik0lZmGMVVQ5mvr9RXYzR8jx3rzCx5haLCKUd/rQGmBX8FBdRVObITQc7dZ5A9+Z+xkY3LAsYAcySdVU6NEapeRUXH85ua86lwuElsa/xLJG94o9Lc+3mo0jdCQMn/oRl1JENp3Vh0pVJyqUvu9aNpqltGTeCGSEISPU2kC8Yor8aiBCKKxiplseGhKKTKoH9myA3lBBWMjuiquUs5LRmNri6Yc/L+hrBTvUUay34LUaKUnIv6mX+4Rr8Dpf44=
-    type : 4
-    code_elements :
-     type_code : 4
-     p_codes :
-      -
-        code : |1+
-         
-         sCodeAssembleur est chaine
-         sCodeAssembleur = "adcx r11,rcx"
-         //sCodeAssembleur = "mov r11,rcx"
-         
-         // compiler le coder assembleur vers une procédure WL
-         sCodeASM est buffer =  WDAssembleur.clAsm._sCompile( sCodeAssembleur )
-         SI ErreurDétectée ALORS
-         	Erreur()
-         	RETOUR
-         FIN
-         trace(sCodeAssembleur)
-         trace(BufferVersHexa( sCodeASM ))
-         
         type : 18
       -
         type : 161
