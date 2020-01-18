@@ -24,7 +24,8 @@ class :
       	encodage   est chaine // options d'encodage des paramètres. ex ENCODAGE_ADDREGTOOPCODE
       	tabTypeParam   est un tableau de TypeOpérande // type des paramètres des l'instruction
       	syntaxeEnClair est chaine
-      	
+      	vex_extPP 	   est chaine // extension PP   si l'encode est VEX : rien, 66, F3 ou F2
+      	vex_extM 	   est chaine // extension MMMM si l'encode est VEX : 0F , 0F38 ou 0F3A
       FIN
      type : 131072
   procedures :
@@ -76,7 +77,7 @@ class :
      type : 458752
    -
      name : InitFromDescription
-     internal_properties : BQAAAAUAAABGaWuZPCRFBjnSFT6c6ONoC+6rHskAjPab3oOMDSe8ojiSOr61UG9pzndoB3y/jV8V0r4OnAKZ0GT9XLBMGtAEK26fkZ4o/hpFMjJvp+j1U74sVAskWhlSXdzMDWIy1rNfeuB/p0kNotf80r7tmj2oJ6HAaHkj7vHLavwDTFzkBNEZej8bdafmhL8M9kA8apWCDzi0wPGUOKi5oUb/s6l1yLjLvA==
+     internal_properties : BQAAAAUAAAB2GTvJTBRNZkkCJT58yMNIy75r7pkQvGZbvgM8XVcs0ijySr7VEK9p/ifYZ/x/Df8VQt5eTLJpYGT93KBcCiCUO26vsd5I3rpV4mLP5+jVM/7cHOO88qGahYTkFQpaPmuXgshX/6FVan/EiubVgkVgf6mIwDF7VllTMjQrVCSsXAkhwreTba8urIck/ugkco0al0Cs+KlcwBBhOY7Ho7kFeOj7jA==
      procedure_id : 1976289923846356881
      type_code : 12
      code : |1+
@@ -113,6 +114,12 @@ class :
       //"" si rien de spécial
       :encodage 					= ExtraitChaîne(sDesc,10,";") 
       dbgAssertion(:encodage <> EOT)
+      // extension pour le préfixe VEx
+      si :encodage=ENCODAGE_VEX ALORS
+      	:vex_extPP 				= ExtraitChaîne(sDesc,11,";")  
+      	:vex_extM				= ExtraitChaîne(sDesc,12,";")  
+      	dbgAssertion( gauche(:vex_extM,2)="0F")
+      FIN
       
       // si l'opcode fini par "+r"
       si Droite(sOpoCodeHex,2)="+r" alors
@@ -193,18 +200,25 @@ class :
       X	est un booléen			// Extension of the SIB index field
       B	est un booléen			// Extension of the ModR/M R/m field, SIB base field, or Opcode reg field
       
+      bEncodeRM est un booléen = (:encodage = ENCODAGE_RM)
+      nIndiceParam2RM est un entier = 2
+      SI :encodage=ENCODAGE_VEX _ET_ :tabTypeParam[1].bModeEncodageRM()  _ET_ :tabTypeParam[3].bModeEncodageRM()  ALORS 
+      	// cas particulier de RM a 3 paramètre. le 2 est dans le préfixe
+      	bEncodeRM		= Vrai
+      	nIndiceParam2RM	= 3
+      FIN
       
-      SI :encodage = ENCODAGE_RM  // spécial R/M (2 reg dans 1 octets)
-      	R	= _bBitRex( tabValeurParam[1] )
-      	B	= _bBitRex( tabValeurParam[2] )
+      SI bEncodeRM alors // spécial R/M (2 reg dans 1 octets)
+      	R	= _bBitRex( tabValeurParam[1] 			    )
+      	B	= _bBitRex( tabValeurParam[nIndiceParam2RM] )
       	SI  tabTypeParam[1].bModeEncodageRM() ALORS
       		// si la syntaxe commence par r/M ex: MOV	r/m16/32	r16/32
       		// l'ordre src/dest est inversé
       		R<=>B
       	FIN	
-      	SI  tabValeurParam.Occurrence()=2 ALORS
+      	SI  tabValeurParam.Occurrence()=nIndiceParam2RM ALORS
       		// cas mov  rax,qword ptr [r8+r12+1]
-      		SI tabValeurParam[2].registre2<>""  _ET_ nIndiceRegistre(  tabValeurParam[2].registre2)>7 ALORS
+      		SI tabValeurParam[nIndiceParam2RM].registre2<>""  _ET_ nIndiceRegistre(  tabValeurParam[nIndiceParam2RM].registre2)>7 ALORS
       			X=1
       		FIN	
       	FIN
@@ -320,17 +334,15 @@ class :
       // m replaces leading opcode prefix bytes. 
       // The values 1, 2 and 3 are equivalent to opcode prefixes 0F, 0F 38 and 0F 3A; all other values are reserved. m
       m est un entier 
-      SI :opcode[1] <> Caract(0x0F) ALORS
-      	dbgAssertion(Faux)
-      	renvoyer "" // non géré
+      selon :vex_extM 
+      	cas "0F"   : m = 1
+      	cas "0F38" : m = 2
+      	cas "0F3A" : m = 3
+      	AUTRE CAS
+      		dbgAssertion(Faux, "vex_extM invalide")
+      		RENVOYER "" // non géré	
       FIN
-      si       :opcode[2] = Caract(0x38) ALORS
-      	m=2
-      sinon si :opcode[2] = Caract(0x3A) ALORS
-      	m=3
-      SINON  
-      	m=1
-      FIN
+      
       byteVex1 = byteVex1 | m
       bufVEX += caract(byteVex1)
       
@@ -340,19 +352,29 @@ class :
       //p encodes additional prefix bytes. The values 0, 1, 2, and 3 correspond to implied prefixes of none, 66, F3, and F2.
       //   These encode the operand type for SSE instructions: packed single, packed double, scalar single and scalar double, respectively.
       byteVex2 est un entier = 0
-      v est un entier = tabValeurParam[3].registre + 1  
+      v est un entier = nIndiceRegistre(tabValeurParam[2].registre)
       v=  OUExclusifBinaire(v, 0xF) // vvvv: a register specifier (in 1’s complement form) or 1111 if unused.
       SI W ALORS	byteVex2 = byteVex2 | 0x80
        			byteVex2 = byteVex2 | (v * 8)
+      p  est entier 
+      SELON :vex_extPP
+      	cas ""   :  p = 0
+      	cas "66" :  p = 1
+      	cas "F3" :  p = 2
+      	cas "F2" :  p = 3
+      	AUTRE CAS
+      		dbgAssertion(Faux, "vex_extPP invalide")
+      		RENVOYER "" // non géré	
+      FIN
+      byteVex2 = byteVex2 | p
       bufVEX += Caract(byteVex2)
-      
       
       dbgAssertion(taille(bufVEX) = 3) 
       renvoyer bufVEX
      type : 458752
    -
      name : Encode
-     internal_properties : BQAAAAUAAADixHKI0GaoPsgjZNbqDPYTQjiP0FG7QcoLKD5F4X24LBI1Q67I16/hmW23Zg9WNLaTfNq5VYaxDfwoY8xjQOiqWZkX2e4zQPffTstHk4ZqfKxcC42uvTeXigvEXZ6ZUmyrP8dbmSITexCXkAAtqxf30WLHtDskqoCeRxTd3mdITEIbItwSBWiSTA2xrWEOahrXm1pzww==
+     internal_properties : BQAAAAUAAACCpFJoMMZILkiDBPbqDFazAnivsNHbAWrLCJ4lYX2YzFJ1Yw7Id+9BmU3XRg8WVBYTfHoZVSbxrTzIw2yjwEhK2Zk3ue4TQNffbvu3Izb67NyM273eracHepu0je7J4lxb75cLSVJDK4BnwHB9mydnQVJX5OtUWjCOVwRNrleYfHLLcsyC9ViCfN3hHfEuSnq3+zoTIw==
      procedure_id : 1976289923846553489
      type_code : 12
      code : |1+
@@ -382,7 +404,6 @@ class :
       	code 	  += VEX_REX_Prefix
       FIN
       
-      
       // si encodage par ajoute du n° de registre a l'opcode (ex "POP")
       si :Encodage = ENCODAGE_ADDREGTOOPCODE ALORS
       	nReg est un entier = nIndiceRegistre(tabValeurParam[1].registre) 
@@ -391,30 +412,35 @@ class :
       	
       	code +=  caract( asc(:opcode) + nReg )
       	nbParamTraite++
-      SInon si :encodage = ENCODAGE_VEX ALORS	
-      	// l'OPCODE n'est que le denier octet. le reste est encodé dans VEX_REX_Prefix
-      	dbgAssertion(taille(opcode)=3)
-      	code +=  droite(:opcode,1)
       sinon
       	// OPCODE principal
       	code +=  :opcode 
       fin
       	
       // si encodage spécial R/M (2 opérandes registres dans 1 octets)
-      SI :encodage = ENCODAGE_RM ALORS
+      bEncodeRM est un booléen   = (:encodage = ENCODAGE_RM )
+      nIndiceParam2RM est entier = 2
+      SI :encodage=ENCODAGE_VEX _ET_ :tabTypeParam[1].bModeEncodageRM()  ALORS 
+      	// cas particulier de RM a 3 paramètre. le 2 est dans le préfixe
+      	bEncodeRM       = vrai
+      	nIndiceParam2RM = 3
+      FIN
+      SI bEncodeRM ALORS
+      
       	rm est buffer
       	si  tabTypeParam[1].bModeEncodageRM() ALORS
       		// si la syntaxe commence par r/M ex: MOV	r/m16/32	r16/32
       		// l'ordre src/dest est inversé
-      		rm = TypeOpérande::Encode_RM_REG( tabValeurParam[2], tabValeurParam[1] )
+      		rm = TypeOpérande::Encode_RM_REG( tabValeurParam[nIndiceParam2RM], tabValeurParam[1] )
       	sinon
-      		rm = TypeOpérande::Encode_RM_REG( tabValeurParam[1], tabValeurParam[2] )
+      		rm = TypeOpérande::Encode_RM_REG( tabValeurParam[1], 			   tabValeurParam[nIndiceParam2RM] )
       	fin
       	
       	code += rm
       	nbParamTraite += 2
       	RENVOYER code
       fin
+      
       
       // valeur du champ REG dans la partie modRegRM.
       // ex : INC 0, DEC 1
@@ -423,6 +449,12 @@ class :
       
       // paramètres 
       POUR i = nbParamTraite+1 _a_ :tabTypeParam.Occurrence()
+      	
+      	SI :encodage=ENCODAGE_VEX ALORS
+      		// le 2 est dans le VEX
+      		SI	i = 2 ALORS CONTINUER
+      	FIN
+      	
       	soit typeParamI   = tabTypeParam[i]
       	valeurParamI est ValeurOpérande <- tabValeurParam[i]
       	contexte.offsetDansInstruction = Taille(code)
@@ -441,10 +473,6 @@ class :
       	
       	// encodage du paramètre
       	code += typeParamI.Encode( valeurParamI, nForceReg_modRegRM, contexte )
-      	
-      	SI :encodage = ENCODAGE_VEX ALORS
-      		sortir // on stop au 1er, le reste a été encodé dans le préfixe
-      	FIN
       	
       FIN
       
