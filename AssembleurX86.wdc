@@ -173,11 +173,12 @@ class :
       si (sCodeAsm1Ligne ~= ".CODE") renvoyer vrai
       si (sCodeAsm1Ligne ~= ".TEXT") renvoyer vrai
       si (sCodeAsm1Ligne ~= ".DATA") renvoyer vrai
+      si (sCodeAsm1Ligne ~= "END") renvoyer vrai
       
       //ignorer les directive PROC / ENCODE
       sDernierToken est chaine = minuscule( ExtraitChaîne(sCodeAsm1Ligne,1," ",DepuisFin) )
       si sDernierToken="proc"  RENVOYER Vrai
-      si sDernierToken="endproc"  RENVOYER Vrai
+      si sDernierToken="endp"  RENVOYER Vrai
       
       // autre chose, du code asm
       renvoyer faux

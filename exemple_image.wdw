@@ -102,7 +102,7 @@ window :
   -
     name : XOR
     identifier : 0x2e231e9f00b40a8f
-    internal_properties : BQAAAAUAAAAyPKohi8SfZtYusOFckufCUcCMYFFxBNj/z+dTjVZSCVPmMdeao+NYjsBj+zCi73vJcPDu/VnNpJZ1XAofisCDCRBPD8KSohykUx6hUTanxgJ7tjZ8XFbtR6gdcSG9jOvOp8vJvzkkzk0FY5qivvULwWO5sxO13nVrT7Q8uJafyD2EBSRLggbvWPEBV86bx9kEst/V/2mrMwVQpbOOF4RfYn6JbrFc02M0bqqOMI9lpKm8uio2GuEmTy44qnev7bU5mUrw+LkMAJAAsSvjsvSwU9rTftJy9NU7skmzwshH2+/GJW9WoB1ikMyFLUUW7VIWTnI1TRn1RKH9vZuhrR6cp3uUiHkXRlx86KxBRAcgdNzrpWnp/BMI7g9sUu4RcDStDEjQ34lYn4vZ68yr3tpFQPQgqVeL1czh8nxaneeucvhki8SgtxV8Hf7PEluNy/TQ3DS8T82AOiX66ZNc+m/pUb69Gu20hVH+fiwIWmRwiuVuIf1WXpU5dM2A24U6vsF4Nw+8ivh1VOsHvX5v2vFVF2mMF6PE3JHyxceotJ4ANkcG39gQFQ222MrBSMv/p60U1U+NxBhrDvGbDKVD5elBGpDtNcla01z6PSjDT6fV9VsPboH6gqpWvYQoH8bmPvbJbsENeW8P0wZlSUrSNsDcD55u9Y8vNaOwQQHbDomNACMBk9ZUHYVWi1W107W/mJXEwb5CVj3kZqO0bSq+Z1YZjpmfqA==
+    internal_properties : BQAAAAUAAADKxEI5kzynPv5G6AmUSi96Obg06On5nKB3V2/LtZ4K0QsuyY8iG4vw9lj7Y6g6FxOxaPj21WElDK4dhCKnMlhrwbjnJ+oKyjSMa/ZJiU4PXqoz/v5UZM4Vn9BFicml5NOG76MhB9EMJvUdW8La1l2jiZth++t9Fj2jl/x0wL73sNWMPT3Luip3/k/5XUwVactajA39c+0vBxsueXnYycpFYGDPZn0YKyvGOPrIuh2zKr/OXK7eEhWilTwAzNEVU0sbfzwsPJ34PJb+Ma1hOGIG5VCh9npiDNXl1DVJ7ILNMZF8k/eyrN2mshZZ6weAezgALOhFvZF5LCM3qdnDOxy6ceH+3JEf2qCeiuyrftl2Kk7hbMxW/wJ5D8B/oRM8KSMgz/tPsHhT0Bg2lntwWUMMB8MrYMjqGImiO8sN9r5L/ee7VqspLnChZr92jdwEXAvHyy+zWMR7Nyb76P7dAXiAQEXMXWqHREYzC7+nf1eRuTjJ2JjrwfTWEXKvjhbJW1wXRs4XL4P83eAMzAnYSVo88pRPlmyDn8qbwvpHMRFhLV8e58A4LSVOoAKJgAO3b/XcHQdFHMATtqnDJE0rDcGZ8ui1/fFy63TCddAb5z+93aPXptmSKlL+FSxAB+7O1g7hBmnVoQena+6dcWIqzqjEF6ZmjeeXnQsoyZlDtvElmFs5W56c1T2O8809Sy03IB1MSTbazoUsLnvcBVLmT24xprGnkA==
     type : 4
     code_elements :
      type_code : 4
@@ -111,7 +111,7 @@ window :
         code : |1+
          // compiler le coder assembleur vers une procédure WL
          //procMult256x256Modulo est une procédure = compileAsmX86("setb  r8b ") 
-         codeAssembleur est chaine = "xor         edx,edx"
+         codeAssembleur est chaine = "cmp         r12,0FFFFFFFFFFFFFFFFh"
          bufCodeAsm est un Buffer =  WDAssembleur.clAsm._sCompile( codeAssembleur )
          SI ErreurDétectée ALORS
          	Erreur()

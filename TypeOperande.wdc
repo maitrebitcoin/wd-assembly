@@ -38,7 +38,7 @@ class :
      type : 655360
    -
      name : bEstcompatibleAvecValeur
-     internal_properties : BQAAAAUAAAD6zArH+R6RaDafrMTcjHaDBGh9nIeNUQzZTL4TG0UwXKiJDR4mhWtPdzlT3JkWJLYl3FS5NxBxO9rUqy4J/AyeA8HF3aAJZE3liuzoapkhF8l7MtK5sCSAozSB9n1kCffUZi704Pl86E00AamcVuIu5nnekU4vz7UbZHlOtZKnh3/eDZW5vLFLNbbK8owtkGhaw3Jr2w==
+     internal_properties : BQAAAAUAAAAKHNq3yY7sDkTLeKJmkOo/joBf1AVjBcIvsKohzeF0eKaN6zrcF8Nx/T1bGjMa6PpndHoFYfbFtTjoh2h3LHxePUGvvTLbzI+bjm1l7eBQ8tJ6eSsIZ+05aHlW+3hDILpp9Z0x+ySR/ZYNKkZ31a391+hlwvVGSBqkjc4zUKnOSqDxIMqE93akWhtD03vIANgqE8Kbqw==
      procedure_id : 2157233528784387948
      type_code : 12
      code : |1+
@@ -103,6 +103,10 @@ class :
       	CAS IMMEDIATE_16BITS
       		RENVOYER valeurParam.bEstModeValeurImmediate() _ET_ valeurParam.valeurImmediate<=0xFFFF
       	cas IMMEDIATE_16ou32BITS
+      		// en 64 bits veut dire "taille native"
+      		SI contexte.compilateur.b64Bits() ALORS
+      			RENVOYER valeurParam.bEstModeValeurImmediate() // toutes valeurs OK
+      		FIN
       		RENVOYER valeurParam.bEstModeValeurImmediate() _ET_ valeurParam.valeurImmediate<=0xFFFFFFFF
       	cas IMMEDIATE_16ou32ou64BITS
       		SI contexte.compilateur.b64Bits() ALORS
