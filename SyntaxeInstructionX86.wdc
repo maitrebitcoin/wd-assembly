@@ -200,25 +200,28 @@ class :
       X	est un booléen			// Extension of the SIB index field
       B	est un booléen			// Extension of the ModR/M R/m field, SIB base field, or Opcode reg field
       
-      bEncodeRM est un booléen = (:encodage = ENCODAGE_RM)
-      nIndiceParam2RM est un entier = 2
+      
       SI :encodage=ENCODAGE_VEX _ET_ :tabTypeParam[1].bModeEncodageRM()  _ET_ :tabTypeParam[3].bModeEncodageRM()  ALORS 
       	// cas particulier de RM a 3 paramètre. le 2 est dans le préfixe
-      	bEncodeRM		= Vrai
-      	nIndiceParam2RM	= 3
+      //	bEncodeRM		= Vrai
+      //	nIndiceParam2RM	= 3
+      	R	= _bBitRex( tabValeurParam[1] )
+      	B	= _bBitRex( tabValeurParam[3] )
+      	
+      	RENVOYER (w,R,X,B)
       FIN
       
-      SI bEncodeRM alors // spécial R/M (2 reg dans 1 octets)
-      	R	= _bBitRex( tabValeurParam[1] 			    )
-      	B	= _bBitRex( tabValeurParam[nIndiceParam2RM] )
+      SI :encodage = ENCODAGE_RM alors // spécial R/M (2 reg dans 1 octets)
+      	R	= _bBitRex( tabValeurParam[1] )
+      	B	= _bBitRex( tabValeurParam[2] )
       	SI  tabTypeParam[1].bModeEncodageRM() ALORS
       		// si la syntaxe commence par r/M ex: MOV	r/m16/32	r16/32
       		// l'ordre src/dest est inversé
       		R<=>B
       	FIN	
-      	SI  tabValeurParam.Occurrence()=nIndiceParam2RM ALORS
+      	SI  tabValeurParam.Occurrence()=2 ALORS
       		// cas mov  rax,qword ptr [r8+r12+1]
-      		SI tabValeurParam[nIndiceParam2RM].registre2<>""  _ET_ nIndiceRegistre(  tabValeurParam[nIndiceParam2RM].registre2)>7 ALORS
+      		SI tabValeurParam[2].registre2<>""  _ET_ nIndiceRegistre(  tabValeurParam[2].registre2)>7 ALORS
       			X=1
       		FIN	
       	FIN
@@ -428,7 +431,7 @@ class :
       SI bEncodeRM ALORS
       
       	rm est buffer
-      	si  tabTypeParam[1].bModeEncodageRM() ALORS
+      	si  tabTypeParam[1].bModeEncodageRM() _et_ :encodage<>ENCODAGE_VEX ALORS
       		// si la syntaxe commence par r/M ex: MOV	r/m16/32	r16/32
       		// l'ordre src/dest est inversé
       		rm = TypeOpérande::Encode_RM_REG( tabValeurParam[nIndiceParam2RM], tabValeurParam[1] )
@@ -436,7 +439,7 @@ class :
       		rm = TypeOpérande::Encode_RM_REG( tabValeurParam[1], 			   tabValeurParam[nIndiceParam2RM] )
       	fin
       	
-      	code += rm
+      	code 		  += rm
       	nbParamTraite += 2
       	RENVOYER code
       fin

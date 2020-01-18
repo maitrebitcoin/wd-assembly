@@ -10,7 +10,7 @@ info :
 window :
  name : exemple_image
  identifier : 0x2b72eaae00b2037a
- internal_properties : BQAAAAUAAACVJrIRyW4Efgnak1FpDScRC2sSu99CG5Sq/CqIk8gANeGnhOXTppW0IT3VdYKnPvNrzphiUvvCGEjPTIpn+eg7XveR1O3OXBOHkuSYfNOU/kaowXzQnIOcqmYxbYUgNYt3Kcp6FOeUae5NYFTjt0p22wuaRDEnjoA+vxDzEVDObs2guLKsK8+cvGNNW2smceZg9IXf3mrrzz1gS3Vibh6nPubxAsEJovFcyDVihx9q/jxw1stMxS1fsOffnGzhZlQQ009DQqMYm0eBe8/JvHp34NwRGJfVuBiRDdda6122mUdJjxBxp4NNn2kqDnEuIUZZNS2WslpFz4dVo4BtULLSd1Y5lU7ol4DnPslz3/pZ2pcRVMUTH2pn8SIMi07U/snAKXCBKLxEzrWJJgi0bqNHuEuWMl3b99yi5YYh0a9i7XA4YQE3a26KzY4gh4Aber0dc9cHgU/5ov5CXS0mOg62zHHz2aFFVENYX+xYAy1PYwc2gn5zJtAOWBkBf4CKuTHo1Vdz0xVhtR3GKi7P5DjxATF79fGL4BMcQVmRLEbL+cfnz5MNVcTksFPtcTxa8LIvCQvBTaCoJaAGJPxu1nXnmVIyC2xtwFswQcAbTD1/8HajtskutFNVrQGJqYBONvUCXrXTx4nwdzh5ifKp8W0kvAG4RILpjtAcwCFs1sOes4TCRUct4JlKaidFbRicpqJAUXGQPn2H0FCXSDyf4bZZGFdTGMZ8iuy5MCAgIfFeTwouMJbjBXukQTfheuNteVR0h4gYcON/m9TxH+gsSnD8U/gghQMQUuUgTYPOeMfFgJMjntn60IJT5oPB6zzFDVAuwgKI5JxKNebqfoUEGojslEPGS9tCvH0=
+ internal_properties : BQAAAAUAAABXeM7C9hPTV73BFh5r3nZ1CHUTYRBZ0pxqzMbj4kMVXt0yggr/gsX0R6Lbce7MJXY9LHnNK4lThcdbEMtp4ZUzgSezAfHyaO6q2G/7LBzT+xtxmSP9i4vdzTaEIyRi0SX9i4RUvKRRJ/T1jtlAQNMfa7+df8sADWFyuLh3gebwubbSvyIhm6uAdOe+Zszwl/fMGhf+7dtB/kXRJwsSxqz+45J6hntya63ivPHOsS7mGo/R2b06K8lyE2ysA35C5NHVGs8Pg1MKYps5ZQz+LKUS1IFC8nP1GLD1iEmA1r9lBMLJAHDyDRH3X/aWBrkRWNhi7VblRWb40KkLTAI2x43Khj6OxkKSC5ae1zyUAiPagVHP2N1edA9gVg61x3UVGOfkj3u3VfUcCb2NO5hgOfsj4cLfVPTx1/CR7PkzEe3ojLJBgzXS2LatMzdVbmb+e7fosJPZdZAO1u9J5ftTwnUMw4er6mXwtLjFnC28MNY/6tl2BpBjaMeJYWGyHJeNu85bgCqzNQGaQiBdm7HsuCOnEg+Xds7/AFZFx+BM0c5/O5Dyz81hHpIQ89bfr5UXBBJAQpb+dhjCdU6fzUpG4ovh4Qf16PIgEzOnl6fExsY65AqCaAlQQfY0xM9lqULNmPizwGS/cdvbQ2ZwDtllsSxmhEcDvlLdEgDjdxLIL6SVYdveor67atL5brY/MCSBJHKGPBQ4HyZZBRrTbEaUstUq+8uQ3/OrgMj5+AqSP7ZQlPGgcpW1G1wctg98anyJ7ACgQ8w+UP+zSpM792aF7jiJaWNPHjXCMHBjc1CP+YhRx7ismfCqXkm1MUWA9Y2ALRfvtVll8eVQSRLd95c3BqENVM+y6Wo9oxqVvQ==
  controls :
   -
     name : Image1
@@ -59,6 +59,65 @@ window :
          	
          fin
          trace("durée en ms : " + chronofin())
+         
+        type : 18
+      -
+        type : 161
+        enabled : false
+  -
+    name : TEst_mult
+    identifier : 0x2e1eac8100a87e13
+    internal_properties : BQAAAAUAAABeoSVpoNx4rwiGM78g8mKIHKVVEPbJkVt175LboF2Azo9yhTIqYsnczwXJxhGr4dK/vPrVA7TZQI/4pJWq06DK13xKZIIEmZY1sP8e+ygxA3emuJ7qUfdIbJEy6eFwErEC9Qys0plozwuTt4uNTr9wdsIEdztzLsjt8fXIhbAr8GBjWFjbA3DHC2YZrzB1dEC0Se1sTWtid8EDbU29cLJ1xsz3Sx5D6+mdqYLwaXxW9iacVKslCgGcPWkJ7ZBNoIZfDRinhRdI8c/uhkJT7m+qQCWuDsi+uUfnCem0+65rtqufqfzsnKNWz50wKuRN8UN6ZkawSirzWBLvLMJK7nIBsQlqdVIWMsxICB+cwlveEzTLIDIAkL4zSEYA3N3OIDd+ZJqglEkxQK+cqWSQjfYmeR5Y4ZLT3IfT6+AoeACE4Tkyg+49zwjzRcufUNBET+vjmjjmzsGPSRvp2+19DeuyXkSxupRKRhJeEdpOXXVIH85W02GVGpSkjCRsI7Jx5Bif2d+GB3YGYTfafaT4deGIdGtEvYKov6CiCC0Qd4Dlzg1HEmc4KCUUV64SM4nljE9jZdTWwQ8yrkbnmAzCWJChgbKVaUmYUEyBBGyTRgpU8LMsJO8Y5bLjAAlaQZBakiHS37mVphmW6Gfj1rDPn3C3cl4RViFARO0XiaZO3/EUZzsihtf5qO3+MqjC8G4e8nu9bVQCVA2534IocMP6aqFL+A7E3JSJh/zW
+    type : 4
+    code_elements :
+     type_code : 4
+     p_codes :
+      -
+        code : |1-
+         
+         sCodeAssembleur est chaine
+         sCodeAssembleur = fChargeTExte("C:\Users\Paul Albert\Source\myRepo\LibInt256\multiplicationModulo_sepc256k.asm")
+         
+         // compiler le coder assembleur vers une procédure WL
+         procMult256x256Modulo est une procédure = compileAsmX86(sCodeAssembleur) 
+         SI ErreurDétectée ALORS
+         	Erreur()
+         	RETOUR
+         FIN
+         
+         nombreA est un buffer = Répète(caract(  5),32)
+         nombreB est un buffer = Répète(caract(255),32)
+         nombreResultat est un buffer = Répète(caract(0),32)
+         
+         // appel procédure WL qui exécute le code assembleur
+         procMult256x256Modulo( procAssembeur, nombreA, nombreB , nombreResultat )
+         trace(  BufferVersHexa( nombreResultat,SansRegroupement) )
+        type : 18
+      -
+        type : 161
+        enabled : false
+  -
+    name : TEst_vex
+    identifier : 0x2e20147c0065a377
+    internal_properties : BQAAAAUAAACecb/h2yJB1IgTTx7vsUkjPwskJrThsAbo/G7lgnDN2tYQH73lljh+hzC9d+U28UdoZfvs43JApoHzOabK2IJEi5QK2xsEcv0tpPT1kAP0wtO4s/5yCaIp8KwV2zH2myPFeOkCsxStwsJSQeJVV30Ijluo7NSHi9awk6mDE+Vhb5IlyNNDcqNclsldVrjFKhlUoNEMuvnrthFwA/SfgnFiQGHT/2fYT9MMBop1c3MJ1SjYyiIe/rGl9U7X7lvJ/NBZRF+F+etcYWO4B8awMRA/7N1TyMZ0FhK9WNuFOfaJv/mP3rFL8RHxoDJWA4koJc+kdTdG/g83s5fPfW1L6xKRTj6PLZXssqIZdOoj+24/0Km7qB2uQy3zavALKD6yrH3nUqniMnVnEMfVPG4eFSmH+qb3ZUAOZqNZVr61WhXh9lGhF/8/23cvamGyBRwm5NZD4nXl50h2bS5iczjdyTJ3TKHP9VwjYMgefAm0FRkGsdXQZutrdZVYTZ+jR/pzi57h6DAK0V9rwOkB30HB9ZXO7ARQ8zfZZI/+52zk4/JAMQCcSafV0yPE6hcR0fF8ZmY8atyuktuaf5JJm16odDe+Xuq0DVAQsv9oxt3JkFr31p2p1Bwq0ns96FrqFlET+KESEISPU2kC8Yor8aiBCKKxiplseGhKKTKoH9myA3lBBWMjuiquUs5LRmNri6Yc/L+hrBTvUUay34LUaKUnIv6mX+4Rr8Dpf44=
+    type : 4
+    code_elements :
+     type_code : 4
+     p_codes :
+      -
+        code : |1+
+         
+         sCodeAssembleur est chaine
+         sCodeAssembleur = "mulx r11,rax,rsi"
+         
+         // compiler le coder assembleur vers une procédure WL
+         sCodeASM est buffer =  WDAssembleur.clAsm._sCompile( sCodeAssembleur )
+         SI ErreurDétectée ALORS
+         	Erreur()
+         	RETOUR
+         FIN
+         trace(sCodeAssembleur)
+         trace(BufferVersHexa( sCodeASM ))
          
         type : 18
       -
