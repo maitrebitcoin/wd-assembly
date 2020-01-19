@@ -1112,3 +1112,5 @@ PADDD;xmm;xmm/m128;;;0F;66;FE;;r;;;
 MULX;r/m32;r16/32;r/m32;;;;F6;;vex;F2;0F38;
 ADCX;r/m64;r/m64;;;0F;38;F6;;r;66;;64
 ADCX;r/m32;r/m32;;66;0F;38;F6;;r;;;32
+ADOX;r/m64;r/m64;;;0F;38;F6;;r;F3;;64
+ADOX;r/m32;r/m32;;F3;0F;38;F6;;r;;;32
