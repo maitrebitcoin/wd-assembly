@@ -301,12 +301,21 @@ class :
      procedure_id : 2157233528784519020
      type_code : 12
      code : |1+
-      Procédure globale Encode_RM_REG( dest est ValeurOpérande, source est ValeurOpérande)
+      Procédure globale Encode_RM_REG( dest est ValeurOpérande, source est ValeurOpérande) : buffer
       
       // si source est une indirection.
       // ex : [EBP + 12]
       SI source.bEstModeIndirection() ALORS
       	RENVOYER source.Encode_MOD_REG_RM_IndirectionEtDéplacement(dest)
+      FIN
+      // si source est une indirection vers une adresse (lea).
+      // ex : [EBP + 12]
+      SI  source.bEstModeIndirectionLabel() ALORS
+      	// MOD REG     RM
+      	//  00 <dest> 101
+      	// Register indirect addressing mode or SIB with no displacement (when R/M = 100) or Displacement only addressing mode (when R/M = 101).
+      	nMOD_RG_RM est entier= (nIndiceRegistre(dest.registre) & 0x7) * 0x8 + 0x5
+      	RENVOYER  caract( nMOD_RG_RM )
       FIN
       
       // si sDest et source sont un registre direct

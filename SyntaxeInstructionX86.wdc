@@ -522,20 +522,21 @@ class :
       	nIndiceParam2RM = 3
       FIN
       SI bEncodeRM ALORS
-      	// cas "lea eax,[label]"
-      	si tabValeurParam..Occurrence>=2 _et_ tabValeurParam[2].bEstModeIndirectionLabel() ALORS
-      		nbParamTraite++
+      
+      	rm est buffer
+      	si  _bInverseOrdreParam_EncodageRM() ALORS
+      		// si la syntaxe commence par r/M ex: MOV	r/m16/32	r16/32
+      		// l'ordre src/dest est inversé
+      		rm = TypeOpérande::Encode_RM_REG( tabValeurParam[nIndiceParam2RM], tabValeurParam[1] )
       	sinon
-      		rm est buffer
-      		si  _bInverseOrdreParam_EncodageRM() ALORS
-      			// si la syntaxe commence par r/M ex: MOV	r/m16/32	r16/32
-      			// l'ordre src/dest est inversé
-      			rm = TypeOpérande::Encode_RM_REG( tabValeurParam[nIndiceParam2RM], tabValeurParam[1] )
-      		sinon
-      			rm = TypeOpérande::Encode_RM_REG( tabValeurParam[1], 			   tabValeurParam[nIndiceParam2RM] )
-      		fin
-      		
-      		code 		  += rm
+      		rm = TypeOpérande::Encode_RM_REG( tabValeurParam[1], 			   tabValeurParam[nIndiceParam2RM] )
+      	fin
+      	
+      	code 		  += rm
+      	// cas "lea eax,[label]"
+      	SI tabValeurParam..Occurrence>=2 _ET_ tabValeurParam[2].bEstModeIndirectionLabel() ALORS
+      		nbParamTraite += 1
+      	sinon	
       		nbParamTraite += 2
       		RENVOYER code
       	fin
