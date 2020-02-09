@@ -15,7 +15,7 @@ procedure_set :
   type_code : 31
   p_codes :
    -
-     internal_properties : BQAAAAUAAACqqi95olny68bFAfdN2c0yrjo42MQwx/oXOoyX7AuhdDw7O4OXafWcEUVnhqYQBVohjvzR0gYoI6X8FBenpgbrVBAulN4NueTYPmdsk11p8FdIiwNayY1twsNCz4dNMeZhBOh/3no+eufFQRDrwwOJtWa1SUCwUwxUuxrGfA1MylGTHQ8eMkIlx7ep9jqYjeSw0LrKX8i5XuCUFz+wG8F+x3gOyqomCrx8xWUDYfewlVu8HLyIdajFqoS/MUSjV/3C8PP/DW1ULX5b2tHCeLeyc8kUyI4Pv/N4+bKMFxdbYMUP5x8Is/SeTdqqSSUCt+85YHjM0WeK14EQB1JWYEOgiowlDtwBhfrTuEJVAjEKFT+wQ+1F1xNvsFiyTnWJEv7mC5R4pvd2/yqVXothWZ6/sx0N6Q0fkLnqynawKl3y/KbMj50VXmIoYyjbrFjGVMdvrghtUy2n1n417tNQmMq3/RJb8qiD09IK7QMFc6Y+WIB4w4wi6afcmCV2bQ==
+     internal_properties : BQAAAAUAAACktvuafeANOESKaNPlOg6xrb0foDfzHwiZiMVTaWbQEQGWfOaE1W2qHBI17bGV5V/6O0aq4fai6jN1Xhs9Eqejs/2qxT0+PubnqZRGsrjuYKfM7ckLreSMPxQUc4T5IIWfLpKDQH9f5vSYi2Tc3Eo9qRJU8Ou4uuJyy0HZbcTTnDDcTvbk3x66r3pDN8k8KC02Xg7+To5loudRMeD6mGn0LaaFxgoYec+hcdVy+XmTzaF0LALFkmfBylecoX/al9nTIGucT0kqpo2a1rzLIgU47uZbfAGZFpR3+8aBaBow1qqSewqYdTTdfz7SNWins3IHMM7OgsXq/HRLUSlVBj4OBmJSjtUuCAJQtOFRNJ8tkJ1aIyiV0u5OuyjlWQwGp2euVddDyN1cTsKeTCYsH/7CuTEmeo/L/d4lPaG2KLqOr+elLrgWzxKHS9iC8tGuLv1Uuc5eMWlUhVqhL8Cj+SW/oY2gvrWuQKR7TnfsjglLiA==
      code : |1+
       
       registres est un variant
@@ -54,6 +54,7 @@ procedure_set :
       	MEMORY_16BITS			= "m16"
       	INDIRECT_REL_8BIT		= "moffs8"     // ex : MOV AL,moffs8*	Move byte at (seg:offset) to AL.
       	INDIRECT_REL_16ou32BIT	= "moffs16/32" // ex : MOV EAX,moffs32*	Move doubleword at (seg:offset) to EAX.
+      	MEMORY_LEA				= "m" 		   // adresse mémoire. pour LEA
       FIN
       
       // registres X86 au format JSON

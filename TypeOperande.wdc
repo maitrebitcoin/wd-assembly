@@ -182,6 +182,10 @@ class :
       	cas MEMORY_16BITS
       		// non supporté 
       		renvoyer faux
+      	
+      	CAS MEMORY_LEA
+      		renvoyer valeurParam.bEstModeIndirection()
+      		
       		
       	autre cas
       		// non supporté 
