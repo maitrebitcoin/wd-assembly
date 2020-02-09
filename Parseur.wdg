@@ -62,6 +62,17 @@ procedure_set :
       	valeur_OUT = HexaVersEntier(gauche(s,taille(s)-1))
       	RENVOYER Vrai
       FIN
+      // support du format
+      sSansSigne est chaine
+      SI s[1]="-" ALORS
+      	sSansSigne = milieu(s,2)
+      FIN
+      // ex : "-1234h"
+      SI s[1]="-" _et_ VérifieExpressionRégulière(sSansSigne,REGEXPTOKEN_NUMHEXA2) ALORS
+      	valeur_OUT = -HexaVersEntier(Gauche(sSansSigne,Taille(sSansSigne)-1))
+      	RENVOYER Vrai
+      FIN
+      
       
       // si c'est un entier 
       // ex : "123"
@@ -202,7 +213,7 @@ procedure_set :
      type : 458752
    -
      name : _bChaineVersIndirectionRegistre
-     internal_properties : BQAAAAUAAADngy9aJyVTH2GOP2kAuMxWbXDh4BCYmqFwdKYJxllXBv3FAKpldblXIVNBYhREMaZFafqHa2ObF9LPc3zvPQXFZECvEy7z/Z5B1keGQgBPjYUYoiDyemZ+e8LWUgjLIY6Au/fmKrjtG0g5ITXBTyPyXIfXRQGGyGoUd9m2qGhJQMK/CwFoULGkW1fL+gn/PgDyq0yB3qnBDirMgIYQV9/9k/i3P8MpUUfNY9uXajVk1kbqvOSU028D5q0RsZFTgt5tnDaNZ00H9SroZA==
+     internal_properties : BQAAAAUAAAAD71sGY+EMOcfeNZM8pqI26+xREkYeEvPi+KwLwtdd/pvh8Ph/h/3xo++X8CxaL66/iUrpebHTZcDPweon3wNVdki3aWg1OYQ3PiHo9pJBmX/I/sZkRCLEIfLgUHgRowJOp/uc3Ln8MktMhsreWODdgarUpuoza4VruuZ75SFe22NmvGb1UbAjKnaMm5pMa7MD7gF63z5sOVGz+Q+Z1FgE6Et80DQ2dOq4apzQI2qpGQut6d1VmPoGxdDGJo5Ei4V+1/N2mxHDMRYEAA==
      procedure_id : 1977866189681364784
      type_code : 15
      code : |1+
@@ -232,7 +243,15 @@ procedure_set :
       	renvoyer FAUX
       fin
       
-      sMilieu est chaine = Milieu(sExpr,2, taille(sExpr)-2) // récup valeur entre [ ]
+      sMilieu est chaine = Milieu(sExpr,2, taille(sExpr)-2) // récup valeur entre [ ].
+      // ex : rax+rbx ou rax-70h
+      // gestion de la syntaxe "rax-70h"
+      si position (sMilieu,"+")<=0 _et_ Position (sMilieu,"-")>=3 ALORS
+      	// remplace "rax-70h" par "rax+-70h"
+      	sMilieu = remplace(sMilieu,"-","+-")
+      FIN
+      
+      
       valeur_OUT.registre  =  minuscule( SansEspace( ExtraitChaîne(sMilieu,1,"+") ) )
       // doit commencer par  un registre. 
       SI PAS bEstRegistre(valeur_OUT.registre) ALORS
