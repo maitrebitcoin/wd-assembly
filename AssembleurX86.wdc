@@ -73,7 +73,7 @@ class :
       
       // si on veut l'adresse d'un procédure 
       si sNomProcedurePrincipale<>"" ALORS
-      	// recherche dans la table de symobl
+      	// recherche dans la table de symboles
       	SI PAS contexte.tabSymboleRencontré[sNomProcedurePrincipale]..Existe ALORS
       		ErreurDéclenche(ERR_COMPILATION_ASM, ChaîneConstruit("la procédure <%1> est inconnue",sNomProcedurePrincipale))
       		RENVOYER null
