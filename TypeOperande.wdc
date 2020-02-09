@@ -184,7 +184,7 @@ class :
       		renvoyer faux
       	
       	CAS MEMORY_LEA
-      		renvoyer valeurParam.bEstModeIndirection()
+      		renvoyer valeurParam.bEstModeIndirection() _ou_ valeurParam.bEstModeIndirectionLabel()
       		
       		
       	autre cas
@@ -267,6 +267,21 @@ class :
       		FIN
       		dbgAssertion(faux)
       	
+      	cas MEMORY_LEA
+      		SI valeur:modeAdres = ValeurOperande::MA_Vide ALORS
+      			// offset sur 32 bits a patcher			
+      			RENVOYER _encodeImmediate32("0") 
+      		FIN		
+      		si valeur.bEstModeIndirectionLabel() ALORS
+      			// encode un offset par rapport a EIP après l'exécution de l'instruction
+      			offset est un entier sur 4 = val(valeur.valeurImmediate) - contexte.nOffsetDest - 4 - contexte.offsetDansInstruction
+      			RENVOYER _encodeImmediate32(""+offset) 			
+      			
+      			//RENVOYER _encodeImmediate32(0)
+      		FIN
+      		// le cas adresse dans reg aurait du être traité avant...
+      		dbgAssertion(Faux)
+      		
       	AUTRE CAS
       		// si c'est un registre, rien a encoder
       		// ex : PUSH ES

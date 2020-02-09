@@ -203,6 +203,10 @@ class :
       		renvoyer 0
       	fin
       FIN
+      // cas des indirection sur un label => on met un offset sur 32 bits
+      SI operande.bEstModeIndirectionLabel() ALORS
+      	RENVOYER 0
+      FIN
       
       //@autres : TODO
       dbgAssertion(faux, "cas non géré" + operande.modeAdres.nom )
@@ -518,19 +522,23 @@ class :
       	nIndiceParam2RM = 3
       FIN
       SI bEncodeRM ALORS
-      
-      	rm est buffer
-      	si  _bInverseOrdreParam_EncodageRM() ALORS
-      		// si la syntaxe commence par r/M ex: MOV	r/m16/32	r16/32
-      		// l'ordre src/dest est inversé
-      		rm = TypeOpérande::Encode_RM_REG( tabValeurParam[nIndiceParam2RM], tabValeurParam[1] )
+      	// cas "lea eax,[label]"
+      	si tabValeurParam..Occurrence>=2 _et_ tabValeurParam[2].bEstModeIndirectionLabel() ALORS
+      		nbParamTraite++
       	sinon
-      		rm = TypeOpérande::Encode_RM_REG( tabValeurParam[1], 			   tabValeurParam[nIndiceParam2RM] )
+      		rm est buffer
+      		si  _bInverseOrdreParam_EncodageRM() ALORS
+      			// si la syntaxe commence par r/M ex: MOV	r/m16/32	r16/32
+      			// l'ordre src/dest est inversé
+      			rm = TypeOpérande::Encode_RM_REG( tabValeurParam[nIndiceParam2RM], tabValeurParam[1] )
+      		sinon
+      			rm = TypeOpérande::Encode_RM_REG( tabValeurParam[1], 			   tabValeurParam[nIndiceParam2RM] )
+      		fin
+      		
+      		code 		  += rm
+      		nbParamTraite += 2
+      		RENVOYER code
       	fin
-      	
-      	code 		  += rm
-      	nbParamTraite += 2
-      	RENVOYER code
       fin
       
       
@@ -559,9 +567,18 @@ class :
       		contexte.onUtilisationLabel( valeurParamI.label, taille(code), taille(codeAPatcher), typeParamI )
       		// encodage du paramètre avec 0 pour l'instant
       		code += codeAPatcher
-      		//tabValeurParam
       		continuer
       	FIN
+      	// si la valeur est une indirection sur un label
+      	SI valeurParamI.bEstModeIndirectionLabel() ALORS
+      		// il faudra patcher ici : offset sur 32 bits
+      		valeurParamVide est ValeurOpérande 
+      		codeAPatcher est un buffer = typeParamI.Encode( valeurParamVide, nForceReg_modRegRM, contexte )
+      		contexte.onUtilisationLabel( valeurParamI.label, Taille(code), Taille(codeAPatcher), typeParamI )
+      		// encodage du paramètre avec 0 pour l'instant
+      		code += codeAPatcher
+      		CONTINUER
+      	fin
       	
       	// encodage du paramètre
       	code += typeParamI.Encode( valeurParamI, nForceReg_modRegRM, contexte )

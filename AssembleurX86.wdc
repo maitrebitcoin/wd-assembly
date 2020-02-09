@@ -75,7 +75,7 @@ class :
       si sNomProcedurePrincipale<>"" ALORS
       	// recherche dans la table de symobl
       	SI PAS contexte.tabSymboleRencontré[sNomProcedurePrincipale]..Existe ALORS
-      		ErreurDéclenche(ERR_COMPILATION_ASM, ChaîneConstruit("la procédure <%1> est inconnue?",sNomProcedurePrincipale))
+      		ErreurDéclenche(ERR_COMPILATION_ASM, ChaîneConstruit("la procédure <%1> est inconnue",sNomProcedurePrincipale))
       		RENVOYER null
       	FIN
       	soit offsetProc = contexte.tabSymboleRencontré[sNomProcedurePrincipale].offset
@@ -155,7 +155,7 @@ class :
       	sLabel  = utilisationLabel.label
       	nOffsetInstr est un entier 	 = utilisationLabel.offsetDestAddr  // commence a 0
       	nOffsetPatch  est un entier  = utilisationLabel.offsetPatch // commence a 0
-      	ntaille est un entier 	 = utilisationLabel.taille
+      	nTaille est un entier 	 = utilisationLabel.taille
       	typeOp  est TypeOpérande = utilisationLabel.typeOperande
       	// récup valeur effective
       	si pas contexte.tabSymboleRencontré[sLabel]..Existe ALORS
@@ -170,9 +170,12 @@ class :
       	valeurAPatcher est ValeurOpérande
       	valeurAPatcher.valeurImmediate = valeurLabel
       	valeurAPatcher.modeAdres			   = ValeurOpérande::MA_Label
+      	si typeOp.nomType = MEMORY_LEA ALORS
+      		valeurAPatcher.modeAdres			   = ValeurOperande::MA_IndirectionLabel
+      	FIN
       	bufSource est un buffer = typeOp.Encode(valeurAPatcher,0, contexte)
-      	dbgAssertion(taille(bufSource) = ntaille )
-      	bufCodeAsm[ nOffsetPatch+1 a nOffsetPatch + ntaille ] = bufSource // +1 car les chaines WL  commencent à 1
+      	dbgAssertion(taille(bufSource) = nTaille )
+      	bufCodeAsm[ nOffsetPatch+1 a nOffsetPatch + nTaille ] = bufSource // +1 car les chaines WL  commencent à 1
       FIN
       
       
@@ -207,7 +210,8 @@ class :
       si sDernierToken="proc" ALORS
       	eDirective_OUT = débutProcédure
       	// extrait le nom de la procédure
-      	sParamDirective_OUT =  ExtraitChaîne(sCodeAsm1Ligne,1," ")
+      	sParamDirective_OUT =  ExtraitChaîne( SansEspace(sCodeAsm1Ligne),1," ")
+      	dbgAssertion(sParamDirective_OUT<>"")
        	RENVOYER Vrai
       fin
       si sDernierToken="endp" ALORS
@@ -220,7 +224,7 @@ class :
      type : 458752
    -
      name : _CompileUneLigne
-     internal_properties : BQAAAAUAAAB6TIpHaX5t2Jb/lCQ0dH6zNGgVvM/1keQRBH6rG+UApNDxjVbmBdPP95lLTFGebHY1zFwZX9hB4/KM26bJnHw2a/n1lQDZLG11ujDEFsW1O51PRnbF7Ng0b0ClEkmQnYto6oLYTJUQfGkwJbWYUuYymr3CpTrb47nHoI3a0T57C7OCoRklKCXP8eKePui5APjaQ/LrWw==
+     internal_properties : BQAAAAUAAABabKrniZ5NaBZfdMQ0dB6TtGg1HI8V0QRRpB6LWyXgxBAxLTam5VPvt/krLBEeDNZ1DPx5n7gBg/Kse4bJHBwWa3lVNQC5bM01WsBUhtVlC+2f9saV/OjEPzA1ovmgjRv4+nLoXKUgDLngdQXIYhZC6g1ydYqrs4mXkB1qgc7r28MSEen1ODXfwVKuTtiZIJh64xLLew==
      procedure_id : 1974067480069991068
      type_code : 12
      code : |1+
@@ -243,6 +247,7 @@ class :
       			contexte.bDansData = faux
       		CAS débutProcédure
       			// ajout du symbole
+      			dbgAssertion(sParamDirective<>"")
       			contexte.onDéclarationLabel(sParamDirective)
       	FIN
       	// pas de code généré pour cette ligne
@@ -250,7 +255,7 @@ class :
       FIN
       // si on est dans la zone de données (.data)
       si contexte.bDansData ALORS
-      	renvoyer _complileUnLigneData( sCodeAsm1Ligne )
+      	renvoyer _complileUnLigneData( sCodeAsm1Ligne, contexte )
       FIN
       
       
@@ -264,7 +269,7 @@ class :
       
       // analyse des paramètres => conversion en mode d'adressage
       TabParametre est un tableau de ValeurOpérande
-      _AnalyseParametre( TabParamStr, TabParametre )
+      _AnalyseParametre( TabParamStr, contexte, TabParametre )
       SI ErreurDétectée ALORS RENVOYER ""
       // calcul taille des opérandes (pour ajout éventuel du forçage en mode 16 bits)
       contexte.tailleOpérande  =  _nCalculeTailleParametre( TabParametre )
@@ -296,13 +301,13 @@ class :
      procedure_id : 1976292414931966194
      type_code : 12
      code : |1+
-      procédure _AnalyseParametre( tabExpression est un tableau de chaine, tabParamOUT est tableau de ValeurOpérande)
+      procédure _AnalyseParametre( tabExpression est un tableau de chaine, contexte est ContexteCompilation, tabParamOUT est tableau de ValeurOpérande)
       
       // pour chaque expression
       pour TOUT sExpression DE tabExpression
       	// conversion en objet de type <ModeAdressage>
       	valeurOp est ValeurOpérande
-      	si pas Parseur.bAnalyseChaineVersModeAdressage( sExpression, valeurOp ) ALORS
+      	si pas Parseur.bAnalyseChaineVersModeAdressage( sExpression, valeurOp, contexte ) ALORS
       		ErreurDéclenche( ERR_COMPILATION_ASM, ChaîneConstruit("Erreur de syntaxe : <%1> n'est pas un paramètre valide.", sExpression ))
       		retour
       	FIN
@@ -467,7 +472,7 @@ class :
       // compile 1 ligne de données.
       // ex :
       // _2P256_MoinsP_Ordre qword 402da1732fc9bebfh, 4551231950b75fc4h, 000000000000001h, 000000000000000h
-      procédure privée _complileUnLigneData( sLigneData chaine ) : buffer
+      procédure privée _complileUnLigneData( sLigneData chaine, contexte est ContexteCompilation ) : buffer
       
       // si que des espaces
       SI SansEspace(sLigneData)="" ALORS
@@ -478,7 +483,9 @@ class :
       type     est chaine = ExtraitChaîne( sLigneData, 2, " ")
       valeurs  est chaine = milieu( sLigneData, taille(label) + taille(type) +  2)
       si label<>""  ALORS
-      	// on déclare le label
+      	// on déclare le symbole
+      	// permet d'écrire lea eax,[mesdata]
+      	contexte.onDéclarationLabel(label)
       FIN
       
       // résultat

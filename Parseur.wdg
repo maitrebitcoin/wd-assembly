@@ -107,6 +107,20 @@ procedure_set :
       renvoyer VérifieExpressionRégulière(sValeur, REGEXPTOKEN_LABEL)
      type : 458752
    -
+     name : bEstIndirectionSurLabel
+     procedure_id : 2179788248816523538
+     type_code : 15
+     code : |1+
+      procédure bEstIndirectionSurLabel(  sValeur chaine, sLabelDansAddr_OUT est chaine ) : booléen
+      
+      // doit entre entre []
+      si sValeur[1]<>"["  renvoyer faux
+      si droite(sValeur,1)<>"]"  renvoyer Faux
+      // si c'est un label
+      sLabelDansAddr_OUT = SansEspace( milieu( sValeur, 2, taille(sValeur)-2) )
+      renvoyer bEstLabel(sLabelDansAddr_OUT)
+     type : 458752
+   -
      name : bEstLigneVide
      procedure_id : 1979002114068187235
      type_code : 15
@@ -172,11 +186,10 @@ procedure_set :
      type : 458752
    -
      name : bAnalyseChaineVersModeAdressage
-     internal_properties : BQAAAAUAAAA4s3JO1Gg5WXYGCw3qWpte25C83DrfIX58RnglTZjq18IPoWQZfpRdnPT20BaC5cpgEOzlXrL5U2yIiQ5UkLR5o1xaumR288r6kp5K1C0GdQaLYc1l7rvYVDmEhtvkvt9rSmmLvDEdxthDHn1k2BGwTQuHCgA1ELegXfwObbEfFh7wEprXNp14bFm7QeSkBd7gaE9ou9A=
      procedure_id : 1977866189681299248
      type_code : 15
      code : |1+
-      PROCÉDURE bAnalyseChaineVersModeAdressage( sExpr est une chaîne, adressage_OUT est ValeurOpérande )
+      PROCÉDURE bAnalyseChaineVersModeAdressage( sExpr est une chaîne, adressage_OUT est ValeurOpérande, contexte est ContexteCompilation )
       
       // si c'est le nom d'un registre. ex "EAX"
       SI bEstRegistre(sExpr) ALORS
@@ -200,11 +213,30 @@ procedure_set :
       FIN
       
       // si c'est un lablel
+      // ex: jmp suite:
       SI bEstLabel(sExpr) ALORS
       	adressage_OUT.modeAdres  = ValeurOpérande::MA_Label
       	adressage_OUT.label = sExpr
       	RENVOYER Vrai
       FIN
+      
+      // si c'est l'adresse d'un label.
+      // ex: lea eax,[nombreMagique]
+      sLabelDansAddr est chaine
+      SI bEstIndirectionSurLabel( sExpr, sLabelDansAddr ) ALORS
+      	// doit être connu
+      	SI pas contexte.tabSymboleRencontré[sLabelDansAddr]..Existe ALORS
+      		renvoyer faux
+      	fin
+      	// mode d'adressage spécifique
+      	offset est un entier = contexte.tabSymboleRencontré[sLabelDansAddr].offset
+      	adressage_OUT.modeAdres       = ValeurOperande.MA_IndirectionLabel
+      	adressage_OUT.label		      = sLabelDansAddr
+      
+      	RENVOYER Vrai // OK
+      
+      FIN
+      
       
       
       // pas un mode d'adressage valide

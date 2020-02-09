@@ -15,7 +15,7 @@ class :
   type_code : 10
   p_codes :
    -
-     internal_properties : BQAAAAUAAADxmroiT69cm2UyyNwCplRA4y5821AAfLvPWW4Dow6BxRp0i4y9eNJO1ztJNzUYfJvRvYVhoHTbt7CcKyopDKnEB+wR/xeC+K3JT5+Q+gSOeTcsPFqiT7XbyD/DHr/dQWiSzY8exhraMcaL41U8K5AdogR7V8gc5SZ8j6mEm/X7Uzp8ww5ysuUs53YDOjFzXAUhLSFDh7GL3xMw6coDQ10/v+uKhpIUETkPAaGSptFUltOXXGs=
+     internal_properties : BQAAAAUAAABWd3PsTKiZgifw0fhe+vnWtRxNgXFK2MZLhvNUmSfwHmAqLqYNcBvh1he4nxDfaaul0mLOHALNgPxd3Iig8hQYU/77GTZ4uloFcpJf81gZP1bEpq2ChDNk0y4+/xhsAFn9QGLBjdOfbM2ORCjT/NfGxQdiAtcN0NMZNJa1iubuIs8nHKF5V3nAIuke4Ha2epWVKtN7Seifje1yzDWMgv44dvLbrA==
      code : |1+
       // modes d'adressage x86 et leur encodage
       ValeurOperande est une Classe
@@ -32,10 +32,11 @@ class :
       ModeAdressage est une énumération
       	MA_Vide	   		= -1 // vide pour réserver de place avant patch des labels
       	
-      	MA_Registre    = 0 // registre direct. ex : EAX
-      	MA_Immemdiat   = 1 // valeur immédiate. ex : 1234
-      	MA_Indirection = 2 // indirection. ex : [EBX+EDX+6]
-      	MA_Label	   = 3 // label. ex:  jmp boucle
+      	MA_Registre            = 0 // registre direct. ex : EAX
+      	MA_Immemdiat           = 1 // valeur immédiate. ex : 1234
+      	MA_Indirection         = 2 // indirection. ex : [EBX+EDX+6]
+      	MA_Label	           = 3 // label. ex:  jmp boucle
+      	MA_IndirectionLabel	   = 4 // indirection sur label. ex:  lea eax,[nombreMagique]
       fin
      type : 131072
   procedures :
@@ -305,7 +306,16 @@ class :
      code : |1+
       procédure bEstModeLabel()
       
-      renvoyer :modeAdres = MA_Label
+      renvoyer :modeAdres = MA_Label 
+     type : 458752
+   -
+     name : bEstModeIndirectionLabel
+     procedure_id : 2179793565987011452
+     type_code : 12
+     code : |1-
+      procédure bEstModeIndirectionLabel()
+      
+      RENVOYER :modeAdres = MA_IndirectionLabel
      type : 458752
    -
      name : bEstModeRegistre

@@ -61,12 +61,13 @@ class :
      internal_properties : BQAAAAUAAACtbY+LKZMI45AVKT6fS/wEbinNnYzbl0Z1GJQH1mOH3NJfLzEV7LPs5Nab/6lTij0XDjqWtYKx97pKmfkDgCWsuHgeVY/AYXzn9MwkrBQ7HClaJ9qLo2IdaJeVTOl7meBi5UOams54T5AxZ8u0o9ThZkAvyV4W6SqA8+1+pzmRqPtzrB05Fzl4Cn1E5IwzsjTMg59W
      procedure_id : 1975928205948201815
      type_code : 12
-     code : |1-
+     code : |1+
       // appelée lorsque l'on rencontre une déclaration de label.
       // ex : boucle:  inc eax
       procédure onDéclarationLabel( sLabel chaine )
       
       :tabSymboleRencontré[sLabel].offset = :nOffsetDest
+      
      type : 458752
    -
      name : onUtilisationLabel
@@ -79,12 +80,12 @@ class :
        procédure onUtilisationLabel( sLabel chaine,  offsetInstruction entier,  nTaille entier, operande est TypeOpérande )
        
        sClé est chaine = sLabel + ":" + :nLigneSource
-       tabUtlisationSymbole[sClé].offsetDestAddr= :nOffsetDest + offsetInstruction
-       tabUtlisationSymbole[sClé].offsetPatch	= :nOffsetDest + offsetInstruction
-       tabUtlisationSymbole[sClé].taille 		= nTaille
-       tabUtlisationSymbole[sClé].typeOperande  = operande
-       tabUtlisationSymbole[sClé].ligne		    = :nLigneSource
-       tabUtlisationSymbole[sClé].label		    = sLabel
+       tabUtlisationSymbole[sClé].offsetDestAddr = :nOffsetDest + offsetInstruction
+       tabUtlisationSymbole[sClé].offsetPatch	   = :nOffsetDest + offsetInstruction
+       tabUtlisationSymbole[sClé].taille 		   = nTaille
+       tabUtlisationSymbole[sClé].typeOperande   = operande
+       tabUtlisationSymbole[sClé].ligne		   = :nLigneSource
+       tabUtlisationSymbole[sClé].label		   = sLabel
      type : 458752
   procedure_templates : []
   property_templates : []
