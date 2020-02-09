@@ -35,6 +35,9 @@ class :
       	
       	// compilateur en cours
       	compilateur est AssembleurX86 dynamique
+      	
+      	// indique si on est dans une zone ".data"
+      	bDansData est un booléen
       FIN
      type : 131072
   procedures :

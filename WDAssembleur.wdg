@@ -29,29 +29,26 @@ procedure_set :
   procedures :
    -
      name : compileAsmX86
-     internal_properties : BQAAAAUAAABmqF6cMN3/qZ88LLQbrPMfLKCjqoKxqzVp7H7Di0VQDIi5XQ42VSt/d6lD3LnGVBa1XDSZd5ChGwpU677ZPGyuI7G1TXA5xN1FOuSQ0iHZX0HzqnqxuLwIOwz5niWsgZ9sfsYcGOHUUOXsOfHEnhr2PlFWGaaXp/1T3PG2naOcdDE276sjSr7cI/ScH1rQhwLDj0YHPw==
      procedure_id : 1974178960244996302
      type_code : 15
      code : |1+
       // compile un code au format assemleur x86
       // renvoie la procédure exécutable a appeler.
+      Procédure compileAsmX86( sCodeAsm est chaine,  sNomProcedurePrincipale chaine="") : procédure
       
-      Procédure compileAsmX86( sCodeAsm est chaine) : procédure
-      
-      renvoyer  clAsm.compileX86( sCodeAsm )
+      renvoyer  clAsm.compileX86( sCodeAsm, sNomProcedurePrincipale )
       
      type : 458752
    -
      name : compileAsmX86_API
-     internal_properties : BQAAAAUAAABmqF6cMN3/qZ88LLQbrPMfLKCjqoKxqzVp7H7Di0VQDIi5XQ42VSt/d6lD3LnGVBa1XDSZd5ChGwpU677ZPGyuI7G1TXA5xN1FOuSQ0iHZX0HzqnqxuLwIOwz5niWsgZ9sfsYcGOHUUOXsOfHEnhr2PlFWGaaXp/1T3PG2naOcdDE276sjSr7cI/ScH1rQhwLDj0YHPw==
      procedure_id : 2119897803268269690
      type_code : 15
      code : |1+
       // compile un code au format assemleur x86
       // renvoie l'adresse a utiliser pour appeler API(  )
-      procédure compileAsmX86_API( sCodeAsm est chaine) : entier systeme
+      procédure compileAsmX86_API( sCodeAsm est chaine, sNomProcedurePrincipale chaine="") : entier systeme
       
-      RENVOYER  clAsm._pcompileX86( sCodeAsm )
+      RENVOYER  clAsm._pcompileX86( sCodeAsm, sNomProcedurePrincipale )
      type : 458752
   procedure_templates : []
   property_templates : []
