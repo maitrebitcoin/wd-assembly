@@ -46,7 +46,7 @@ procedure_set :
      code : |1+
       // compile un code au format assemleur x86
       // renvoie l'adresse a utiliser pour appeler API(  )
-      procédure compileAsmX86_API( sCodeAsm est chaine, sNomProcedurePrincipale chaine="") : entier systeme
+      procédure compileAsmX86_API( sCodeAsm est chaine, sNomProcedurePrincipale chaine="") : (entier systeme, chaine)
       
       RENVOYER  clAsm._pcompileX86( sCodeAsm, sNomProcedurePrincipale )
      type : 458752

@@ -56,14 +56,16 @@ class :
      type_code : 12
      code : |1-
       // compile le code assembleur dans <codex86>
-      // renvoie un pointeur sur le code machine a exécuter
-      PROCÉDURE _pcompileX86( codeAssembleur est chaine, sNomProcedurePrincipale est chaine ) : entier système
+      // renvoie (un pointeur sur le code machine a exécuter , "")
+      // ou      (null,<message d'erreur>)
+      PROCÉDURE _pcompileX86( codeAssembleur est chaine, sNomProcedurePrincipale est chaine ) : (entier système, chaine)
       
       // compilation du code source ASM vers binaire exécutable
       contexte est ContexteCompilation
       bufCodeAsm est un buffer =  _sCompile( codeAssembleur, contexte )
       SI bufCodeAsm="" ALORS
-      	RENVOYER null
+      	dbgAssertion(ErreurInfo()<>"")
+      	RENVOYER (null, ErreurInfo())
       FIN
       
       // alloc d'une zone de code exécutable
@@ -76,14 +78,14 @@ class :
       	// recherche dans la table de symboles
       	SI PAS contexte.tabSymboleRencontré[sNomProcedurePrincipale]..Existe ALORS
       		ErreurDéclenche(ERR_COMPILATION_ASM, ChaîneConstruit("la procédure <%1> est inconnue",sNomProcedurePrincipale))
-      		RENVOYER null
+      		RENVOYER (null,""+ErreurInfo)
       	FIN
       	soit offsetProc = contexte.tabSymboleRencontré[sNomProcedurePrincipale].offset
-      	RENVOYER pAddrCode + offsetProc
+      	RENVOYER (pAddrCode + offsetProc,"")
       FIN
       
       
-      renvoyer pAddrCode
+      renvoyer (pAddrCode,"")
      type : 458752
    -
      name : compileX86
@@ -95,10 +97,11 @@ class :
       procédure compileX86( codeAssembleur est chaine,  sNomProcedurePrincipale est chaine  ) : procédure
       
       // compilation du code source ASM vers binaire exécutable
-      pAddrCode  est entier système =  _pcompileX86( codeAssembleur, sNomProcedurePrincipale )
+      pAddrCode  est entier système
       sErreurCompilation est une chaîne
-      si ErreurDétectée ALORS
-      	sErreurCompilation = ErreurInfo()
+      (pAddrCode,sErreurCompilation)   =  _pcompileX86( codeAssembleur, sNomProcedurePrincipale )
+      si pAddrCode=0 ALORS
+      	dbgAssertion( sErreurCompilation<>"" )
       	RENVOYER _enErreur
       FIN
       
