@@ -62,7 +62,7 @@ class :
       // compilation du code source ASM vers binaire exécutable
       contexte est ContexteCompilation
       bufCodeAsm est un buffer =  _sCompile( codeAssembleur, contexte )
-      SI ErreurDétectée ALORS
+      SI bufCodeAsm="" ALORS
       	RENVOYER null
       FIN
       
