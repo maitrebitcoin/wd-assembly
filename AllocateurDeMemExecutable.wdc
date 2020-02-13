@@ -15,14 +15,13 @@ class :
   type_code : 10
   p_codes :
    -
-     code : |1+
+     code : |1-
       AllocateurDeMemExecutable est une Classe
-      	// blocs de mémoires alloués
-      	tabBlocAlloué est un tableau d'entier système
-      	// taille par défaut d'un bloc
-      	nTaillDefautBloc   est un entier
+      	// pointeur sur le bloc de mémoires alloué + sa taille
+      	pMemAllouée est entier système
+      	nTailleMemAllouée est un entier
       	// fin du bloc en cours et taille disponible dedans
-      	pfinBloc est un entier système
+      	pMemDispo    est un entier système
       	nTailleDispo est entier
       FIN
       
@@ -37,17 +36,17 @@ class :
       	
       	MEM_RELEASE				= 0x8000
       FIN 
+      
+      constant nTAILLE_MAX = 2 * 1024 * 1024 // 2 MO max pour tout le code
      type : 131072
   procedures :
    -
      name : Constructeur
-     internal_properties : BQAAAAUAAABhuWPf24fox0QJTXJHJ6SMYiWFGaBXBzJxbDjj9k9PbE7TvxVJGJtAsIofe6FP8s2jMio6yfbBQ44ORaW7nAUE7BwGKbOkefgr2PYmkvbNoi84sZQJrWTffrE3xsfdE77Iu6XMEKBSqV4jCU0KvRanJM6pW7TowzxG3cd4/dMLxpmhjn+fGUMCIFeuFgLlXGCY12sa
      procedure_id : 1974056957398911005
      type_code : 27
      code : |1+
       PROCEDURE Constructeur()
-      	// init taille bloc
-      	:nTaillDefautBloc = _nGetTailleBlocAlloc()
+      
       
      type : 589824
    -
@@ -57,19 +56,40 @@ class :
      code : |1+
       PROCEDURE Destructeur()
       // libération
-      POUR TOUT p DE :tabBlocAlloué
-      	_Free( p )
+      si pMemAllouée<>0
+      	_Free( :pMemAllouée  )
       FIN
       
      type : 655360
    -
      name : pNouvelleZoneExecutable
-     internal_properties : BQAAAAUAAAC4irx2E4wUOJb/lCQ0dH6zNGgVvM/1keQRBH6rG+UApNDxjVbmBdPP95lLTFGebHY1zFwZX9hB4/KM26bJnHw2a/n1lQDZLG11ujDEFsW1O51PRnbF7Ng0b0ClEkmQnYto6oLYTJUQfGkwJbWYUuYymr3CpTrb47nHoI3a0T57C7OCoRklKCXP8eKePuhZqWWl6SglHQ==
+     procedure_id : 2181350611893692901
+     type_code : 12
+     code : |1-
+      // renvoie une zone de mémoire exécutable. max 1 page (16 ko) + taille dispo dedans
+      PROCÉDURE pNouvelleZoneExecutable( ) : (entier système, entier)
+      
+      // alloc au 1er appel
+      si :pMemAllouée= 0 ALORS
+      	:nTailleMemAllouée = nTAILLE_MAX // 2 MO
+      	:pMemAllouée       = :_pAlloueNouveauBloc(:nTailleMemAllouée)
+      	dbgAssertion(:pMemAllouée<>0,"Plus de mémoire")
+      	// on commence a renvoyer de la mémoire a partir de <>
+      	:pMemDispo    = :pMemAllouée
+      	:nTailleDispo = :nTailleMemAllouée
+      fin
+      
+      renvoyer (:pMemDispo, :nTailleDispo)
+     type : 458752
+   -
+     name : bReserveZoneExecutable
      procedure_id : 1974057197917201164
      type_code : 12
      code : |1+
-      // renvoie une zone de mémoire exécutable
-      procédure pNouvelleZoneExecutable( local tailleCode est un entier) : entier système
+      // réserve/alloue une zone de mémoire exécutable
+      procédure bReserveZoneExecutable( pMemDebut entier système,  local tailleCode est un entier) : booléen
+      
+      dbgAssertion(:pMemDispo = pMemDebut ) // on doit allouer a l'adresse renvoyée par _pNouvelleZoneExecutable()
       
       // multiple de 8
       si  modulo(tailleCode,8)<>0
@@ -78,28 +98,15 @@ class :
       
       // si pas assez de place dans le bloc en cours
       si nTailleDispo<tailleCode alors
-      	// si on a besoin d'un gros bloc
-      	nTailleAlloc est entier = :nTaillDefautBloc
-      	si tailleCode>nTailleAlloc ALORS
-      		// alloc d'un gros bloc
-      		nTailleAlloc =  tailleCode 
-      		// la taille doit être un multiplie de :nTaillDefautBloc
-      		si nTailleAlloc modulo :nTaillDefautBloc <> 0 alors
-      			nTailleAlloc += :nTaillDefautBloc - (nTailleAlloc modulo :nTaillDefautBloc)
-      		fin
-      	fin
-      	// allocation d'un nouveau  bloc
-      	:pfinBloc 		= _pAlloueNouveauBloc(:nTaillDefautBloc)
-      	:nTailleDispo	= :nTaillDefautBloc
-      	
+      	// pb
+      	dbgAssertion(faux, "dépassement")
+      	renvoyer faux
       FIN
       
-      // renvoie la suite dans la zone dispo
-      p est entier système  = :pfinBloc 
-      :pfinBloc			 += tailleCode 
+      // on avance dans ce qui est dispo
+      :pMemDispo			 += tailleCode 
       :nTailleDispo		 -= tailleCode
-      
-      renvoyer p
+      renvoyer vrai
      type : 458752
    -
      name : _nGetTailleBlocAlloc
@@ -131,13 +138,19 @@ class :
      type : 458752
    -
      name : _pAlloueNouveauBloc
-     internal_properties : BQAAAAUAAADQMHzU0NDITZxgVCH/QuufPi3lZvLw6tCUKBrtyEHE95wzVTXOtIqhwMNgWdZKUB5hveXr0jkN+NYk50nEbYrfS3B4K7Bo/i67R3vkaONp/0rgQ3Q1H0YitI1RnOqzPFCt4Y00QxXmovxsGyWB1xsItXqLB0txN8uexBduMFnOHseobdBvbaUVw0elZLRZ8QEFN8XfMHhBhBVNP+rSuWXbQkt4xF5RG4FiKdS9mh5sYjqaQW8fGyZ6TeG62vo+28BT
+     internal_properties : BQAAAAUAAAB1ZTyZbBHXs0ZOsY6O2d5cICUHjwGXnnPzyz1BsrxQOVSGPzmEfD3WnD/EgwMh00R+7n0udA1QxylGB5y1Lc0xnAyNi4SEhGbh/hF9RDedV9lJbFJwkrPwDz/kjFPLiiQlFBP9L90YFcm5RaTXvKW0vjlBhGVbc4KHoSVTDp66aIwRGeexV2FeUKw3S54av22Sfiu6BGA7YVQEqVscFubcUVFR7PQO6ET3QIpeFhweWHgnL0mFMsw3g2PdvFEFTeRi4g==
      procedure_id : 1974058306018890444
      type_code : 12
      code : |1+
       // allocation d'un nouveau bloc de taille <nTailleAlloc> et ajout dans <tabBlocAlloué>
       Procédure privée _pAlloueNouveauBloc( nTailleAlloc entier ) : entier système
       dbgAssertion(nTailleAlloc>0)
+      
+      // doit être un multiple de <nTailleBloc>
+      nTailleBloc est un entier = _nGetTailleBlocAlloc()
+      SI  modulo(nTailleBloc,8)<>0
+      	nTailleAlloc = nTailleAlloc + nTailleBloc - modulo(nTailleAlloc,nTailleBloc)
+      FIN
       
       // alloc RAM pour le code
       // NB :PAGE_READWRITE + PAGE_EXECUTE échoue ici, alors on le fait en 2 étapes
@@ -151,9 +164,6 @@ class :
       OldProtect  est un entier sur 4 octets sans signe =0
       bok est un booléen = API("kernel32.dll","VirtualProtect",p,nTailleAlloc, NewProtect, &OldProtect)
       dbgAssertion(bok)
-      
-      // ajout dans la table des blocs
-      tabBlocAlloué.Ajoute( p )
       
       // renvoie la zone exécutable de taille <:nTailleBloc>
       renvoyer p

@@ -176,8 +176,23 @@ class :
       			
       		
       	cas RELATIF_16ou32
-      		RENVOYER ( valeurParam.bEstModeValeurImmediate()  _ET_ valeurParam.valeurImmediate<=0xFFFFFFFF) _ou_ valeurParam.bEstModeLabel()
-      				
+      		// les labels sont toujours OK car relatif a +/- 32 bits
+      		si valeurParam.bEstModeLabel() ALORS
+      			renvoyer vrai
+      		FIN
+      		// cas de "CALL 7E0123456412h"
+      		si valeurParam.bEstModeValeurImmediate() ALORS
+      			// en 64 bits on peut faire des saut relatifs de 64 bits, donc toutes les valeurs sont OK
+      			si  contexte.compilateur.b64Bits() alors
+      			 	renvoyer Vrai
+      			sinon
+      				// en 32 bit doit être une addresse 32 bits
+      				renvoyer (valeurParam.valeurImmediate <=0xFFFFFFFF)
+      			fin
+      		FIN
+      		// autres cas
+      		renvoyer faux
+      		
       		
       	cas MEMORY_16BITS
       		// non supporté 
@@ -243,7 +258,7 @@ class :
       			RENVOYER _encodeImmediate8("0") 
       		FIN
       		// encode un offset par rapport a EIP après l'exécution de l'instruction
-      		offset est un entier = val(valeur.valeurImmediate) - contexte.nOffsetDest - 1 - contexte.offsetDansInstruction
+      		offset est un entier = val(valeur.valeurImmediate) - contexte.nOffsetDest - 1 - contexte.offsetDansInstruction  - contexte.pAddrDebutCode
       		RENVOYER _encodeImmediate8(""+offset) 		
       		
       	cas RELATIF_16ou32:
@@ -253,7 +268,7 @@ class :
       		FIN
       		
       		// encode un offset par rapport a EIP après l'exécution de l'instruction
-      		offset est un entier = val(valeur.valeurImmediate) - contexte.nOffsetDest - 4 - contexte.offsetDansInstruction
+      		offset est un entier  = val(valeur.valeurImmediate) - contexte.nOffsetDest - 4 - contexte.offsetDansInstruction  - contexte.pAddrDebutCode
       		RENVOYER _encodeImmediate32(""+offset) 
       	
       	cas MOD_REGISTRE_OU_INDIRCET_8BITS

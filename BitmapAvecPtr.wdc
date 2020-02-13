@@ -39,6 +39,17 @@ class :
       	bmBitsPixel est un entier sur 2 octet
       	bmBits est un entier système
       fin
+      BITMAP64  est une structure 
+      	bmType			est un entier;  
+      	bmWidth			est un entier;    
+      	bmHeight		est un entier;   
+      	bmWidthBytes	est un entier;  
+      	bmPlanes		est un entier sur 2 octet
+      	bmBitsPixel		est un entier sur 2 octet
+      	bmBits			est un entier système
+      	padding			est un entier // 4 octets de padding en 64 bits
+      FIN
+      
       
       
       BITMAPINFOHEADER  est une structure
@@ -75,7 +86,7 @@ class :
   procedures :
    -
      name : Constructeur
-     internal_properties : BQAAAAUAAADkkT4nA05a4TrVLTKW4yYSOlFCPl1h1nXk9azt224zhQ53s/v75+3aSjO4yn91UA1FkT00pDQwqKtcUh++/zxXd5rTIjUHcbbxiTlhUwZtppPUAw0O9wxiSC0vDIUeNn4NZZW7MFUhaRqwO0d3krtxG+oHzkDxtIjWvm0qeLoMFfGuz2EafcY4j0+RkDQOa94fqub7snQf8M9TgBSKMo5TMhc0WSUh1vQPc+HMRTuEy0QLAv0r/f7uO3Ua7gFpkw==
+     internal_properties : BQAAAAUAAAC1A4H9EqMww5sdqiE5T3g3Dy6pG6fybxVtk8Ieijlb2Szt1K2T7XC9aTWIUaKux55oPJJM0bwnJbyOntusj2Uo980/XxRrur8gZsxn7yuDizW3eSZM7aEvkNMRd1o+1GkIbPmHnbf+RxVriVBVTg1k1i0vFts1SRyVrff5SFSCQPT5W5X1C82iMsK9jdzMJ9He1WQtcdwcwuKUyqsKQCCSlZJswap1YWjYZllwQqCqgIic
      procedure_id : 1978982477469074722
      type_code : 27
      code : |1+
@@ -104,9 +115,15 @@ class :
       dbgAssertion(hBitmap<>0)
       dbgAssertion(pointeurSurPixel<>0)
       
-      stBitmap est BITMAP
-      API("Gdi32", "GetObjectW",:hBitmap, Dimension(stBitmap),&stBitmap )
-      :largeur1Ligne = stBitmap.bmWidthBytes
+      si EnMode64bits() ALORS
+      	stBitmap64 est BITMAP64
+      	API("Gdi32", "GetObjectW",:hBitmap, Dimension(stBitmap64),&stBitmap64 )
+      	:largeur1Ligne = stBitmap64.bmWidthBytes
+      sinon
+      	stBitmap est BITMAP
+      	API	("Gdi32", "GetObjectW",:hBitmap, Dimension(stBitmap),&stBitmap )
+      	:largeur1Ligne = stBitmap.bmWidthBytes
+      fin
       dbgAssertion(:largeur1Ligne<>0)
       
       // sélection dans le dc

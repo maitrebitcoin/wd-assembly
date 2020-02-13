@@ -19,7 +19,8 @@ class :
       ContexteCompilation est une Classe
       	// ligne en cours de compilation
       	nLigneSource est entier
-      	
+      	// adresse de début de génération
+      	pAddrDebutCode est un entier système
       	// position  dans le binaire produit (au début de l'instruction en cours)
       	nOffsetDest est entier	 
       	// taille du code avant le paramètre en cours d'encodage

@@ -59,19 +59,26 @@ class :
       // renvoie (un pointeur sur le code machine a exécuter , "")
       // ou      (null,<message d'erreur>)
       PROCÉDURE _pcompileX86( codeAssembleur est chaine, sNomProcedurePrincipale est chaine ) : (entier système, chaine)
+      contexte est ContexteCompilation
+      
+      // récup d'une zone de code exécutable
+      pAddrCode  est entier système = :cAlloMemExecutable.pNouvelleZoneExecutable( )
+      // init contexte pour les call/jmp relatifs
+      contexte.pAddrDebutCode = pAddrCode
       
       // compilation du code source ASM vers binaire exécutable
-      contexte est ContexteCompilation
       bufCodeAsm est un buffer =  _sCompile( codeAssembleur, contexte )
       SI bufCodeAsm="" ALORS
       	dbgAssertion(ErreurInfo()<>"")
       	RENVOYER (null, ErreurInfo())
       FIN
       
-      // alloc d'une zone de code exécutable
-      pAddrCode  est entier système = :cAlloMemExecutable.pNouvelleZoneExecutable( taille(bufCodeAsm) )
-      Transfert(pAddrCode,&bufCodeAsm,Taille(bufCodeAsm))
-      //TODO : relocation de symboles non relatifs
+      // réserve la zone de code exécutable. 
+      si pas :cAlloMemExecutable.bReserveZoneExecutable( pAddrCode, taille(bufCodeAsm) ) ALORS
+      	RENVOYER (Null, "Erreur d'allocation")
+      FIN
+      // copier le code dedans
+      Transfert(pAddrCode,&bufCodeAsm, Taille(bufCodeAsm) )
       
       // si on veut l'adresse d'un procédure 
       si sNomProcedurePrincipale<>"" ALORS
@@ -166,7 +173,8 @@ class :
       		ErreurDéclenche(ERR_COMPILATION_ASM, chaineconstruit(<§$0004§>, nLigne, sLabel))
       		RENVOYER ""
       	FIN
-      	soit valeurLabel = contexte.tabSymboleRencontré[sLabel].offset
+      	// adresse effective
+      	valeurLabel est un entier sur 8 octets = contexte.pAddrDebutCode + contexte.tabSymboleRencontré[sLabel].offset
       	// patch
       	contexte.nOffsetDest		   = nOffsetInstr
       	contexte.offsetDansInstruction = 0
@@ -174,8 +182,9 @@ class :
       	valeurAPatcher.valeurImmediate = valeurLabel
       	valeurAPatcher.modeAdres			   = ValeurOpérande::MA_Label
       	si typeOp.nomType = MEMORY_LEA ALORS
-      		valeurAPatcher.modeAdres			   = ValeurOperande::MA_IndirectionLabel
+      		valeurAPatcher.modeAdres		   = ValeurOperande::MA_IndirectionLabel
       	FIN
+      	
       	bufSource est un buffer = typeOp.Encode(valeurAPatcher,0, contexte)
       	dbgAssertion(taille(bufSource) = nTaille )
       	bufCodeAsm[ nOffsetPatch+1 a nOffsetPatch + nTaille ] = bufSource // +1 car les chaines WL  commencent à 1
