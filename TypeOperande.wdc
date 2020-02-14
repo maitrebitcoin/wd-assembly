@@ -289,7 +289,7 @@ class :
       		FIN		
       		si valeur.bEstModeIndirectionLabel() ALORS
       			// encode un offset par rapport a EIP après l'exécution de l'instruction
-      			offset est un entier sur 4 = val(valeur.valeurImmediate) - contexte.nOffsetDest - 4 - contexte.offsetDansInstruction
+      			offset est un entier sur 4 = val(valeur.valeurImmediate) - contexte.nOffsetDest - 4 - contexte.offsetDansInstruction - contexte.pAddrDebutCode
       			RENVOYER _encodeImmediate32(""+offset) 			
       			
       			//RENVOYER _encodeImmediate32(0)
