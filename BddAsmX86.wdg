@@ -15,7 +15,7 @@ procedure_set :
   type_code : 31
   p_codes :
    -
-     internal_properties : BQAAAAUAAACktvuafeANOESKaNPlOg6xrb0foDfzHwiZiMVTaWbQEQGWfOaE1W2qHBI17bGV5V/6O0aq4fai6jN1Xhs9Eqejs/2qxT0+PubnqZRGsrjuYKfM7ckLreSMPxQUc4T5IIWfLpKDQH9f5vSYi2Tc3Eo9qRJU8Ou4uuJyy0HZbcTTnDDcTvbk3x66r3pDN8k8KC02Xg7+To5loudRMeD6mGn0LaaFxgoYec+hcdVy+XmTzaF0LALFkmfBylecoX/al9nTIGucT0kqpo2a1rzLIgU47uZbfAGZFpR3+8aBaBow1qqSewqYdTTdfz7SNWins3IHMM7OgsXq/HRLUSlVBj4OBmJSjtUuCAJQtOFRNJ8tkJ1aIyiV0u5OuyjlWQwGp2euVddDyN1cTsKeTCYsH/7CuTEmeo/L/d4lPaG2KLqOr+elLrgWzxKHS9iC8tGuLv1Uuc5eMWlUhVqhL8Cj+SW/oY2gvrWuQKR7TnfsjglLiA==
+     internal_properties : BQAAAAUAAACghiULUGC+7MhRr+5O+qKiUcYTM6UC07f+lSFOJChPoNkhzBN2fCBFGoTjEZ2pFbTT5gYZXT1mutglXuujQfP/5Dw6hZh5IeZt/hU/6+Byr5EPFYI4oAchTRGWSw6sjvWfYpkyzc8qE8HmOVomlsr7yi6U6HnfsJwqlYmceq3IA3y/ULvh+Wv5Yeffsxvs61A8OoVYDHkH7lonNWBGsa3SdIX3stW4BszauHHQXFn9OcfvfBXfoJBZTGRITk0ogd8PgatfOp+rLPHpRqHfqt1qXMvlOzA3pw6RKIJM1HJsfi7XpXGXM1/ZE1duxhppJfChsxbtQb2JNtqUSZLfOLicjLlCPfSINeIOZYVq9AO5avfbz1fEXPsAq7VRqvzy76NsvuvUeQW7zpJdCPMaBZheF0xUQ9D1WrLXPqEBCjwYm8lu3JeldZ3Bv+ecTpDy9S24Pl1w8cVyuP96WX1r6fQN5HsJhMOTCuiG
      code : |1+
       
       registres est un variant
@@ -131,7 +131,10 @@ procedure_set :
       
       
       // init table des instructions
+      // opcode => tableau des syntaxes
       tabInstruction est un tableau associatif de variants
+      // opcode+signature => syntaxe
+      tabInstruction_signature est un tableau associatif de SyntaxeInstructionX86
       numLigne est un entier = 0
       POUR TOUTE CHAÎNE sLigneI DE gsTableIntruction séparée par RC
       	numLigne++
@@ -142,7 +145,6 @@ procedure_set :
       	// ajout de la description de la syntaxe d'une opération
       	TypeInst est SyntaxeInstructionX86
       	TypeInst.InitFromDescription( sLigneI )
-      	sSyntaxe est chaine = TypeInst.GetSyntaxe()
       	
       	// ajout au tableau des syntaxe pour l'opération <TypeInst.mnemonique>
       	si pas tabInstruction[TypeInst.mnemonique]..Existe ALORS
@@ -152,6 +154,8 @@ procedure_set :
       	sinon
       		TableauAjoute( tabInstruction[TypeInst.mnemonique],  TypeInst )
       	FIN
+      	// ajout au tableau selon signature
+      	tabInstruction_signature[ TypeInst.signature ] = TypeInst
       FIN
       
       constant
@@ -208,6 +212,19 @@ procedure_set :
       FIN
       
       RENVOYER tabInstruction[sMnemonique]
+     type : 458752
+   -
+     name : rechercheSyntaxeParSignature
+     procedure_id : 2182478070874517537
+     type_code : 15
+     code : |1-
+      procédure rechercheSyntaxeParSignature( sSignature chaine )  : SyntaxeInstructionX86 
+      
+      SI tabInstruction_signature[sSignature]..Existe ALORS
+      	renvoyer  tabInstruction_signature[sSignature]
+      FIN
+      // pas trouvé
+      renvoyer null
      type : 458752
    -
      name : bEstRegistre

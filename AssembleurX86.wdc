@@ -379,7 +379,7 @@ class :
      type : 458752
    -
      name : _rechercheSyntaxeInstruction
-     internal_properties : BQAAAAUAAACylEJ4Go4UboTLgGJeeEK/ngDHZG1LRUqnKNpJ7WEEUO7Va2IcN6sRXc2TupvCMCrHpJKl2W7V3RCAJ7AXjAzmNSkvJeI7tI/L/okpUcS8vh7WlWcsO6kFPP3C3zzHrMY1QRld78g9OSph5urrCalpU/SRLukKpPYYwapHRK2Klhz9HNYoKxLAvg+fJ/8snGSn6yojEw==
+     internal_properties : BQAAAAUAAADC5BKo6j5leHZf7EScDLbDBOh9nEdNkcxZzL7TmwWw3GhJzV4mhWvPN3kT3NmWZHYl3NS591Ax+1pUq+4JPAwewwEFHSCJ5E0lyowISvmBd6nb0vJZEATgAxQhFl1EaVe0xk6UgFlcyK2UoUl8tkKORtn+sW6PLxV7RBnuFfIH59++rbVZnBErFZZqEux9zBT3u3pT4w==
      procedure_id : 1974112237926149665
      type_code : 12
      code : |1+
@@ -390,6 +390,24 @@ class :
       resultat est SyntaxeInstructionX86 dynamique
       
       // recherche la syntaxe selon l'opération et ses paramètres
+      
+      // OPTIM essai avec la signature pour "MPV reg,reg"
+      signatureParam est chaine = sopcode
+      pour tout valOp de tabValeurParam
+      	signatureParam += "_" + valOp.getSignature()
+      FIN
+      si signatureParam="mov_reg_reg"
+      	syntaxeParSignature est SyntaxeInstructionX86 dynamique <-  rechercheSyntaxeParSignature( "mov_r16/32_r/m16/32" )
+      	dbgAssertion( syntaxeParSignature<>null )
+      	dbgAssertion( syntaxeParSignature.bEstcompatibleAvecTabValeur( tabValeurParam, contexte ) )
+      	renvoyer syntaxeParSignature
+      //	sinon
+      //		dbgAssertion(faux)
+      //	fin
+      FIN
+      
+      
+      // 2eme chaine
       tabSyntaxe est un tableau de SyntaxeInstructionX86 <- rechecheTypeInstruction(sopcode)
       POUR TOUT syntaxeI DE tabSyntaxe
       	// test si la syntaxe est OK avec le contexte (ex :32 bits/64 bits)

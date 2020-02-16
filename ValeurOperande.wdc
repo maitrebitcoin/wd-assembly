@@ -363,6 +363,21 @@ class :
       
       RENVOYER  bEstModeRegistreDeType( REGISTRE_64BITS)
      type : 458752
+   -
+     name : getSignature
+     procedure_id : 2182478972817728297
+     type_code : 12
+     code : |1+
+      // renvoie une signature pour comparaison rapide avec les proto
+      procédure getSignature()
+      
+      si :modeAdres = MA_Registre ALORS
+      	renvoyer "reg"
+      FIN
+      
+      // non supporté pour le reste
+      renvoyer ""
+     type : 458752
   procedure_templates : []
   property_templates : []
  code_parameters :

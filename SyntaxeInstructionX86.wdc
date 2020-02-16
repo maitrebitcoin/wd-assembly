@@ -23,6 +23,7 @@ class :
       	opcode	   est buffer // code binaire principal a générer pour cette instruction. 1 a 4 octets
       	encodage   est chaine // options d'encodage des paramètres. ex ENCODAGE_ADDREGTOOPCODE
       	tabTypeParam   est un tableau de TypeOpérande // type des paramètres des l'instruction
+      	signature      est chaîne  // version condensée des type pour accélérer la recherche de la bonne syntaxe
       	syntaxeEnClair est chaine
       	vex_extPP 	   est chaine // extension PP   si l'encode est VEX : rien, 66, F3 ou F2
       	vex_extM 	   est chaine // extension MMMM si l'encode est VEX : 0F , 0F38 ou 0F3A
@@ -166,19 +167,8 @@ class :
       	tabTypeParam.Ajoute(opTypeI)
       FIN
       
-     type : 458752
-   -
-     name : GetSyntaxe
-     procedure_id : 1976289923846422417
-     type_code : 12
-     code : |1-
-      procédure GetSyntaxe()
-      
-      res est chaine = mnemonique 
-      POUR TOUT paramI DE tabTypeParam
-      	res +="," + paramI.nomType
-      FIN
-      renvoyer res
+      // init signature
+      calculesignature()
      type : 458752
    -
      name : _bBitRex
@@ -625,6 +615,21 @@ class :
       fin
       RENVOYER Taille(:opcode) + nTailleParam
       	
+     type : 458752
+   -
+     name : calculesignature
+     procedure_id : 2182473805971523804
+     type_code : 12
+     code : |1-
+      // calcul la signature de la syntaxe
+      // ex "add_reg_imm16"
+      Procédure calculesignature()
+       
+      :signature = :mnemonique
+      POUR i = 1 _a_ :tabTypeParam.Occurrence()
+      	soit typeParamI   = tabTypeParam[i]
+      	:signature += "_" + typeParamI.nomType
+      FIN
        
      type : 458752
   procedure_templates : []
