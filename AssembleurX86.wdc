@@ -31,6 +31,7 @@ class :
        	débutCode       // .code : on entre dans une zone de code
        	débutProcédure  // PROCC xxxxx :  début de procédure
        	finProcédure    //  xxxxx PROC  :  fin de procédure
+       	procédureExterne  //  xxxxx PROTO C  :  procédure externe
       fin
      type : 131072
   procedures :
@@ -58,7 +59,9 @@ class :
       // compile le code assembleur dans <codex86>
       // renvoie (un pointeur sur le code machine a exécuter , "")
       // ou      (null,<message d'erreur>)
-      PROCÉDURE _pcompileX86( codeAssembleur est chaine, sNomProcedurePrincipale est chaine ) : (entier système, chaine)
+      // <sNomProcedurePrincipale> : nom du point d'entrée. si non précisé, renvoie le début du code assemblé
+      // <tabSymboleExterne>: tableau associatif symboles externe. clé = nom du symbole. valeur = adresse
+      PROCÉDURE _pcompileX86( codeAssembleur est chaine, sNomProcedurePrincipale est chaine, tabSymboleExterne tableau associatif d'entiers système   ) : (entier système, chaine)
       contexte est ContexteCompilation
       
       // test cas code vide
@@ -70,6 +73,10 @@ class :
       pAddrCode  est entier système = :cAlloMemExecutable.pNouvelleZoneExecutable( )
       // init contexte pour les call/jmp relatifs
       contexte.pAddrDebutCode = pAddrCode
+      // déclaration des symboles externe
+      pour tout adddr,nomSymbole de tabSymboleExterne
+      	contexte.déclareSymboleExterne( nomSymbole, adddr)
+      FIN
       
       // compilation du code source ASM vers binaire exécutable
       bufCodeAsm est un buffer =  _sCompile( codeAssembleur, contexte )
@@ -106,12 +113,13 @@ class :
      code : |1+
       // compile le code assembleur dans <codex86>
       // renvoie la procédure qui permet de l'exécuter
-      procédure compileX86( codeAssembleur est chaine,  sNomProcedurePrincipale est chaine  ) : procédure
+      // <tabSymboleExterne> est un tableau associatif>
+      procédure compileX86( codeAssembleur est chaine,  sNomProcedurePrincipale est chaine,  tabSymboleExterne tableau associatif d'entiers système ) : procédure
       
       // compilation du code source ASM vers binaire exécutable
       pAddrCode  est entier système
       sErreurCompilation est une chaîne
-      (pAddrCode,sErreurCompilation)   =  _pcompileX86( codeAssembleur, sNomProcedurePrincipale )
+      (pAddrCode,sErreurCompilation)   =  _pcompileX86( codeAssembleur, sNomProcedurePrincipale, tabSymboleExterne )
       si pAddrCode=0 ALORS
       	dbgAssertion( sErreurCompilation<>"" )
       	RENVOYER _enErreur
@@ -243,12 +251,21 @@ class :
       	RENVOYER Vrai
       fin
       
+      // support de "multiplication_256x256_512 PROTO C" (= déclaration d'une fonction externe)
+      si droite(sCodeAsm1Ligne,8) ~= " PROTO C" ALORS
+      	eDirective_OUT  = procédureExterne
+      	sParamDirective_OUT = gauche(sCodeAsm1Ligne, taille(sCodeAsm1Ligne) - 8) // extrait le du symbole
+      	RENVOYER Vrai
+      FIN
+      
+      
+      
       // autre chose, du code asm
       renvoyer faux
      type : 458752
    -
      name : _CompileUneLigne
-     internal_properties : BQAAAAUAAABabKrniZ5NaBZfdMQ0dB6TtGg1HI8V0QRRpB6LWyXgxBAxLTam5VPvt/krLBEeDNZ1DPx5n7gBg/Kse4bJHBwWa3lVNQC5bM01WsBUhtVlC+2f9saV/OjEPzA1ovmgjRv4+nLoXKUgDLngdQXIYhZC6g1ydYqrs4mXkB1qgc7r28MSEen1ODXfwVKuTtiZIJh64xLLew==
+     internal_properties : BQAAAAUAAAC6jEqHKb6uHsiz7EayZI7zAui3AAmjsaJjAH7d0R3o9DqtwyZ4t7fRGb2/FjfOPKZTPEI5PT6R5USg0zRjkIiCEVHXUd4zOHffzo8DT8K+MOCQHyEqeXtLtne4Wap1tlCfI1vPFc5HL5wTFNz5F9s75YYrmIfQ3rTaoziJ6nNMMIbfVsBekfwWCJlleS36QLgaAzIrGw==
      procedure_id : 1974067480069991068
      type_code : 12
      code : |1+
@@ -273,6 +290,13 @@ class :
       			// ajout du symbole
       			dbgAssertion(sParamDirective<>"")
       			contexte.onDéclarationLabel(sParamDirective)
+      		cas procédureExterne
+      			// le symbole doit avoir déjà été déclaré
+      			dbgAssertion(sParamDirective<>"")
+      			si pas contexte.tabSymboleRencontré[sParamDirective]..Existe alors
+      				ErreurDéclenche(ERR_COMPILATION_ASM, ChaîneConstruit("symbole externe <%1> a déclarer avant le début de la compilation", sParamDirective) )
+      				RENVOYER ""
+      			FIN
       	FIN
       	// pas de code généré pour cette ligne
       	rENVOYER ""
@@ -620,5 +644,9 @@ resources :
      text :
       fr-FR : "Erreur a la ligne %1 : %2\r\n%3"
      index : 7
+   -
+     text :
+      fr-FR : Aucune syntaxe trouvée pour '%1'.
+     index : 8
 custom_note :
  internal_properties : BQAAAAUAAABtB9HWVzrXO2+4NDRVK0vmzaNKrCKqH1DBX30lMmGZ

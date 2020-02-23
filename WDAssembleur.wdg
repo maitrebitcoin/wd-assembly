@@ -36,7 +36,8 @@ procedure_set :
       // renvoie la procédure exécutable a appeler.
       Procédure compileAsmX86( sCodeAsm est chaine,  sNomProcedurePrincipale chaine="") : procédure
       
-      renvoyer  clAsm.compileX86( sCodeAsm, sNomProcedurePrincipale )
+      tabSymboleExterne est un tableau associatif d'entiers système
+      renvoyer  clAsm.compileX86( sCodeAsm, sNomProcedurePrincipale, tabSymboleExterne )
       
      type : 458752
    -
@@ -48,7 +49,21 @@ procedure_set :
       // renvoie l'adresse a utiliser pour appeler API(  )
       procédure compileAsmX86_API( sCodeAsm est chaine, sNomProcedurePrincipale chaine="") : (entier systeme, chaine)
       
-      RENVOYER  clAsm._pcompileX86( sCodeAsm, sNomProcedurePrincipale )
+      tabSymboleExterne est un tableau associatif d'entiers système
+      RENVOYER  clAsm._pcompileX86( sCodeAsm, sNomProcedurePrincipale, tabSymboleExterne )
+      
+     type : 458752
+   -
+     name : compileAsmX86_API_AvecSymboles
+     procedure_id : 2185013995656804692
+     type_code : 15
+     code : |1+
+      // compile un code au format assemleur x86
+      // renvoie l'adresse a utiliser pour appeler API(  )
+      procédure compileAsmX86_API_AvecSymboles( sCodeAsm est chaine, sNomProcedurePrincipale chaine, tabSymboleExterne est un tableau associatif d'entiers système) : (entier systeme, chaine)
+      
+      
+      RENVOYER  clAsm._pcompileX86( sCodeAsm, sNomProcedurePrincipale, tabSymboleExterne )
      type : 458752
   procedure_templates : []
   property_templates : []

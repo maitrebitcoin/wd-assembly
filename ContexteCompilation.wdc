@@ -71,6 +71,16 @@ class :
       
      type : 458752
    -
+     name : déclareSymboleExterne
+     procedure_id : 2185012934799701444
+     type_code : 12
+     code : |1+
+      // déclaration d'un symbole externe
+      procédure déclareSymboleExterne( nom chaine, valeur entier systeme)
+      
+      :tabSymboleRencontré[nom].offset =  valeur - :pAddrDebutCode
+     type : 458752
+   -
      name : onUtilisationLabel
      procedure_id : 1975929447193776825
      type_code : 12
