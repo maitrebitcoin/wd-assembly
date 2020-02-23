@@ -61,6 +61,11 @@ class :
       PROCÉDURE _pcompileX86( codeAssembleur est chaine, sNomProcedurePrincipale est chaine ) : (entier système, chaine)
       contexte est ContexteCompilation
       
+      // test cas code vide
+      si codeAssembleur="" ALORS
+      	renvoyer (0,"code vide")
+      FIN
+      
       // récup d'une zone de code exécutable
       pAddrCode  est entier système = :cAlloMemExecutable.pNouvelleZoneExecutable( )
       // init contexte pour les call/jmp relatifs
@@ -203,19 +208,26 @@ class :
       // ex : .CODE
       procédure _bEstDirectiveDeCompilation( sCodeAsm1Ligne est chaine, eDirective_OUT est EDirective, sParamDirective_OUT chaine ) : booléen 
       
-      // ignorer .CODE, .TEXT
-      si (sCodeAsm1Ligne ~= ".CODE") ALORS
-      	eDirective_OUT = débutCode
-      	renvoyer vrai
+      // ignorer .CODE, .TEXT, .MODEL, ...
+      si sCodeAsm1Ligne[[1]]="." alors
+      	si (sCodeAsm1Ligne ~= ".CODE") ALORS
+      		eDirective_OUT = débutCode
+      		renvoyer vrai
+      	fin
+      	si (sCodeAsm1Ligne ~= ".TEXT") alors
+      		renvoyer vrai
+      	FIN
+      	si (sCodeAsm1Ligne ~= ".DATA") alors
+      		eDirective_OUT = débutDonnées
+      		renvoyer vrai
+      	fin
+      	// cas 32 bits
+      	SI (gauche(sCodeAsm1Ligne,7) ~= ".MODEL ")  alors
+      		RENVOYER Vrai
+      	fin
       fin
-      si (sCodeAsm1Ligne ~= ".TEXT") alors
-      	renvoyer vrai
-      FIN
-      si (sCodeAsm1Ligne ~= ".DATA") alors
-      	eDirective_OUT = débutDonnées
-      	renvoyer vrai
-      fin
-      si (sCodeAsm1Ligne ~= "END") renvoyer vrai
+      
+      SI (sCodeAsm1Ligne ~= "END") RENVOYER Vrai
       
       //ignorer les directive PROC / ENCODE
       sDernierToken est chaine = minuscule( ExtraitChaîne(sCodeAsm1Ligne,1," ",DepuisFin) )
@@ -504,14 +516,30 @@ class :
       // _2P256_MoinsP_Ordre qword 402da1732fc9bebfh, 4551231950b75fc4h, 000000000000001h, 000000000000000h
       procédure privée _complileUnLigneData( sLigneData chaine, contexte est ContexteCompilation ) : buffer
       
+      sLigneData = remplace(sLigneData,TAB," ") // remplacer tab par espaces
       // si que des espaces
       SI SansEspace(sLigneData)="" ALORS
       	RENVOYER ""
       FIN
       
+      // ex :
+      // T1          dword  12h , 11h , 03h , 20h ,04h  ,0
       label    est chaine = ExtraitChaîne( sLigneData, 1, " ")
+      
       type     est chaine = ExtraitChaîne( sLigneData, 2, " ")
-      valeurs  est chaine = milieu( sLigneData, taille(label) + taille(type) +  2)
+      // cas qu'on a des espace avant le type
+      nbEspace est entier = 1
+      tantque type=""
+      	nbEspace++
+      	type  = ExtraitChaîne( sLigneData, nbEspace+1, " ")
+      FIN
+      si type= EOT ALORS
+      	// Erreur
+      	ErreurDéclenche(ERR_COMPILATION_ASM, "type manquant")
+      	renvoyer ""
+      FIN
+      
+      valeurs  est chaine = milieu( sLigneData, taille(label) + taille(type) + nbEspace + 1)
       si label<>""  ALORS
       	// on déclare le symbole
       	// permet d'écrire lea eax,[mesdata]
@@ -524,7 +552,7 @@ class :
       // parcourt des valeur
       POUR TOUTE CHAÎNE sValeur DE valeurs SÉPARÉE PAR ","
       	// test conversion en chaine
-      	sValeurI est chaine = SansEspace(sValeur,sscGauche+sscDroite)
+      	sValeurI  est chaine = SansEspace(sValeur,sscGauche+sscDroite)
       	nValeur est un entier sur 8 octets sans signe 
       	si pas bEstValeurImmediate(sValeurI, nValeur) ALORS
       		ErreurDéclenche(ERR_COMPILATION_ASM, ChaîneConstruit("<%1> n'est pas un littéral valide",sValeur))

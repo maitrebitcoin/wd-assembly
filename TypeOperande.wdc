@@ -290,6 +290,10 @@ class :
       		si valeur.bEstModeIndirectionLabel() ALORS
       			// encode un offset par rapport a EIP après l'exécution de l'instruction
       			offset est un entier sur 4 = val(valeur.valeurImmediate) - contexte.nOffsetDest - 4 - contexte.offsetDansInstruction - contexte.pAddrDebutCode
+      			// en mode 32 bits avec LEA xxx,[LABEL], l'adresse est absolue
+      			SI pas contexte.compilateur.b64Bits() ALORS
+      				offset =  val(valeur.valeurImmediate)
+      			FIN			
       			RENVOYER _encodeImmediate32(""+offset) 			
       			
       			//RENVOYER _encodeImmediate32(0)

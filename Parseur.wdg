@@ -137,7 +137,7 @@ procedure_set :
      type : 458752
    -
      name : AnalyseSyntaxiqueLigne
-     internal_properties : BQAAAAUAAAAMt2gLxuL7YXgYpyGGNHsOSfbuKsYBfab6LDTRYYr6+8wJiwrJlMB5MmpmGC6IaV5a4vajRjjVM3JePbbMzgSh+boInOjIjz7QiMIrEzgXfG1CIsTEeSa1cxCbuxbbe+IS8QKiawywW68qxUbPT1K/SD7EBQM0H0QPxLNvdKQkGfkr0wFyrfThjzy+ppv/OmuJS6Fct9w=
+     internal_properties : BQAAAAUAAABWoVJhsCxY2RaG603Ketse25DcXNp/gV6cRlil7Xjq18KPwWS5HrR9fDTW0PYi5crgEIxlfhJZ88wIKU40MLT5oxy6+kQWk6rakv76JB02JbYbcR1VHstoJEm0tmuULk/bGjmbbGEt1igTDq30CAHgfdtXGrDloEcwbSw+PeGPRo5AYiqHZq2IfCkrMfSUFa1LlXtyrSY=
      procedure_id : 1977866189681233712
      type_code : 15
      code : |1+
@@ -151,11 +151,13 @@ procedure_set :
       sLabel  est une chaîne
       si position(sCodeAsm1Ligne,":")>0 ALORS
       	sLabel  		= ExtraitChaîne(sCodeAsm1Ligne,1,":")
+      	sLabel = SansEspace(sLabel,sscGauche)
       	si position(sLabel," ")>0 _ou_ position(sLabel,TAB)>0 ALORS
       		// pas un label
       		sLabel=""
       	sinon
-      		sCodeAsm1Ligne  = milieu(sCodeAsm1Ligne,taille(sLabel)+2) // +1 pour le ":"; +1 pour commencer après
+      
+      		sCodeAsm1Ligne =ExtraitChaîne(sCodeAsm1Ligne,2,":") // partie a droite du ":"
       	fin
       FIN
       // supprimer les commentaires ; ou //
@@ -298,6 +300,25 @@ procedure_set :
       	valeur_OUT.registre2 = minuscule(sDepl)
       	sDepl = SansEspace(ExtraitChaîne(sMilieu,3,"+"))
       fin	
+      // si c'est [EBP+EAX*4]
+      si position(sDepl,"*")>1 alors
+      	sReg2  est chaine = ExtraitChaîne(sDepl, 1, "*") // ex EAX
+      	sMult  est chaine = ExtraitChaîne(sDepl, 2, "*") // ex 4
+      	nvalMult est un entier sur 8 octets sans signe
+      	SI  bEstRegistre(sReg2) _et_ bEstValeurImmediate( sMult, nvalMult ) ALORS
+      		// valeur OK pour nvalMult
+      		si nvalMult<>2 _et_ nvalMult<>4 _et_ nvalMult<>8 ALORS
+      			renvoyer faux
+      		FIN
+      		valeur_OUT.registre2	 = Minuscule(sReg2)
+      		valeur_OUT.registre2Mult = nvalMult
+      		valeur_OUT.déplacement   = 0
+      		renvoyer vrai
+      	sinon	
+      		renvoyer faux
+      	fin
+      FIN
+      
       SI sDepl=EOT ALORS
       	valeur_OUT.deplacement = 0
       SINON

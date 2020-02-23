@@ -15,17 +15,17 @@ class :
   type_code : 10
   p_codes :
    -
-     internal_properties : BQAAAAUAAABWd3PsTKiZgifw0fhe+vnWtRxNgXFK2MZLhvNUmSfwHmAqLqYNcBvh1he4nxDfaaul0mLOHALNgPxd3Iig8hQYU/77GTZ4uloFcpJf81gZP1bEpq2ChDNk0y4+/xhsAFn9QGLBjdOfbM2ORCjT/NfGxQdiAtcN0NMZNJa1iubuIs8nHKF5V3nAIuke4Ha2epWVKtN7Seifje1yzDWMgv44dvLbrA==
      code : |1+
       // modes d'adressage x86 et leur encodage
       ValeurOperande est une Classe
-      	modeAdres	est ModeAdressage // mode d'adressage, MA_Registre, MA_Immemdiat, MA_Indirection
-      	taillePtr   est entier     // taille pointée si indirection + taille précisée. ex : dword ptr[ebx]
-      	registre    est chaîne	   // ex : "EAX"
-      	registre2   est chaîne	   // 2eme regsitre si indirection. ex : "EDX" si mode = "[EBP+EDX]"
-      	déplacement est entier sur 8 octets// déplacement si indirection
-      	valeurImmediate est un entier sur 8 octets sans signe 
-      	label		est chaine  // si mode = MA_Label
+      	modeAdres	    est ModeAdressage // mode d'adressage, MA_Registre, MA_Immemdiat, MA_Indirection
+      	taillePtr       est entier     // taille pointée si indirection + taille précisée. ex : dword ptr[ebx]
+      	registre        est chaîne	   // ex : "EAX"
+      	registre2       est chaîne	   // 2eme regsitre si indirection. ex : "EDX" si mode = "[EBP+EDX]"
+      	registre2Mult   est entier     // facteur multiplication du 2eme registre. 1,2,4 ou 8.  cas [EBP+EDX*4]
+      	déplacement     est entier sur 8 octets// déplacement si indirection
+      	valeurImmediate est entier sur 8 octets sans signe 
+      	label		    est chaine  // si mode = MA_Label
       FIN
       
       // modes d'adressage possible
@@ -80,7 +80,7 @@ class :
      type : 458752
    -
      name : EncodeAdressage
-     internal_properties : BQAAAAUAAAA3ucjqAm5qmfGFWZI1a+GJZvGwuONyU7ZTHOQHuaF640//+A3EqTaVgCb4UqsIOgpldf66rCTF10Z3R7L381+m0/NTeqWJRWJENthilwwR7tjIipJy/IM0/Sw6QjOvct/KiknDd8o1e3ezL20wAphhWuiknR0hwqiDSEZ+Qq6NXo/9aVuuEPWxm8g5bcA947+3CFij3J/0CU82DNzz2w11/2HLR2kxPnIfZlRyVmKGAH8unr2VRGCuovU5FA/LyckRnTrdT68Tp1M/cSn78V8/TioTYB1a0IrhWJYYUroIKw==
+     internal_properties : BQAAAAUAAAA7vbwuxjMkaffnS5DDBZ0fWyHQUDPi2zZLPPQvsRFSUz8nQH1sMdb9oD4Q4msgSlJdZX5ybKSdVz6HN/rPYzeGk2s7Km1x1ToUHtBypwRxVlC4GspC7NsE5SzKKruPSt/KgrFDjwKFw/c7V+1Aijj55nwwCZGdPiwf3PqitkJ5WovxVadiXGEVJ4ytwRShf0sj7ES/IFsQDVsKwGB3T1lhK4X3o139CqZbahjm+oYyfPsSionp0OwyzmlNOHNfBaVNweap8/vv2y8TRQ2fVUsAUzc+TSJBs5X2LeLUFsYEJw==
      procedure_id : 2157233700605205701
      type_code : 12
      code : |1-
@@ -118,10 +118,19 @@ class :
       	//  7  6  |  5 4 3  | 2 1 0
       	//  Scale |  Index  |  Base
       	numRegIndex 	est entier = nIndiceRegistre(:registre2)&0x7
-      	SS est un entier    = 0 // x1
+      	scale est un entier    = 0 // x1
       	index est un entier = numRegIndex
       	base  est un entier	= nIndiceRegistre(:registre)&0x7
-      	sib = Caract( SS * 0x40 | index * 0x8 | base )	
+      	selon :registre2Mult
+      		cas 0,1: scale = 0
+      		cas 2:   scale = 1 
+      		cas 4:   scale = 2 
+      		cas 8:   scale = 3 
+      		AUTRE CAS
+      			dbgAssertion(faux)
+      	FIN
+      	// réunion des 3 champs de bits :
+      	sib = Caract( scale* 0x40 | index * 0x8 | base )	
       
       	// si petit déplacement, ie 1 octet
       	SI :déplacement = 0_et_ RegSource="esp"  ALORS
