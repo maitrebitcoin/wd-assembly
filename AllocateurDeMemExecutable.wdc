@@ -38,6 +38,7 @@ class :
       FIN 
       
       constant nTAILLE_MAX = 2 * 1024 * 1024 // 2 MO max pour tout le code
+      CONSTANT LIBC_LINUX  = "/lib/x86_64-linux-gnu/libc.so.6"
      type : 131072
   procedures :
    -
@@ -110,12 +111,23 @@ class :
      type : 458752
    -
      name : _nGetTailleBlocAlloc
-     internal_properties : BQAAAAUAAADqPHrXaa4c/kRLeKJmEOo/joDf1IXjhcKvsCqhTeH0+CYN67rcF8Px/b1bGjOa6PpndPoF4XZFtbjoB+j3LPzevcGvPTLbzA+bDi0lrSCQMpI6uWvIp615qLkWuziDYPoptd1xu2RRPdZN6gY3Fe09l6ilArWGCFrkzY7zEOkOimCxYApENzbkmlsDkzuYIPjKs2J7yw==
+     internal_properties : BQAAAAUAAAAKHNq3yY48rgSr2ILmUIqfjgA/dEWDxaJvEMqBTaEUWGZNy1ocN4MRvd37unOayJrn9FqloZaFFfgIZ8h37Jw+vUFPnTJ7DK9bLp3VPdCgogIqSdu4lx3p2EmGa4hzcGpZZS3hK1RBLcbdWnZHhT3tx1h1MuW2OApUXX6j4Fme+pBhMPo052aUSmtzA4u4ANgqE8Kbqw==
      procedure_id : 1974057485680077261
      type_code : 12
      code : |1+
       // récup de la taille de bloc de mémoire
       procéduré privée _nGetTailleBlocAlloc() : entier
+      
+      // en linux il faut utiliser sysconf(). 
+      SI EnModeLinux() ALORS
+      	// pagesize = sysconf(_SC_PAGE_SIZE);
+      //	soit _SC_PAGE_SIZE = 11
+      //	dbgSortieStandard("avant API..."+RC)
+      //	taillePage est un entier sur 8 octets = API(LIBC_LINUX,"sysconf", _SC_PAGE_SIZE)
+      //	dbgAssertion(taillePage<>0)
+      //	dbgSortieStandard("taillePage = "+taillePage+RC)
+      	renvoyer 4096
+      FIN
       
       // renvoie la taille d'un page de mémoire
       SYSTEM_INFO  est composé de
@@ -138,7 +150,7 @@ class :
      type : 458752
    -
      name : _pAlloueNouveauBloc
-     internal_properties : BQAAAAUAAAB1ZTyZbBHXs0ZOsY6O2d5cICUHjwGXnnPzyz1BsrxQOVSGPzmEfD3WnD/EgwMh00R+7n0udA1QxylGB5y1Lc0xnAyNi4SEhGbh/hF9RDedV9lJbFJwkrPwDz/kjFPLiiQlFBP9L90YFcm5RaTXvKW0vjlBhGVbc4KHoSVTDp66aIwRGeexV2FeUKw3S54av22Sfiu6BGA7YVQEqVscFubcUVFR7PQO6ET3QIpeFhweWHgnL0mFMsw3g2PdvFEFTeRi4g==
+     internal_properties : BQAAAAUAAABDS3LPOh/XCVA4u3QQi+DqRv+VtXZxzK036ZXBDF4czXhQ0nUMlG3yIJeQVxtJw4yqBpoK2ht6MaX0B7B7641pRE5JRyKy7jTlxBXNdgEld8XfeI5eKM22AzWIkKGR3gCRLV6iivobIti2eKlyMaiZlQ6ovTyMIj/mXhjgQZvFRdfaVCxs3PznV8G6iKHnwpPEbPXQ7nZldzYim+EOVHgBtIp8wTe7y4E6GckX/SCatCijrzm5xjjX4zfttks7l7JQ0A==
      procedure_id : 1974058306018890444
      type_code : 12
      code : |1+
@@ -152,10 +164,37 @@ class :
       	nTailleAlloc = nTailleAlloc + nTailleBloc - modulo(nTailleAlloc,nTailleBloc)
       FIN
       
+      p est entier système
+      
+      // en linux il faut utiliser mprotect(). 
+      si EnModeLinux() ALORS
+      
+      
+      	// allocation d'un buffer aligé de taille <nTailleAlloc>
+      	// buffer = memalign(pagesize, 4 * pagesize);
+      	p = api(LIBC_LINUX,"memalign", nTailleAlloc)
+      	si(p=0) ALORS
+      		dbgAssertion(Faux,"Echec de memalign() "+rc+erreurInfo())
+      		renvoyer 0
+      	FIN
+      	
+      	retcode est entier 
+      	soit PROT_READ  = 0x04 
+      	soit PROT_WRITE = 0x02 
+      	soit PROT_EXEC  = 0x01
+      	// = mprotect(buffer + pagesize * 2, pagesize,
+      	retcode =API(LIBC_LINUX, "mprotect", p, nTailleAlloc, PROT_READ + PROT_EXEC + PROT_WRITE )
+      	dbgAssertion(p<>0)
+      	 
+      	renvoyer p
+      	
+      	
+      FIN
+      
+      
       // alloc RAM pour le code
       // NB :PAGE_READWRITE + PAGE_EXECUTE échoue ici, alors on le fait en 2 étapes
       //#define MEM_DECOMMIT                0x00004000  
-      p est entier système
       p = API("kernel32.dll","VirtualAlloc", 0, nTailleAlloc, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE)
       dbgAssertion(p<>0)
       

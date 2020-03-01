@@ -71,6 +71,9 @@ class :
       
       // récup d'une zone de code exécutable
       pAddrCode  est entier système = :cAlloMemExecutable.pNouvelleZoneExecutable( )
+      si pAddrCode= 0 ALORS
+      	RENVOYER (Null, "Erreur d'allocation")
+      FIN
       // init contexte pour les call/jmp relatifs
       contexte.pAddrDebutCode = pAddrCode
       // déclaration des symboles externe
@@ -246,6 +249,10 @@ class :
       	dbgAssertion(sParamDirective_OUT<>"")
        	RENVOYER Vrai
       fin
+      SI sDernierToken="private" ALORS // Cas "xxxx proc private"
+      	RENVOYER Vrai
+      FIN
+      
       si sDernierToken="endp" ALORS
       	eDirective_OUT = finProcédure
       	RENVOYER Vrai
