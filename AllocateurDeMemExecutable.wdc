@@ -38,7 +38,7 @@ class :
       FIN 
       
       constant nTAILLE_MAX = 2 * 1024 * 1024 // 2 MO max pour tout le code
-      CONSTANT LIBC_LINUX  = "/lib/x86_64-linux-gnu/libc.so.6"
+      CONSTANT LIBC_LINUX  = "libc.so.6"
      type : 131072
   procedures :
    -
