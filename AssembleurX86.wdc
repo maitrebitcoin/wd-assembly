@@ -33,6 +33,8 @@ class :
        	finProcédure    //  xxxxx PROC  :  fin de procédure
        	procédureExterne  //  xxxxx PROTO C  :  procédure externe
        	macro		    //  xxx equ yyy  :  "macro"
+       	ifdef		    //  IFDEF linux  : compilation conditionnelle
+       	endif			//  ENDIF
       fin
      type : 131072
   procedures :
@@ -237,6 +239,7 @@ class :
       	SI (gauche(sCodeAsm1Ligne,7) ~= ".MODEL ")  alors
       		RENVOYER Vrai
       	fin
+      
       fin
       
       SI (sCodeAsm1Ligne ~= "END") RENVOYER Vrai
@@ -273,14 +276,23 @@ class :
       	sParamDirective2_OUT = ExtraitChaîne(sCodeAsm1Ligne,2, " equ ")
       	RENVOYER Vrai
       FIN
-      
+      // compilation conditionnelle
+      SI (Gauche(sCodeAsm1Ligne,6) ~= "IFDEF ")  ALORS
+      	eDirective_OUT  = ifdef
+      	sParamDirective_OUT	 = Milieu(sCodeAsm1Ligne, 7)
+      	RENVOYER Vrai
+      FIN
+      SI (Gauche(sCodeAsm1Ligne,5) ~= "ENDIF")  ALORS
+      	eDirective_OUT			= endif
+      	RENVOYER Vrai
+      FIN
       
       // autre chose, du code asm
       renvoyer faux
      type : 458752
    -
      name : _CompileUneLigne
-     internal_properties : BQAAAAUAAAD6zArH6f7uvohzLEZy5E6zAmg3AMnj8eJjAP4d0d1odHptg+b4N7fRWf1/lndO/OZTPEI5/X5RJcQgU/Tj0AiCUREXEd4zOPefDi8jryKeEMDwv0FK2dsrFldYeYpVFrB/g/tvtS6nj3zzNHxZ97ubReZLOKewvpQ6g9gpStMskGY/9uB+8Vz26HkFGY06gHhaw3Jr2w==
+     internal_properties : BQAAAAUAAACCpFKfoSYnsOJHaIjomEIv8KBNyDsV7XydzFpX/9Gc0AwxLUpCBcdv+xk/yGW62LIpZFTdW/CFk/acbwpdgEjK51n1cWSRaD1p8jL6GPf7gXOlPBw/zsYmBdY/OFO6s5lGSHAmJre+th/Wr1ti3JzYILuIe3y9wav1np9og6CZkQnYv1ffMqtJP2BQdAIDuDCS+zoTIw==
      procedure_id : 1974067480069991068
      type_code : 12
      code : |1+
@@ -315,9 +327,20 @@ class :
       			FIN
       		cas macro
       			contexte.déclareMacro( sParamDirective, sParamDirective2 )
+      		cas ifdef
+      			si pas contexte.tabSymboleRencontré[sParamDirective]..existe alors
+      				// désactiver la compilation
+      				contexte.bCompilActive = faux
+      			fin
+      		cas endif
+      			contexte.bCompilActive = vrai 
       	FIN
       	// pas de code généré pour cette ligne
       	rENVOYER ""
+      FIN
+      // si on ne doit pas compiler pour l'intant (compil conditionnelle)
+      si pas contexte.bCompilActive ALORS
+      	renvoyer ""
       FIN
       // si on est dans la zone de données (.data)
       si contexte.bDansData ALORS

@@ -41,6 +41,8 @@ class :
       	
       	// indique si on est dans une zone ".data"
       	bDansData est un booléen
+       	// indique si la compilation est active
+       	bCompilActive	est un booléen = vrai
       FIN
      type : 131072
   procedures :
