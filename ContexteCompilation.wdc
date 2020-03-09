@@ -30,9 +30,11 @@ class :
       	
       	// symboles rencontrés durant la compilation
       	tabSymboleRencontré est un tableau associatif de variant
-      	
       	// symboles a patcher après la passe de compilation
       	tabUtlisationSymbole est un tableau associatif de variant
+      	// macros rencontrées
+      	tabMacro  est un tableau associatif de chaine
+      	
       	
       	// compilateur en cours
       	compilateur est AssembleurX86 dynamique
@@ -79,6 +81,17 @@ class :
       procédure déclareSymboleExterne( nom chaine, valeur entier systeme)
       
       :tabSymboleRencontré[nom].offset =  valeur - :pAddrDebutCode
+     type : 458752
+   -
+     name : déclareMacro
+     procedure_id : 2190072268835139504
+     type_code : 12
+     code : |1-
+      // déclaration d'un macro.
+      //Ex: "Parma1 equ ecx"
+      procédure déclareMacro( nom chaine, valeur chaine)
+      
+      :tabMacro[nom] =  valeur 
      type : 458752
    -
      name : onUtilisationLabel

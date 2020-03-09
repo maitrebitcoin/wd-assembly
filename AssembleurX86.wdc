@@ -32,6 +32,7 @@ class :
        	débutProcédure  // PROCC xxxxx :  début de procédure
        	finProcédure    //  xxxxx PROC  :  fin de procédure
        	procédureExterne  //  xxxxx PROTO C  :  procédure externe
+       	macro		    //  xxx equ yyy  :  "macro"
       fin
      type : 131072
   procedures :
@@ -217,7 +218,7 @@ class :
       // indique si la ligne est une directive de compilation
       // ie pas du code assembleur
       // ex : .CODE
-      procédure _bEstDirectiveDeCompilation( sCodeAsm1Ligne est chaine, eDirective_OUT est EDirective, sParamDirective_OUT chaine ) : booléen 
+      procédure _bEstDirectiveDeCompilation( sCodeAsm1Ligne est chaine, eDirective_OUT est EDirective, sParamDirective_OUT chaine, sParamDirective2_OUT chaine ) : booléen 
       
       // ignorer .CODE, .TEXT, .MODEL, ...
       si sCodeAsm1Ligne[[1]]="." alors
@@ -265,6 +266,13 @@ class :
       	RENVOYER Vrai
       FIN
       
+      // support des "macro"
+      si position(sCodeAsm1Ligne," equ ")>0 ALORS
+      	eDirective_OUT		 = macro
+      	sParamDirective_OUT	 = Extraitchaine(sCodeAsm1Ligne,1, " equ ")
+      	sParamDirective2_OUT = ExtraitChaîne(sCodeAsm1Ligne,2, " equ ")
+      	RENVOYER Vrai
+      FIN
       
       
       // autre chose, du code asm
@@ -272,7 +280,7 @@ class :
      type : 458752
    -
      name : _CompileUneLigne
-     internal_properties : BQAAAAUAAAC6jEqHKb6uHsiz7EayZI7zAui3AAmjsaJjAH7d0R3o9DqtwyZ4t7fRGb2/FjfOPKZTPEI5PT6R5USg0zRjkIiCEVHXUd4zOHffzo8DT8K+MOCQHyEqeXtLtne4Wap1tlCfI1vPFc5HL5wTFNz5F9s75YYrmIfQ3rTaoziJ6nNMMIbfVsBekfwWCJlleS36QLgaAzIrGw==
+     internal_properties : BQAAAAUAAAD6zArH6f7uvohzLEZy5E6zAmg3AMnj8eJjAP4d0d1odHptg+b4N7fRWf1/lndO/OZTPEI5/X5RJcQgU/Tj0AiCUREXEd4zOPefDi8jryKeEMDwv0FK2dsrFldYeYpVFrB/g/tvtS6nj3zzNHxZ97ubReZLOKewvpQ6g9gpStMskGY/9uB+8Vz26HkFGY06gHhaw3Jr2w==
      procedure_id : 1974067480069991068
      type_code : 12
      code : |1+
@@ -286,8 +294,9 @@ class :
       // gestion des directives de compilation pour compatibilité avec un fichier  "masm"
       // ex : ".CODE" ou "MaProcédure PROC"
       directive est EDirective
-      sParamDirective est chaine
-      si _bEstDirectiveDeCompilation( sCodeAsm1Ligne, directive, sParamDirective  ) ALORS
+      sParamDirective  est chaine
+      sParamDirective2 est chaine
+      si _bEstDirectiveDeCompilation( sCodeAsm1Ligne, directive, sParamDirective, sParamDirective2  ) ALORS
       	selon directive
       		CAS débutDonnées
       			contexte.bDansData = vrai
@@ -304,6 +313,8 @@ class :
       				ErreurDéclenche(ERR_COMPILATION_ASM, ChaîneConstruit("symbole externe <%1> a déclarer avant le début de la compilation", sParamDirective) )
       				RENVOYER ""
       			FIN
+      		cas macro
+      			contexte.déclareMacro( sParamDirective, sParamDirective2 )
       	FIN
       	// pas de code généré pour cette ligne
       	rENVOYER ""
@@ -312,6 +323,13 @@ class :
       si contexte.bDansData ALORS
       	renvoyer _complileUnLigneData( sCodeAsm1Ligne, contexte )
       FIN
+      
+      // patcher les macros
+      POUR TOUT valeur,nomMacro DE  contexte.tabMacro
+      	sCodeAsm1Ligne = Remplace(sCodeAsm1Ligne,nomMacro,valeur)
+      FIN
+      	
+      
       
       
       // découper la ligne en ses élément lexicaux : 
