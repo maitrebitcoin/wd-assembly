@@ -292,7 +292,7 @@ class :
      type : 458752
    -
      name : _CompileUneLigne
-     internal_properties : BQAAAAUAAACCpFKfoSYnsOJHaIjomEIv8KBNyDsV7XydzFpX/9Gc0AwxLUpCBcdv+xk/yGW62LIpZFTdW/CFk/acbwpdgEjK51n1cWSRaD1p8jL6GPf7gXOlPBw/zsYmBdY/OFO6s5lGSHAmJre+th/Wr1ti3JzYILuIe3y9wav1np9og6CZkQnYv1ffMqtJP2BQdAIDuDCS+zoTIw==
+     internal_properties : BQAAAAUAAAAiBDJ/AQbHwOIniGgoWCLPsOCt6Lu1rVwdrDq3fxH88AwxTaqCJcdP+znfKOW6eBJpJHQ9GxAFc3b8zypdAOiq59nVEeQx6F0pUsJKiEfrkUN1bGwPXla21YaPiMMK4+nW2GA2tsfORi9GP+vSLMwo8Is4i4zN0bsFDq/4M/AJ4dmob2fvQrtZD1BgxHIjmBDyW5qzgw==
      procedure_id : 1974067480069991068
      type_code : 12
      code : |1+
@@ -309,6 +309,11 @@ class :
       sParamDirective  est chaine
       sParamDirective2 est chaine
       si _bEstDirectiveDeCompilation( sCodeAsm1Ligne, directive, sParamDirective, sParamDirective2  ) ALORS
+      	// ignorer les directives dans un IFDEF 
+      	si pas contexte.bCompilActive _et_  directive<>endif ALORS
+      		renvoyer ""
+      	FIN
+      	
       	selon directive
       		CAS débutDonnées
       			contexte.bDansData = vrai
@@ -558,9 +563,9 @@ class :
      code : |1+
       // conversion d'un entier sur 8 octets sans signe en un buffer en petit endian 
       procédure GLOBALE uint64VersbufferLowEndian( LOCAL imm64 est entier sur 8 sans signe ) : buffer
-      bufLowEdian est un buffer = Répète(caract(0),8)
-      Transfert(&bufLowEdian,&imm64,8)
-      RENVOYER bufLowEdian
+      bufLowEndian est un buffer = Répète(caract(0),8)
+      Transfert(&bufLowEndian,&imm64,8)
+      RENVOYER bufLowEndian
      type : 458752
    -
      name : b64Bits
