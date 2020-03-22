@@ -18,6 +18,7 @@
 *.WPF
 *.waudit
 *.env
+*.wdu
 desktop.ini
 HstDuree.log
 Folder.ico
