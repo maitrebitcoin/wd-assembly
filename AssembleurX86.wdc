@@ -34,6 +34,7 @@ class :
        	procédureExterne  //  xxxxx PROTO C  :  procédure externe
        	macro		    //  xxx equ yyy  :  "macro"
        	ifdef		    //  IFDEF linux  : compilation conditionnelle
+       	elseif		    //  ELSE ; linux  : compilation conditionnelle
        	endif			//  ENDIF
       fin
      type : 131072
@@ -286,13 +287,18 @@ class :
       	eDirective_OUT			= endif
       	RENVOYER Vrai
       FIN
+      SI (Gauche(sCodeAsm1Ligne,4) ~= "ELSE")  ALORS
+      	eDirective_OUT			= elseif
+      	RENVOYER Vrai
+      FIN
+      
       
       // autre chose, du code asm
       renvoyer faux
      type : 458752
    -
      name : _CompileUneLigne
-     internal_properties : BQAAAAUAAAAiBDJ/AQbHwOIniGgoWCLPsOCt6Lu1rVwdrDq3fxH88AwxTaqCJcdP+znfKOW6eBJpJHQ9GxAFc3b8zypdAOiq59nVEeQx6F0pUsJKiEfrkUN1bGwPXla21YaPiMMK4+nW2GA2tsfORi9GP+vSLMwo8Is4i4zN0bsFDq/4M/AJ4dmob2fvQrtZD1BgxHIjmBDyW5qzgw==
+     internal_properties : BQAAAAUAAAAqfDoXGU4AvkSrYILeuGKfnoCnBC3rhepnCPppraGkMC4Vi0KcVytxXW1zGhtCEEoH5PJFmU5VvVAgh9CXDGwGdWnPBeIbdC8LXnkZobQMLo5GJRdcK5l17I2yD0x3vDbl8WmNn3ht6ZrxVpq7eXlZgyRhHtl6lOZIkdo3VN0ahgxtrAZY28Jwbl9P10+s0MgKc6K7iw==
      procedure_id : 1974067480069991068
      type_code : 12
      code : |1+
@@ -310,7 +316,7 @@ class :
       sParamDirective2 est chaine
       si _bEstDirectiveDeCompilation( sCodeAsm1Ligne, directive, sParamDirective, sParamDirective2  ) ALORS
       	// ignorer les directives dans un IFDEF 
-      	si pas contexte.bCompilActive _et_  directive<>endif ALORS
+      	si pas contexte.bCompilActive _et_  directive<>endif  _ET_  directive<>elseif ALORS
       		renvoyer ""
       	FIN
       	
@@ -337,6 +343,14 @@ class :
       				// désactiver la compilation
       				contexte.bCompilActive = faux
       			fin
+      		CAS elseif
+      			SI contexte.tabSymboleRencontré[sParamDirective]..Existe ALORS
+      				// désactiver la compilation
+      				contexte.bCompilActive = Faux
+      			sinon
+      				// réactiver la compilation
+      				contexte.bCompilActive = vrai
+      			FIN			
       		cas endif
       			contexte.bCompilActive = vrai 
       	FIN
