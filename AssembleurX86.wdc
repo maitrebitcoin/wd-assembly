@@ -280,7 +280,7 @@ class :
       // compilation conditionnelle
       SI (Gauche(sCodeAsm1Ligne,6) ~= "IFDEF ")  ALORS
       	eDirective_OUT  = ifdef
-      	sParamDirective_OUT	 = Milieu(sCodeAsm1Ligne, 7)
+      	sParamDirective_OUT	 = SansEspace( Milieu(sCodeAsm1Ligne, 7))
       	RENVOYER Vrai
       FIN
       SI (Gauche(sCodeAsm1Ligne,5) ~= "ENDIF")  ALORS
@@ -298,7 +298,7 @@ class :
      type : 458752
    -
      name : _CompileUneLigne
-     internal_properties : BQAAAAUAAAAqfDoXGU4AvkSrYILeuGKfnoCnBC3rhepnCPppraGkMC4Vi0KcVytxXW1zGhtCEEoH5PJFmU5VvVAgh9CXDGwGdWnPBeIbdC8LXnkZobQMLo5GJRdcK5l17I2yD0x3vDbl8WmNn3ht6ZrxVpq7eXlZgyRhHtl6lOZIkdo3VN0ahgxtrAZY28Jwbl9P10+s0MgKc6K7iw==
+     internal_properties : BQAAAAUAAAD6zArH6f79WBbfdMQ09B6TtGi1HA+VUQTRpJ4L2yVgRJCxLbam5VNvt3krLBGeDNZ1DHx5HziBg3Ks+wZJHJyW6/lVtQC5bE012oAURhWlS61fNgZVPKgEf3D1YrngzVu4urIoHOXgTPkgNcWIolaCqs2ytUrrc8nX0N0qQQ4rG4PSUSm1ePUfAZJuDphpgHhaw3Jr2w==
      procedure_id : 1974067480069991068
      type_code : 12
      code : |1+
@@ -306,7 +306,9 @@ class :
       // ex: "RET 4" => "0xC2 0X04 0x00"
       procédure privée _CompileUneLigne( sCodeAsm1Ligne est chaine, contexte est ContexteCompilation dynamique ) : buffer
       
-      // ignorer les lignes vides et commentaires
+      // supprimer les commentaires de la lignes
+      Parseur.SupprimeCommentaire(sCodeAsm1Ligne)
+      // ignorer les lignes vides 
       si parseur.bEstLigneVide(sCodeAsm1Ligne)  alors renvoyer ""
       
       // gestion des directives de compilation pour compatibilité avec un fichier  "masm"
@@ -344,13 +346,8 @@ class :
       				contexte.bCompilActive = faux
       			fin
       		CAS elseif
-      			SI contexte.tabSymboleRencontré[sParamDirective]..Existe ALORS
-      				// désactiver la compilation
-      				contexte.bCompilActive = Faux
-      			sinon
-      				// réactiver la compilation
-      				contexte.bCompilActive = vrai
-      			FIN			
+      			// inverse l'activation de compilation
+      			contexte.bCompilActive = pas contexte.bCompilActive
       		cas endif
       			contexte.bCompilActive = vrai 
       	FIN

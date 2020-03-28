@@ -124,16 +124,36 @@ procedure_set :
      name : bEstLigneVide
      procedure_id : 1979002114068187235
      type_code : 15
-     code : |1-
+     code : |1+
       // indique si une ligne est vide ou juste une commentaire
       procédure globale bEstLigneVide(sCodeAsm1Ligne chaine) : booléen
       
       SI sCodeAsm1Ligne=""     ALORS RENVOYER Vrai
-      SI sCodeAsm1Ligne[1]=";" ALORS RENVOYER Vrai
-      SI gauche(sCodeAsm1Ligne,2) = "//" ALORS RENVOYER Vrai
       
       // ligne non vide
       renvoyer faux
+     type : 458752
+   -
+     name : SupprimeCommentaire
+     procedure_id : 2197627180735921131
+     type_code : 15
+     code : |1+
+      // supprimer les commentaires de la lignes
+      procédure globale SupprimeCommentaire(sCodeAsm1Ligne chaine) 
+      
+      // si il y a des commentaires.
+      // ex: "mov eax,1 ; initialisation"
+      nPosCommentaire est entier = position(sCodeAsm1Ligne,";")
+      SI nPosCommentaire>0 ALORS
+      	// -1 pour enlever le ";"
+      	sCodeAsm1Ligne = Gauche(sCodeAsm1Ligne,nPosCommentaire-1)
+      FIN
+      // support des commentaire "a la WinDev"
+      nPosCommentaire = position(sCodeAsm1Ligne,"//")
+      SI nPosCommentaire>0 ALORS
+      	// -1 pour enlever le ";"
+      	sCodeAsm1Ligne = Gauche(sCodeAsm1Ligne,nPosCommentaire-1)
+      FIN
      type : 458752
    -
      name : AnalyseSyntaxiqueLigne
