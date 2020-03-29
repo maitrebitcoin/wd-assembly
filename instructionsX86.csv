@@ -953,7 +953,7 @@ SETNLE;r/m8;;;;0F;;9F;;0;;;
 SETG;r/m8;;;;0F;;9F;;;;;
 PUSH;FS;;;;0F;;A0;;;;;
 POP;FS;;;;0F;;A1;;;;;
-CPUID;IA32_BIOS_…;EAX;ECX;...;0F;;A2;;;;;
+CPUID;;;;;0F;;A2;;;;;
 BT;r/m16/32;r16/32;;;0F;;A3;;r;;;
 SHLD;r/m16/32;r16/32;imm8;;0F;;A4;;r;;;
 SHLD;r/m16/32;r16/32;CL;;0F;;A5;;r;;;
