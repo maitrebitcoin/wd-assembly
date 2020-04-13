@@ -64,6 +64,82 @@ window :
       -
         type : 161
         enabled : false
+  -
+    name : TEst_64_bits
+    identifier : 0x2e7f1a6f00c0185a
+    internal_properties : BQAAAAUAAAASkIzdMWFRQtC7zzpb/N6xFofp6WGfzSPMiVmoyKI4JvID6OAvnJO6MtNahl26wFzImduTOIhrDHBOTVksNI+KWnOfHFPUZCSacETg90Ld1+S8m0xLMo4mvS3KYYRoXnjgSBc/tZ8MUo3CIhML+VCalwSvzDXCmv2kn2XqsIw5U5CsoDKR+sP8CXA8MlJwQ/CO4UVVNtFT+3p7n7D71LNzEHXcty4hw9FwBF0WsY2hAiwtMdrxXXEMqEypYdA5pYNwPOygUL1GiwrnKkwSO+l/kfFm8Wjz8GB1YyNb/76+orIgrRZrnoToat/wuhDwQmapcVESUe4x2BmALW72J+jmFupHS0U69rxfpcJEWJsk4mkTJCYGMCcSVRhvhBdB6gJTytSXGAfEQ06yol4A/mB/yJw6nCo3QbhuDXVe/BuukkBUEZ+7h8m4+mkwLnClm6QuEtQ/TKteGPp95Pv5khO9WY6HeaC2Q491M++4eRhiyHsMjW5nDD1ZlUgdU3SsFFtW/W8/S8Zb+rD6kHBWWItTWevIDAQYLFkrHLyKo4MRjXyz8u5UbHxv8JyFVXW4nsjOXwITK9nTm9GpVXww7XyA6HJZAn8WzX2GIp1BFJsxIblVMqql9CgUx3rIexT5W1WcCYChHaaWLDFWOpHIOiScYKds+GBvyD5UW5V7n1hYbjy1YFIu4lKzR5VPcqjV2fkBFw7PYxG8Zmftp/MwUm69IF/OXLfqB4DR3dUXYQY=
+    type : 4
+    code_elements :
+     type_code : 4
+     p_codes :
+      -
+        code : |1+
+         
+         //sFic est chaine = "S:\Source\github\wd-bitcoin-cryptolib\x64_mult256x64_Modulo_CoordCourbeSepc256k.asm"
+         sFic est chaine = "S:\Source\github\wd-bitcoin-cryptolib\x64_mult256x256_Modulo_CoordCourbeSepc256k.asm"
+         
+         sCode est chaine = fChargeTexte(sFic)
+         
+         tabSymboleExterne est un tableau associatif d'entiers système
+         tabSymboleExterne["MULX_SUPPORTED"] = 1	
+         tabSymboleExterne["multiplication_256x256_512"] = 0
+         
+         
+         soit ( p, err) = compileAsmX86_API_AvecSymboles( sCode, "", tabSymboleExterne  )
+         si p = 0 ALORS
+         	trace(err)
+         	retour
+         FIN
+         
+         
+         _A est un buffer = Répète(caract(0x33),32)
+         _B est un buffer = Répète(caract(0x77),32)
+         n est Entier sur 8 octets = 3
+         _Resultat est un buffer = Répète(Caract(0),32)
+         API(p, _A, n, _Resultat)
+         trace( BufferVersHexa(_Resultat))
+         
+        type : 18
+      -
+        type : 161
+        enabled : false
+  -
+    name : Bouton1
+    identifier : 0x2e80d3950065240b
+    internal_properties : BQAAAAUAAADkjymZtLvGCXyg6q22hmL8x6fOWw2Gq8hUAvk6yaHBYWQp08sSnWhWn3jZpefuen3HUTCTqzKAtJuz7ZE6UdUxbx/PIKRWNzdz97pks4cOKx+NocP4W1X2hYgedrI2MQHz2w4QOl05FHArmhJ2OQOPvCzZzQYqrjLORqliQvJ+uTKltH3pon52UOyit4fjzwChrfy1a3lHQae7FOTEeBUSF0tbqLRR0gJxl4txAdQ/8TxXyO+UeeJErYX/ul1oCZtbZ9BbeLydDrh3q3LXTljQgKFTzA55In+135q9s9cLp4cS70mi/d8ei/Dnzo+8Vmxu2qcMA3sk+Kjyeansfatutoxk90r4Zip/LZu2Vqme8XVWyOa19OQHB6etmo8nzM9KcblHbmO3EVsz42V46cDI97aY5FxMpLv5srjPnm4kfIqolMubfCeV5D5JCWS0s3tOZETofM/Iua4SUTNVd1boCsPXzwGP7AapfiMHExnCUo7cyF3+CWhqnkyP0fnWsrVuzHQ8vATXDrehD3Wp8Uq8Jc4lMb8lWn0hATKavrk0dmSJWcthLKfGJQ9ECaYHGYWuSyAGk9OSHjHp7yXqRkAY7x+adZz2mTP8CJ5epJ6d+LXwujhnUfUp2FN/tTl/yObUW3KqlDINYHl9I3xc4WqUzHGJL7VSjt9shnhrl7E6z5aQdPCXqkq0F0Bps2vpl0w4PCm9oayjD5/7O2M/Z0zgFfPmdeiVPIxADJWbe7a3jX5tXKSrsZeMX1HV8hduH0lBTaAkaiqQKyAM
+    type : 4
+    code_elements :
+     type_code : 4
+     p_codes :
+      -
+        code : |1+
+         
+         // voir https://en.wikipedia.org/wiki/CPUID
+         sCodeASM est chaine =[
+         	mov rax, 7
+         	mov rcx,0
+         	CPUID  
+         	mov rax, rbx
+         	ret
+         ]
+         
+         soit (p, err ) =  compileAsmX86_API(sCodeASM)
+         si p=0 ALORS
+         	erreur(err)
+         	retour
+         FIN
+         // Appel ASM
+         bits est entier = API(p)
+         trace( EntierVersHexa(bits) )
+         si ETBinaire(bits, 0x100000) ALORS
+         	trace("ADX supporté")
+         FIN
+         
+         
+        type : 18
+      -
+        type : 161
+        enabled : false
  menu :
   name : _Menu
   identifier : 0x292573e513b5f221
