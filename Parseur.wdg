@@ -267,7 +267,7 @@ procedure_set :
      type : 458752
    -
      name : _bChaineVersIndirectionRegistre
-     internal_properties : BgAAAAYAAAAD71sGY+EMOcfeNZM8pqI26+xREkYeEvPi+KwLwtdd/pvh8Ph/h/3xo++X8CxaL66/iUrpebHTZcDPweon3wNVdki3aWg1OYQ3PiHo9pJBmX/I/sZkRCLEIfLgUHgRowJOp/uc3Ln8MktMhsreWODdgarUpuoza4VruuZ75SFe22NmvGb1UbAjKnaMm5pMa7MD7gF63z5sOVGz+Q+Z1FgE6Et80DQ2dOq4apzQI2qpGQut6d1VmPoGxdDGJo5Ei4V+1/N2mxHDMRYEAA==
+     internal_properties : BgAAAAYAAACHY8/6xwUxD9UWd1HkVHTySfC1dCQ0iolkZK5h2k1f8qn93EZRyWl/NcthGvCgGRrZOfZj9z+D7363qzwLeS0h4GDLp0qvnQ5Nxn+eXvTHCYlQbnRerobOzypu8kRnYbLkk+PCdsbvnf67Z+MHHd0Ybvmlc9+0GjTaWXf0brb7BjSJUdeOzkMuwam5sHdtCO48BQp/nEdzOGhGvkyurQGjNRJNlXFHkwmTtWkN4LvmRNB8MnoCqRktlBdPt49JjAT/zsRrh20nlYqIhA==
      procedure_id : 1977866189681364784
      type_code : 15
      code : |1+
@@ -298,6 +298,10 @@ procedure_set :
       fin
       
       sMilieu est chaine = Milieu(sExpr,2, taille(sExpr)-2) // récup valeur entre [ ].
+      
+      // suppression des espaces pour le cas [esp - 4] : https://github.com/maitrebitcoin/wd-assembly/issues/4
+      sMilieu = remplace(sMilieu," ","")
+      
       // ex : rax+rbx ou rax-70h
       // gestion de la syntaxe "rax-70h"
       si position (sMilieu,"+")<=0 _et_ Position (sMilieu,"-")>=3 ALORS
