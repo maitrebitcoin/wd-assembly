@@ -2,16 +2,16 @@
 #Internal properties refer to the properties of controls in windows, reports, etc.
 info :
  name : BitmapAvecPtr
- major_version : 25
+ major_version : 26
  minor_version : 0
  type : 4
  description : ""
  subtype : 0
 class :
  identifier : 0x1b76c21402434522
- internal_properties : BQAAAAUAAAB2/vstTMCJbS/hlxjFxirSqKvCUuv8YxgpWyl7S3iA
+ internal_properties : BgAAAAYAAAB2/vstTMCJbS/hlxjFxirSqKvCUuv8YxgpWyl7S3iA
  code_elements :
-  internal_properties : BQAAAAUAAACmcEcPUOl8P88f4DqAteA6m/Mt111GGOClrNjaLJ9vO63bNEtdrqYoCCnjX1eG34p8AOi72Du5JSuppQ==
+  internal_properties : BgAAAAYAAACmcEcPUOl8P88f4DqAteA6m/Mt111GGOClrNjaLJ9vO63bNEtdrqYoCCnjX1eG34p8AOi72Du5JSuppQ==
   type_code : 10
   p_codes :
    -
@@ -86,7 +86,7 @@ class :
   procedures :
    -
      name : Constructeur
-     internal_properties : BQAAAAUAAAC1A4H9EqMww5sdqiE5T3g3Dy6pG6fybxVtk8Ieijlb2Szt1K2T7XC9aTWIUaKux55oPJJM0bwnJbyOntusj2Uo980/XxRrur8gZsxn7yuDizW3eSZM7aEvkNMRd1o+1GkIbPmHnbf+RxVriVBVTg1k1i0vFts1SRyVrff5SFSCQPT5W5X1C82iMsK9jdzMJ9He1WQtcdwcwuKUyqsKQCCSlZJswap1YWjYZllwQqCqgIic
+     internal_properties : BgAAAAYAAAC1A4H9EqMww5sdqiE5T3g3Dy6pG6fybxVtk8Ieijlb2Szt1K2T7XC9aTWIUaKux55oPJJM0bwnJbyOntusj2Uo980/XxRrur8gZsxn7yuDizW3eSZM7aEvkNMRd1o+1GkIbPmHnbf+RxVriVBVTg1k1i0vFts1SRyVrff5SFSCQPT5W5X1C82iMsK9jdzMJ9He1WQtcdwcwuKUyqsKQCCSlZJswap1YWjYZllwQqCqgIic
      procedure_id : 1978982477469074722
      type_code : 27
      code : |1+
@@ -139,7 +139,7 @@ class :
      type : 458752
    -
      name : Destructeur
-     internal_properties : BQAAAAUAAAAF/2V6k/PzcP0px0UBdKiOs5641Lne8AHWfAapyYZqlJH6yaqElVCA9lxGQ12R4QEiN4pV1aTTp2SUgdUxp1WqdcwmiM5w5fxg64j0UyQBXetKI0gmvSuJOLoAESX0xcGik57ZjBFoo87yGES8NOgwfLiKFITrX5R8gD7jSbJr7gxQ8Gv+mWt2e8GEuZ3cmOx5SsHvjEXCCP4csSY6xSKV0EYgpasvUzw0e9GmWsLc7Y1a9g==
+     internal_properties : BgAAAAYAAAAF/2V6k/PzcP0px0UBdKiOs5641Lne8AHWfAapyYZqlJH6yaqElVCA9lxGQ12R4QEiN4pV1aTTp2SUgdUxp1WqdcwmiM5w5fxg64j0UyQBXetKI0gmvSuJOLoAESX0xcGik57ZjBFoo87yGES8NOgwfLiKFITrX5R8gD7jSbJr7gxQ8Gv+mWt2e8GEuZ3cmOx5SsHvjEXCCP4csSY6xSKV0EYgpasvUzw0e9GmWsLc7Y1a9g==
      procedure_id : 1978982477469205794
      type_code : 28
      code : |1+
@@ -153,7 +153,7 @@ class :
      type : 655360
    -
      name : CopieVersEcran
-     internal_properties : BQAAAAUAAADhOeNfW8doR8SJTXLHpySMYqUFGSDXBzJxbLhj9k9P7M7Tv5VJGBvAMAofeyHPcs2jsqo6SXbBQ44OxSW7nAWEbBwGqbOk+XirWLZm0rYNYu94cVRJ7aSfvnH3BgedU36I+2WMUOCSaZ7jyY1KfVZn5A5pG/QoA/yGnYe4PZNLhlnhTj/fWYPCYBduVkKl3OAYV+ua
+     internal_properties : BgAAAAYAAADhOeNfW8doR8SJTXLHpySMYqUFGSDXBzJxbLhj9k9P7M7Tv5VJGBvAMAofeyHPcs2jsqo6SXbBQ44OxSW7nAWEbBwGqbOk+XirWLZm0rYNYu94cVRJ7aSfvnH3BgedU36I+2WMUOCSaZ7jyY1KfVZn5A5pG/QoA/yGnYe4PZNLhlnhTj/fWYPCYBduVkKl3OAYV+ua
      procedure_id : 1978982477469271330
      type_code : 12
      code : |1+
@@ -166,7 +166,7 @@ class :
      type : 458752
    -
      name : CopieVersMémoire
-     internal_properties : BQAAAAUAAADhOeNfW8doR8SJTXLHpySMYqUFGSDXBzJxbLhj9k9P7M7Tv5VJGBvAMAofeyHPcs2jsqo6SXbBQ44OxSW7nAWEbBwGqbOk+XirWLZm0rYNYu94cVRJ7aSfvnH3BgedU36I+2WMUOCSaZ7jyY1KfVZn5A5pG/QoA/yGnYe4PZNLhlnhTj/fWYPCYBduVkKl3OAYV+ua
+     internal_properties : BgAAAAYAAADhOeNfW8doR8SJTXLHpySMYqUFGSDXBzJxbLhj9k9P7M7Tv5VJGBvAMAofeyHPcs2jsqo6SXbBQ44OxSW7nAWEbBwGqbOk+XirWLZm0rYNYu94cVRJ7aSfvnH3BgedU36I+2WMUOCSaZ7jyY1KfVZn5A5pG/QoA/yGnYe4PZNLhlnhTj/fWYPCYBduVkKl3OAYV+ua
      procedure_id : 1978982477469336866
      type_code : 12
      code : |1+
@@ -180,11 +180,11 @@ class :
   procedure_templates : []
   property_templates : []
  code_parameters :
-  internal_properties : BQAAAAUAAAA6ih3UbgNXHwTtiPSFUEj+2fi/m7v4QV2rqidAupM=
+  internal_properties : BgAAAAYAAAA6ih3UbgNXHwTtiPSFUEj+2fi/m7v4QV2rqidAupM=
   original_name : Classe1
 resources :
  string_res :
   identifier : 0x1b73e2d501215c5f
-  internal_properties : BQAAAAUAAAAnMYFQ1bL/vz9ehh7L22SNNSlIzGTOI8h5F/WtgDNP
+  internal_properties : BgAAAAYAAAAnMYFQ1bL/vz9ehh7L22SNNSlIzGTOI8h5F/WtgDNP
 custom_note :
- internal_properties : BQAAAAUAAABtB9HWVzrXO2+4NDRVK0vmzaNKrCKqH1DBX30lMmGZ
+ internal_properties : BgAAAAYAAABtB9HWVzrXO2+4NDRVK0vmzaNKrCKqH1DBX30lMmGZ

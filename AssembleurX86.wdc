@@ -2,16 +2,16 @@
 #Internal properties refer to the properties of controls in windows, reports, etc.
 info :
  name : AssembleurX86
- major_version : 25
+ major_version : 26
  minor_version : 0
  type : 4
  description : ""
  subtype : 0
 class :
  identifier : 0x1b654a3600334512
- internal_properties : BQAAAAUAAAB2/vstTMCJbS/hlxjFxirSqKvCUuv8YxgpWyl7S3iA
+ internal_properties : BgAAAAYAAAB2/vstTMCJbS/hlxjFxirSqKvCUuv8YxgpWyl7S3iA
  code_elements :
-  internal_properties : BQAAAAUAAAByT7vhR5fHDre2H98hwa4VN5PsxgdfAheMOmFSKgg5OXNNFUmB9iT/1JPBz7joUVyi5Jgi3D13dD5KwvkNwrqOn3vkp2L9lAZWT/jreNlmLvgmZwb+yDqETHz8i3rDHLnClDae9IQeP2hxYEpPv/oJQy9Gx3yzxhDUX+c=
+  internal_properties : BgAAAAYAAAByT7vhR5fHDre2H98hwa4VN5PsxgdfAheMOmFSKgg5OXNNFUmB9iT/1JPBz7joUVyi5Jgi3D13dD5KwvkNwrqOn3vkp2L9lAZWT/jreNlmLvgmZwb+yDqETHz8i3rDHLnClDae9IQeP2hxYEpPv/oJQy9Gx3yzxhDUX+c=
   type_code : 10
   p_codes :
    -
@@ -150,7 +150,7 @@ class :
      type : 458752
    -
      name : _sCompile
-     internal_properties : BQAAAAUAAAAr9yUhSuGuOQwhi8LjTzzUZqkl+4IJ4RCZROI7Ej//FDo3c0t37rVyZF4Fc2Vz0u3XVg6Yzwz3cWIaC1XvYGWUfKTC57kytw7ziEuj9dtgN8SV2qW8cjEqxVS0Q7qKbhu9+Kp5ZznrOPmS4k4ZjsHc4QOmABNJJOddBJCRjCQaN2rSoxzeKmQlNwo/hyGO58piGSXQ
+     internal_properties : BgAAAAYAAAAr9yUhSuGuOQwhi8LjTzzUZqkl+4IJ4RCZROI7Ej//FDo3c0t37rVyZF4Fc2Vz0u3XVg6Yzwz3cWIaC1XvYGWUfKTC57kytw7ziEuj9dtgN8SV2qW8cjEqxVS0Q7qKbhu9+Kp5ZznrOPmS4k4ZjsHc4QOmABNJJOddBJCRjCQaN2rSoxzeKmQlNwo/hyGO58piGSXQ
      procedure_id : 1974066921724178358
      type_code : 12
      code : |1+
@@ -298,7 +298,7 @@ class :
      type : 458752
    -
      name : _CompileUneLigne
-     internal_properties : BQAAAAUAAAD6zArH6f79WBbfdMQ09B6TtGi1HA+VUQTRpJ4L2yVgRJCxLbam5VNvt3krLBGeDNZ1DHx5HziBg3Ks+wZJHJyW6/lVtQC5bE012oAURhWlS61fNgZVPKgEf3D1YrngzVu4urIoHOXgTPkgNcWIolaCqs2ytUrrc8nX0N0qQQ4rG4PSUSm1ePUfAZJuDphpgHhaw3Jr2w==
+     internal_properties : BgAAAAYAAAD6zArH6f79WBbfdMQ09B6TtGi1HA+VUQTRpJ4L2yVgRJCxLbam5VNvt3krLBGeDNZ1DHx5HziBg3Ks+wZJHJyW6/lVtQC5bE012oAURhWlS61fNgZVPKgEf3D1YrngzVu4urIoHOXgTPkgNcWIolaCqs2ytUrrc8nX0N0qQQ4rG4PSUSm1ePUfAZJuDphpgHhaw3Jr2w==
      procedure_id : 1974067480069991068
      type_code : 12
      code : |1+
@@ -479,7 +479,7 @@ class :
      type : 458752
    -
      name : _rechercheSyntaxeInstruction
-     internal_properties : BQAAAAUAAADC5BKo6j5leHZf7EScDLbDBOh9nEdNkcxZzL7TmwWw3GhJzV4mhWvPN3kT3NmWZHYl3NS591Ax+1pUq+4JPAwewwEFHSCJ5E0lyowISvmBd6nb0vJZEATgAxQhFl1EaVe0xk6UgFlcyK2UoUl8tkKORtn+sW6PLxV7RBnuFfIH59++rbVZnBErFZZqEux9zBT3u3pT4w==
+     internal_properties : BgAAAAYAAADC5BKo6j5leHZf7EScDLbDBOh9nEdNkcxZzL7TmwWw3GhJzV4mhWvPN3kT3NmWZHYl3NS591Ax+1pUq+4JPAwewwEFHSCJ5E0lyowISvmBd6nb0vJZEATgAxQhFl1EaVe0xk6UgFlcyK2UoUl8tkKORtn+sW6PLxV7RBnuFfIH59++rbVZnBErFZZqEux9zBT3u3pT4w==
      procedure_id : 1974112237926149665
      type_code : 12
      code : |1+
@@ -556,7 +556,7 @@ class :
      type : 458752
    -
      name : uint32VersbufferLowEndian
-     internal_properties : BQAAAAUAAAA3i9EtQI1m/RiNJz4b06xMwnXlt1b1OVw9MIaPWvN37C6bKx8zioV+uIKR771/+u3j0s4UG7B3NU42t/l/lA2sINi6o72O76pXbLEBp8kuYe4HmHu2eC9gf6qaQeRwJE3PqpjXOW8Z7hNoQBTT/OfWe53MVo0n+v0XCp6P7oJI4TTsWSLgKFJTYfA15QPk7c5mJTnM
+     internal_properties : BgAAAAYAAAA3i9EtQI1m/RiNJz4b06xMwnXlt1b1OVw9MIaPWvN37C6bKx8zioV+uIKR771/+u3j0s4UG7B3NU42t/l/lA2sINi6o72O76pXbLEBp8kuYe4HmHu2eC9gf6qaQeRwJE3PqpjXOW8Z7hNoQBTT/OfWe53MVo0n+v0XCp6P7oJI4TTsWSLgKFJTYfA15QPk7c5mJTnM
      procedure_id : 1977867714397273161
      type_code : 12
      code : |1+
@@ -568,7 +568,7 @@ class :
      type : 458752
    -
      name : uint64VersbufferLowEndian
-     internal_properties : BQAAAAUAAAA3i9EtQI1m/RiNJz4b06xMwnXlt1b1OVw9MIaPWvN37C6bKx8zioV+uIKR771/+u3j0s4UG7B3NU42t/l/lA2sINi6o72O76pXbLEBp8kuYe4HmHu2eC9gf6qaQeRwJE3PqpjXOW8Z7hNoQBTT/OfWe53MVo0n+v0XCp6P7oJI4TTsWSLgKFJTYfA15QPk7c5mJTnM
+     internal_properties : BgAAAAYAAAA3i9EtQI1m/RiNJz4b06xMwnXlt1b1OVw9MIaPWvN37C6bKx8zioV+uIKR771/+u3j0s4UG7B3NU42t/l/lA2sINi6o72O76pXbLEBp8kuYe4HmHu2eC9gf6qaQeRwJE3PqpjXOW8Z7hNoQBTT/OfWe53MVo0n+v0XCp6P7oJI4TTsWSLgKFJTYfA15QPk7c5mJTnM
      procedure_id : 2020871396566059043
      type_code : 12
      code : |1+
@@ -669,12 +669,12 @@ class :
   procedure_templates : []
   property_templates : []
  code_parameters :
-  internal_properties : BQAAAAUAAAA6ih3UbgNXHwTtiPSFUEj+2fi/m7v4QV2rqidAupM=
+  internal_properties : BgAAAAYAAAA6ih3UbgNXHwTtiPSFUEj+2fi/m7v4QV2rqidAupM=
   original_name : Classe1
 resources :
  string_res :
   identifier : 0x1b654a130030bb60
-  internal_properties : BQAAAAUAAAAnMYFQ1bL/vz9ehh7L22SNNSlIzGTOI8h5F/WtgDNP
+  internal_properties : BgAAAAYAAAAnMYFQ1bL/vz9ehh7L22SNNSlIzGTOI8h5F/WtgDNP
   strings :
    -
      text :
@@ -713,4 +713,4 @@ resources :
       fr-FR : Aucune syntaxe trouvée pour '%1'.
      index : 8
 custom_note :
- internal_properties : BQAAAAUAAABtB9HWVzrXO2+4NDRVK0vmzaNKrCKqH1DBX30lMmGZ
+ internal_properties : BgAAAAYAAABtB9HWVzrXO2+4NDRVK0vmzaNKrCKqH1DBX30lMmGZ

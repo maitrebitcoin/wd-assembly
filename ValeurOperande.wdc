@@ -2,16 +2,16 @@
 #Internal properties refer to the properties of controls in windows, reports, etc.
 info :
  name : ValeurOperande
- major_version : 25
+ major_version : 26
  minor_version : 0
  type : 4
  description : ""
  subtype : 0
 class :
  identifier : 0x1df0089f060e1cc5
- internal_properties : BQAAAAUAAAB2/vstTMCJbS/hlxjFxirSqKvCUuv8YxgpWyl7S3iA
+ internal_properties : BgAAAAYAAAB2/vstTMCJbS/hlxjFxirSqKvCUuv8YxgpWyl7S3iA
  code_elements :
-  internal_properties : BQAAAAUAAAC3lZXyW5DZ05BMBRNVRyGgnnX54AWpaUyBfDMZOb4W/H/qYIuLwr8ajO0bxXwiWM+JTFHsc8Fd9eD7mnlgunqivCBHiIccOWVQ++Dl6NShKAWvB5rTXNVZ1aqmQ/wDFFhhQwxH/bAJ6ZM=
+  internal_properties : BgAAAAYAAAC3lZXyW5DZ05BMBRNVRyGgnnX54AWpaUyBfDMZOb4W/H/qYIuLwr8ajO0bxXwiWM+JTFHsc8Fd9eD7mnlgunqivCBHiIccOWVQ++Dl6NShKAWvB5rTXNVZ1aqmQ/wDFFhhQwxH/bAJ6ZM=
   type_code : 10
   p_codes :
    -
@@ -80,7 +80,7 @@ class :
      type : 458752
    -
      name : EncodeAdressage
-     internal_properties : BQAAAAUAAAA7vbwuxjMkaffnS5DDBZ0fWyHQUDPi2zZLPPQvsRFSUz8nQH1sMdb9oD4Q4msgSlJdZX5ybKSdVz6HN/rPYzeGk2s7Km1x1ToUHtBypwRxVlC4GspC7NsE5SzKKruPSt/KgrFDjwKFw/c7V+1Aijj55nwwCZGdPiwf3PqitkJ5WovxVadiXGEVJ4ytwRShf0sj7ES/IFsQDVsKwGB3T1lhK4X3o139CqZbahjm+oYyfPsSionp0OwyzmlNOHNfBaVNweap8/vv2y8TRQ2fVUsAUzc+TSJBs5X2LeLUFsYEJw==
+     internal_properties : BgAAAAYAAAA7vbwuxjMkaffnS5DDBZ0fWyHQUDPi2zZLPPQvsRFSUz8nQH1sMdb9oD4Q4msgSlJdZX5ybKSdVz6HN/rPYzeGk2s7Km1x1ToUHtBypwRxVlC4GspC7NsE5SzKKruPSt/KgrFDjwKFw/c7V+1Aijj55nwwCZGdPiwf3PqitkJ5WovxVadiXGEVJ4ytwRShf0sj7ES/IFsQDVsKwGB3T1lhK4X3o139CqZbahjm+oYyfPsSionp0OwyzmlNOHNfBaVNweap8/vv2y8TRQ2fVUsAUzc+TSJBs5X2LeLUFsYEJw==
      procedure_id : 2157233700605205701
      type_code : 12
      code : |1-
@@ -154,7 +154,7 @@ class :
      type : 458752
    -
      name : Encode_MOD_REG_RM_IndirectionRegistre
-     internal_properties : BQAAAAUAAAD0KCwXLA6BT5fLxnLW5X2XjYnPJYS5kahJkdW51JvdvP22ndCi/ptfsgMUXPLktX3vVMOjrXa8SddT25L5ussk50Ji0y6mskY1GOVX49WvYtvXtaR2y+2ae9l3pqp7XFo1Fm8oswQddkXvZfe3G5NVa28T+6OUxt3xneFuZAnyYe0nccYp1K34eA6RSaT2EupmNQUruA8oiH0WhArkL8v80Lu3
+     internal_properties : BgAAAAYAAAD0KCwXLA6BT5fLxnLW5X2XjYnPJYS5kahJkdW51JvdvP22ndCi/ptfsgMUXPLktX3vVMOjrXa8SddT25L5ussk50Ji0y6mskY1GOVX49WvYtvXtaR2y+2ae9l3pqp7XFo1Fm8oswQddkXvZfe3G5NVa28T+6OUxt3xneFuZAnyYe0nccYp1K34eA6RSaT2EupmNQUruA8oiH0WhArkL8v80Lu3
      procedure_id : 2157233700605271237
      type_code : 12
      code : |1+
@@ -178,7 +178,7 @@ class :
      type : 458752
    -
      name : _Encode_MOD_REG_RM
-     internal_properties : BQAAAAUAAADRU6ktHYFI5EkVk1EdkAEPs1FfmI7MnjgbYCE3OEEa9F+KDb7Agbgg2tSuR5mF+Q1+H761yZj79xAkSSGFK/0e6UximNI0zZycG1ggX1DhYdeqT9DyydNx3JxuRwu6ry9gFbR30tfyndCUhoo6GuIuUkoIsvpx2W5mAlwhzzDlZLLCVtGEF7UQPYMyL0u62p6z+BmzTKzYOIU9YUFnJloH+7QioK8jj9jwp+2iVcmJGVmuQg==
+     internal_properties : BgAAAAYAAADRU6ktHYFI5EkVk1EdkAEPs1FfmI7MnjgbYCE3OEEa9F+KDb7Agbgg2tSuR5mF+Q1+H761yZj79xAkSSGFK/0e6UximNI0zZycG1ggX1DhYdeqT9DyydNx3JxuRwu6ry9gFbR30tfyndCUhoo6GuIuUkoIsvpx2W5mAlwhzzDlZLLCVtGEF7UQPYMyL0u62p6z+BmzTKzYOIU9YUFnJloH+7QioK8jj9jwp+2iVcmJGVmuQg==
      procedure_id : 2157233700605336773
      type_code : 12
      code : |1-
@@ -337,7 +337,7 @@ class :
      type : 458752
    -
      name : nGetTailleEnBit
-     internal_properties : BQAAAAUAAAAqfDrgqj5/IBLHAKhw4FpfIFD1SAN9DcQ1tKrfvzG82CQJ/SJShV9vGwkXqF3SYEJJJAydU9hFW+6EP0K9EEjSv8HFyRTRMN3Jcv6+LDuHHc8BuGjDohLyaep7fPfez8UitOyiSku6ogMq25+mQPg0jKc0h0AxzacJstssR6TVTaWEu3PjVsd1YxRMyKan1BQvc6K7iw==
+     internal_properties : BgAAAAYAAAAqfDrgqj5/IBLHAKhw4FpfIFD1SAN9DcQ1tKrfvzG82CQJ/SJShV9vGwkXqF3SYEJJJAydU9hFW+6EP0K9EEjSv8HFyRTRMN3Jcv6+LDuHHc8BuGjDohLyaep7fPfez8UitOyiSku6ogMq25+mQPg0jKc0h0AxzacJstssR6TVTaWEu3PjVsd1YxRMyKan1BQvc6K7iw==
      procedure_id : 2157233700606057669
      type_code : 12
      code : |1+
@@ -390,12 +390,12 @@ class :
   procedure_templates : []
   property_templates : []
  code_parameters :
-  internal_properties : BQAAAAUAAAA6ih3UbgNXHwTtiPSFUEj+2fi/m7v4QV2rqidAupM=
+  internal_properties : BgAAAAYAAAA6ih3UbgNXHwTtiPSFUEj+2fi/m7v4QV2rqidAupM=
   original_name : Classe1
 resources :
  string_res :
   identifier : 0x1b6c8b6f01c129a5
-  internal_properties : BQAAAAUAAAAnMYFQ1bL/vz9ehh7L22SNNSlIzGTOI8h5F/WtgDNP
+  internal_properties : BgAAAAYAAAAnMYFQ1bL/vz9ehh7L22SNNSlIzGTOI8h5F/WtgDNP
   strings :
    -
      text :
@@ -406,4 +406,4 @@ resources :
       fr-FR : "Erreur de syntaxe : valeur immédiate attendu au lieu de <%1>"
      index : 1
 custom_note :
- internal_properties : BQAAAAUAAABtB9HWVzrXO2+4NDRVK0vmzaNKrCKqH1DBX30lMmGZ
+ internal_properties : BgAAAAYAAABtB9HWVzrXO2+4NDRVK0vmzaNKrCKqH1DBX30lMmGZ

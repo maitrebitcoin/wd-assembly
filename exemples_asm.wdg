@@ -2,16 +2,16 @@
 #Internal properties refer to the properties of controls in windows, reports, etc.
 info :
  name : exemples_asm
- major_version : 25
+ major_version : 26
  minor_version : 0
  type : 7
  description : ""
  subtype : 0
 procedure_set :
  identifier : 0x1b72c8bf01297640
- internal_properties : BQAAAAUAAABGLu41kG7fjQV3iS4F72qmnKaNh5694reolNKIW0iw
+ internal_properties : BgAAAAYAAABGLu41kG7fjQV3iS4F72qmnKaNh5694reolNKIW0iw
  code_elements :
-  internal_properties : BQAAAAUAAAC8Sl0pfseidXE9/kBmawagKU2LQSv8bn6/vNDKIJF1LaO5OrXnJBCSprdxyfnkeSCSHo4FglHTPzGvuw==
+  internal_properties : BgAAAAYAAAC8Sl0pfseidXE9/kBmawagKU2LQSv8bn6/vNDKIJF1LaO5OrXnJBCSprdxyfnkeSCSHo4FglHTPzGvuw==
   type_code : 31
   p_codes :
    -
@@ -21,7 +21,7 @@ procedure_set :
   procedures :
    -
      name : pCompileMult64x64_128
-     internal_properties : BQAAAAUAAAAyvBwMyzv0n34pOAAvftZwXWmxTQBRMJc1fdPow5NQqMZ+aCHI9bdAnZ6tUutOx2Rx0NHXUv8aL7wcvsc/hiZfJjpLZTV2bHA+oZGyVTVEoNXKp37fEdfl0SOuMBmMDeUE5rFbr6DniUq6coj4InpRPSRumPuoo/i+I7ceKe3tw+R6b6L5jL0J9T4AHSl6hqapq4kgNwAGgAvzyxN6wBddsfROk8iRGiVHQUpeev8dNM24GNHQLIO0V7bN1r95+9+JuGGdIz2CmV/1ISzGatwe7gFtXi7QGkLAqp26+oHTh3Dv70uKMLpSAca7meAJnTmj0s+t84vwopJP8ymG9GgdbhL78GRu/TTiD6doQgMRwH9DX1nWRPxw53HZ+bE8kaPtDTZ4t488+bqRhhEoZ5AAvSw2Hgs4b8wfzW6YyiqMg2xKYXLlhwZUvgqOyIdTmEdwIQq7mtPme2mZ6HG5vehoqHV49ZhHCA6CF1UZxadD7DIcl4Y4XJiYcraY6s5j2OBac8Deo87C7akd0Cc4DGo0X1LPXqdsCJaLpeTRz1PRG3e+NY2EAsnCakKgPkoQ97c3+tL5VD+sKnTnGqA2hZM6L4ZZBp9gzMCTaLPPxH5GD8Dk4IvP1mbQ+g==
+     internal_properties : BgAAAAYAAAAyvBwMyzv0n34pOAAvftZwXWmxTQBRMJc1fdPow5NQqMZ+aCHI9bdAnZ6tUutOx2Rx0NHXUv8aL7wcvsc/hiZfJjpLZTV2bHA+oZGyVTVEoNXKp37fEdfl0SOuMBmMDeUE5rFbr6DniUq6coj4InpRPSRumPuoo/i+I7ceKe3tw+R6b6L5jL0J9T4AHSl6hqapq4kgNwAGgAvzyxN6wBddsfROk8iRGiVHQUpeev8dNM24GNHQLIO0V7bN1r95+9+JuGGdIz2CmV/1ISzGatwe7gFtXi7QGkLAqp26+oHTh3Dv70uKMLpSAca7meAJnTmj0s+t84vwopJP8ymG9GgdbhL78GRu/TTiD6doQgMRwH9DX1nWRPxw53HZ+bE8kaPtDTZ4t488+bqRhhEoZ5AAvSw2Hgs4b8wfzW6YyiqMg2xKYXLlhwZUvgqOyIdTmEdwIQq7mtPme2mZ6HG5vehoqHV49ZhHCA6CF1UZxadD7DIcl4Y4XJiYcraY6s5j2OBac8Deo87C7akd0Cc4DGo0X1LPXqdsCJaLpeTRz1PRG3e+NY2EAsnCakKgPkoQ97c3+tL5VD+sKnTnGqA2hZM6L4ZZBp9gzMCTaLPPxH5GD8Dk4IvP1mbQ+g==
      procedure_id : 1977864076556635675
      type_code : 15
      code : |1+
@@ -98,7 +98,7 @@ procedure_set :
      type : 458752
    -
      name : pCompileAdd256
-     internal_properties : BQAAAAUAAACK7eUOCFOuaDIsB9xzftjj1QshtDlse+Pfh+26pM6/OsIHpDUvQft+KKQZFtZ5Np9cTIs7oN7KelyH9Vtqe1HfgHXQ75f0fhKS8k+Cez0VOb+/4HRLp+XL7zcozW8AQTcg6RILFa4E58OBYXrdJTOMAKrkkFzKpJc46On76FeyyG8PI6T7nDbCR1xVvdGKKEQqvRleh0r9n6+WmGYz1383WPQJIEdBqWXHHi3f9yM5/qwS8ViETXCk7mfr/eyAKKj3u/XB++xBv2OyvBt7LFtj2aN/B3dNTSX97/MDOjnKuoqdAbLn0STBKNKILi6+DAlC4MQ6e5Zd5RstfOtOLHwG261RhGLky+b2dqSRR+hstIu+kh9DFAhO6r5Obp2DGm5easyj5AGulh7JBPPejlEGpFGSRN+S2ZFesRa/wQgCve0cgRkt
+     internal_properties : BgAAAAYAAACK7eUOCFOuaDIsB9xzftjj1QshtDlse+Pfh+26pM6/OsIHpDUvQft+KKQZFtZ5Np9cTIs7oN7KelyH9Vtqe1HfgHXQ75f0fhKS8k+Cez0VOb+/4HRLp+XL7zcozW8AQTcg6RILFa4E58OBYXrdJTOMAKrkkFzKpJc46On76FeyyG8PI6T7nDbCR1xVvdGKKEQqvRleh0r9n6+WmGYz1383WPQJIEdBqWXHHi3f9yM5/qwS8ViETXCk7mfr/eyAKKj3u/XB++xBv2OyvBt7LFtj2aN/B3dNTSX97/MDOjnKuoqdAbLn0STBKNKILi6+DAlC4MQ6e5Zd5RstfOtOLHwG261RhGLky+b2dqSRR+hstIu+kh9DFAhO6r5Obp2DGm5easyj5AGulh7JBPPejlEGpFGSRN+S2ZFesRa/wQgCve0cgRkt
      procedure_id : 1979714490225729916
      type_code : 15
      code : |1-
@@ -153,7 +153,7 @@ procedure_set :
      type : 458752
    -
      name : pCompileMult128x128_256
-     internal_properties : BQAAAAUAAABciNOj5xqzsl3bke0FuCV+GN7x9HveHT+xbSzsFL/0ilL2G4XUSLU+tupO7oQe9BqYYJ6z0JFv82G0eeB4wa6+q4WNTon3HVwySUXfL74RInRtEEohv1tOAn4c0WG0TikSm6TkJn+rhxnojsMy5yfrMD600m562HfyTHlYZsSDLpggxUZnSTJ4xGB+ehtrASbywXgON+pZ7OVLJogkuu5QSgUL+ljeKluHixNvNcnD3481uzF1r+YfU5HNCxocczB4kN36pairGP60lO2s1Pv/0UnDXkw2StMmQ05z6TJmCW3olEs4PLNE1NwihGa8o+6JGWVsX/ymLyvXzShVfX8djKIP9gp3V35iOOgOEdH7F02xThRYHUO/jh7Ab08q8WoVsZ5n4TvYxeq0cdtewhURAvKli0EMjMUgNRCNkoAKOJQfUB04094bCCaytBpCSMCGam1OS4wggNCYZlKrxl40tI7RfaJZ6rwDXOBwegNfhvooncghgMbQzwN8pLSKNHyQT6wadv/EC+XBSd2ljv72zqFrfoq7AbeGFE+lYzc/Q1bHuUx1lP7X6WxozfONMXBWC9RkdvVDmw01ajHGoVXnq7HrIhWHDsgUSfGywC8KSKZtWjTPzIXYPL+HafVxh45/YK6KrylkiHbmBaO74FcentenrSk26M2cZTIwO3hvVFpeHrMOXdkArWYT/8w8ZjTALC6TG52e2dhGEtbk46wztauJTSM7jm4ZoJ846UWy9YIzWDyOtJGMAOYopnw97Vh8+8VrmzA=
+     internal_properties : BgAAAAYAAABciNOj5xqzsl3bke0FuCV+GN7x9HveHT+xbSzsFL/0ilL2G4XUSLU+tupO7oQe9BqYYJ6z0JFv82G0eeB4wa6+q4WNTon3HVwySUXfL74RInRtEEohv1tOAn4c0WG0TikSm6TkJn+rhxnojsMy5yfrMD600m562HfyTHlYZsSDLpggxUZnSTJ4xGB+ehtrASbywXgON+pZ7OVLJogkuu5QSgUL+ljeKluHixNvNcnD3481uzF1r+YfU5HNCxocczB4kN36pairGP60lO2s1Pv/0UnDXkw2StMmQ05z6TJmCW3olEs4PLNE1NwihGa8o+6JGWVsX/ymLyvXzShVfX8djKIP9gp3V35iOOgOEdH7F02xThRYHUO/jh7Ab08q8WoVsZ5n4TvYxeq0cdtewhURAvKli0EMjMUgNRCNkoAKOJQfUB04094bCCaytBpCSMCGam1OS4wggNCYZlKrxl40tI7RfaJZ6rwDXOBwegNfhvooncghgMbQzwN8pLSKNHyQT6wadv/EC+XBSd2ljv72zqFrfoq7AbeGFE+lYzc/Q1bHuUx1lP7X6WxozfONMXBWC9RkdvVDmw01ajHGoVXnq7HrIhWHDsgUSfGywC8KSKZtWjTPzIXYPL+HafVxh45/YK6KrylkiHbmBaO74FcentenrSk26M2cZTIwO3hvVFpeHrMOXdkArWYT/8w8ZjTALC6TG52e2dhGEtbk46wztauJTSM7jm4ZoJ846UWy9YIzWDyOtJGMAOYopnw97Vh8+8VrmzA=
      procedure_id : 1987043821808487544
      type_code : 15
      code : |1+
@@ -260,11 +260,11 @@ procedure_set :
   procedure_templates : []
   property_templates : []
  code_parameters :
-  internal_properties : BQAAAAUAAAA6ih3UbgNXHwTtiPSFUEj+2fi/m7v4QV2rqidAupM=
+  internal_properties : BgAAAAYAAAA6ih3UbgNXHwTtiPSFUEj+2fi/m7v4QV2rqidAupM=
   original_name : ProcéduresGlobales1
 resources :
  string_res :
   identifier : 0x1b72c8ac01272c56
-  internal_properties : BQAAAAUAAAAnMYFQ1bL/vz9ehh7L22SNNSlIzGTOI8h5F/WtgDNP
+  internal_properties : BgAAAAYAAAAnMYFQ1bL/vz9ehh7L22SNNSlIzGTOI8h5F/WtgDNP
 custom_note :
- internal_properties : BQAAAAUAAABtB9HWVzrXO2+4NDRVK0vmzaNKrCKqH1DBX30lMmGZ
+ internal_properties : BgAAAAYAAABtB9HWVzrXO2+4NDRVK0vmzaNKrCKqH1DBX30lMmGZ

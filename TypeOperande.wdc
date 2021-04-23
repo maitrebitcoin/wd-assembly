@@ -2,16 +2,16 @@
 #Internal properties refer to the properties of controls in windows, reports, etc.
 info :
  name : TypeOperande
- major_version : 25
+ major_version : 26
  minor_version : 0
  type : 4
  description : ""
  subtype : 0
 class :
  identifier : 0x1df0087704be7f6c
- internal_properties : BQAAAAUAAAB2/vstTMCJbS/hlxjFxirSqKvCUuv8YxgpWyl7S3iA
+ internal_properties : BgAAAAYAAAB2/vstTMCJbS/hlxjFxirSqKvCUuv8YxgpWyl7S3iA
  code_elements :
-  internal_properties : BQAAAAUAAACNovAR/6wlbzaEqZKonmKDsGl7Rn8TkHgPwmc47oRyHw6EhVIibzyTXadfYBW+Q4H7MZWHaJK0noShW6PGX6LdwmapNHiz0d3HvkCuynozZjwggdQAKPdQL8c=
+  internal_properties : BgAAAAYAAACNovAR/6wlbzaEqZKonmKDsGl7Rn8TkHgPwmc47oRyHw6EhVIibzyTXadfYBW+Q4H7MZWHaJK0noShW6PGX6LdwmapNHiz0d3HvkCuynozZjwggdQAKPdQL8c=
   type_code : 10
   p_codes :
    -
@@ -38,7 +38,7 @@ class :
      type : 655360
    -
      name : bEstcompatibleAvecValeur
-     internal_properties : BQAAAAUAAAAKHNq3yY7sDkTLeKJmkOo/joBf1AVjBcIvsKohzeF0eKaN6zrcF8Nx/T1bGjMa6PpndHoFYfbFtTjoh2h3LHxePUGvvTLbzI+bjm1l7eBQ8tJ6eSsIZ+05aHlW+3hDILpp9Z0x+ySR/ZYNKkZ31a391+hlwvVGSBqkjc4zUKnOSqDxIMqE93akWhtD03vIANgqE8Kbqw==
+     internal_properties : BgAAAAYAAAAKHNq3yY7sDkTLeKJmkOo/joBf1AVjBcIvsKohzeF0eKaN6zrcF8Nx/T1bGjMa6PpndHoFYfbFtTjoh2h3LHxePUGvvTLbzI+bjm1l7eBQ8tJ6eSsIZ+05aHlW+3hDILpp9Z0x+ySR/ZYNKkZ31a391+hlwvVGSBqkjc4zUKnOSqDxIMqE93akWhtD03vIANgqE8Kbqw==
      procedure_id : 2157233528784387948
      type_code : 12
      code : |1+
@@ -211,7 +211,7 @@ class :
      type : 458752
    -
      name : Encode
-     internal_properties : BQAAAAUAAADa7CpnGb6ODsiz7EayZI7zAui3AAmjsaJjAH7d0R3o9DqtwyZ4t7fRGb2/FjfOPKZTPEI5PT6R5USg0zRjkIiCEVHXUd4zOHffzo8DT8K+MOCQHyEqeXtLtne4Wap1tlCfI1vPFc5HL5wTFNz5F9s75YYrmIfQ3rTaoziJ6nNMMIbfVsBekfwWCJlleS0KsAj6Y5JL+w==
+     internal_properties : BgAAAAYAAADa7CpnGb6ODsiz7EayZI7zAui3AAmjsaJjAH7d0R3o9DqtwyZ4t7fRGb2/FjfOPKZTPEI5PT6R5USg0zRjkIiCEVHXUd4zOHffzo8DT8K+MOCQHyEqeXtLtne4Wap1tlCfI1vPFc5HL5wTFNz5F9s75YYrmIfQ3rTaoziJ6nNMMIbfVsBekfwWCJlleS0KsAj6Y5JL+w==
      procedure_id : 2157233528784453484
      type_code : 12
      code : |1+
@@ -344,7 +344,7 @@ class :
      type : 458752
    -
      name : _encodeImmediate16
-     internal_properties : BQAAAAUAAABxSWYNsh4VS/CVqS6PG0wUPml9fQx7d+YFKOSntsNHnFLPjyFlfKOcxLa7r7kDOg3nzkq2FUIxN+qayTkjIKVMGEh+xV+QEWznlIRs9JwjdIHir7LD+6qlUN9tlJHjQRi6zUuSUmYg95j5v7O8qzy5XqiXQXYu8fIIG4WGz+F5oPN71LWRb6Eg8gVcrBwIlPO153sK
+     internal_properties : BgAAAAYAAABxSWYNsh4VS/CVqS6PG0wUPml9fQx7d+YFKOSntsNHnFLPjyFlfKOcxLa7r7kDOg3nzkq2FUIxN+qayTkjIKVMGEh+xV+QEWznlIRs9JwjdIHir7LD+6qlUN9tlJHjQRi6zUuSUmYg95j5v7O8qzy5XqiXQXYu8fIIG4WGz+F5oPN71LWRb6Eg8gVcrBwIlPO153sK
      procedure_id : 2157233528784650092
      type_code : 12
      code : |1-
@@ -369,7 +369,7 @@ class :
      type : 458752
    -
      name : _encodeImmediate32
-     internal_properties : BQAAAAUAAABxSWYNsh4VS/CVqS6PG0wUPml9fQx7d+YFKOSntsNHnFLPjyFlfKOcxLa7r7kDOg3nzkq2FUIxN+qayTkjIKVMGEh+xV+QEWznlIRs9JwjdIHir7LD+6qlUN9tlJHjQRi6zUuSUmYg95j5v7O8qzy5XqiXQXYu8fIIG4WGz+F5oPN71LWRb6Eg8gVcrBwIlPO153sK
+     internal_properties : BgAAAAYAAABxSWYNsh4VS/CVqS6PG0wUPml9fQx7d+YFKOSntsNHnFLPjyFlfKOcxLa7r7kDOg3nzkq2FUIxN+qayTkjIKVMGEh+xV+QEWznlIRs9JwjdIHir7LD+6qlUN9tlJHjQRi6zUuSUmYg95j5v7O8qzy5XqiXQXYu8fIIG4WGz+F5oPN71LWRb6Eg8gVcrBwIlPO153sK
      procedure_id : 2157233528784781164
      type_code : 12
      code : |1+
@@ -381,7 +381,7 @@ class :
      type : 458752
    -
      name : _encodeImmediate64
-     internal_properties : BQAAAAUAAAD1xeqRbgxtZ7xpRRK//0Q8aq0VITgPV0JhJBj7Bj8n5C6TR7WZWEPoqIpniwnnUl0bmroCgT5x8y6mpa27jD08vFwu+cPkgZBzCIpirtL5TnPs5bCNMfBj8l1L4tOp34oMn5nYJMR+TcKvjZmmCWJj6NJN1whcL7A6GSskGW/XIs1V8lvz3Q9WJPOyYjYuWB9Ba/eO
+     internal_properties : BgAAAAYAAAD1xeqRbgxtZ7xpRRK//0Q8aq0VITgPV0JhJBj7Bj8n5C6TR7WZWEPoqIpniwnnUl0bmroCgT5x8y6mpa27jD08vFwu+cPkgZBzCIpirtL5TnPs5bCNMfBj8l1L4tOp34oMn5nYJMR+TcKvjZmmCWJj6NJN1whcL7A6GSskGW/XIs1V8lvz3Q9WJPOyYjYuWB9Ba/eO
      procedure_id : 2157233528784846700
      type_code : 12
      code : |1-
@@ -434,12 +434,12 @@ class :
   procedure_templates : []
   property_templates : []
  code_parameters :
-  internal_properties : BQAAAAUAAAA6ih3UbgNXHwTtiPSFUEj+2fi/m7v4QV2rqidAupM=
+  internal_properties : BgAAAAYAAAA6ih3UbgNXHwTtiPSFUEj+2fi/m7v4QV2rqidAupM=
   original_name : Classe1
 resources :
  string_res :
   identifier : 0x1b6569110048cc9a
-  internal_properties : BQAAAAUAAAAnMYFQ1bL/vz9ehh7L22SNNSlIzGTOI8h5F/WtgDNP
+  internal_properties : BgAAAAYAAAAnMYFQ1bL/vz9ehh7L22SNNSlIzGTOI8h5F/WtgDNP
   strings :
    -
      text :
@@ -450,4 +450,4 @@ resources :
       fr-FR : "Erreur de syntaxe : valeur immédiate attendu au lieu de <%1>"
      index : 1
 custom_note :
- internal_properties : BQAAAAUAAABtB9HWVzrXO2+4NDRVK0vmzaNKrCKqH1DBX30lMmGZ
+ internal_properties : BgAAAAYAAABtB9HWVzrXO2+4NDRVK0vmzaNKrCKqH1DBX30lMmGZ
